@@ -2,7 +2,7 @@
 phase: 1
 slug: vault-integrity
 status: draft
-nyquist_compliant: false
+nyquist_compliant: true
 wave_0_complete: false
 created: 2026-03-20
 ---
@@ -36,13 +36,15 @@ created: 2026-03-20
 
 ## Per-Task Verification Map
 
-| Task ID | Plan | Wave | Requirement | Test Type | Automated Command | File Exists | Status |
-|---------|------|------|-------------|-----------|-------------------|-------------|--------|
-| 01-01-01 | 01 | 1 | VAULT-04 | file check | `ls vault/07-MOCs/.gitkeep vault/08-Published/.gitkeep` | N/A (creates files) | pending |
-| 01-02-01 | 02 | 1 | VAULT-03 | grep | `grep -rn "^tags:" vault/ --include="*.md" \| grep -v "^\[" ` | N/A | pending |
-| 01-03-01 | 03 | 1 | VAULT-01 | grep+diff | Extract wikilinks from lesson-modules/, compare to vault note list | N/A | pending |
-| 01-03-02 | 03 | 1 | VAULT-02 | grep+diff | Extract wikilinks from vault/, compare to vault note list | N/A | pending |
-| 01-04-01 | 04 | 1 | VAULT-05 | manual | Compare dates in creator-context/ against vault note frontmatter | N/A | pending |
+| Task ID | Plan | Wave | Requirement | Test Type | Automated Command | Status |
+|---------|------|------|-------------|-----------|-------------------|--------|
+| 01-01-T1 | 01 | 1 | VAULT-01, VAULT-02 | grep+cross-ref | `grep -c "## Intentional Unresolved Links" .planning/phases/01-vault-integrity/01-REVIEW-LOG.md && grep -c "## Uncertain Links" .planning/phases/01-vault-integrity/01-REVIEW-LOG.md` | pending |
+| 01-01-T2 | 01 | 1 | VAULT-01 | grep+conditional | See plan 01-01 Task 2 verify: counts renamed vs old-name occurrences of "Tools for Thought" link, validates either rename or review-log presence | pending |
+| 01-02-T1 | 02 | 1 | VAULT-05 | grep | `grep "deadline:" vault/02-Projects/Horizon-Magazine/AI\ Writing\ Partner\ -\ Brief.md && grep "deadline:" vault/02-Projects/ClearPath/Async\ Communication\ -\ Outline.md && grep -c "The Notification Audit" vault/02-Projects/Bloom-Studio/Digital\ Boundaries\ Series\ -\ Overview.md` | pending |
+| 01-02-T2 | 02 | 1 | VAULT-04 | file check | `ls vault/07-MOCs/.gitkeep vault/08-Published/.gitkeep` | pending |
+| 01-03-T1 | 03 | 2 | VAULT-03 | grep | `grep "^tags:" vault/06-Templates/*.md \| grep -v "\[" \| wc -l` — expected: 0 | pending |
+| 01-03-T2 | 03 | 2 | VAULT-03 | grep+loop | Loop over 13 files checking `grep -q "^tags: \["` — expected: all pass | pending |
+| 01-03-T3 | 03 | 2 | VAULT-03 | grep | `grep -rn "^tags: " lesson-modules/ --include="*.md" \| grep -v "\[" \| wc -l` — expected: 0. Also: `grep -rn "^tags:" vault/ --include="*.md" \| grep -v "\[" \| wc -l` — expected: 0 (whole-vault confirmation) | pending |
 
 *Status: pending / green / red / flaky*
 
@@ -65,11 +67,11 @@ Existing infrastructure covers all phase requirements. No test framework needed 
 
 ## Validation Sign-Off
 
-- [ ] All tasks have automated verify or Wave 0 dependencies
-- [ ] Sampling continuity: no 3 consecutive tasks without automated verify
-- [ ] Wave 0 covers all MISSING references
-- [ ] No watch-mode flags
-- [ ] Feedback latency < 5s
-- [ ] `nyquist_compliant: true` set in frontmatter
+- [x] All tasks have automated verify or Wave 0 dependencies
+- [x] Sampling continuity: no 3 consecutive tasks without automated verify
+- [x] Wave 0 covers all MISSING references
+- [x] No watch-mode flags
+- [x] Feedback latency < 5s
+- [x] `nyquist_compliant: true` set in frontmatter
 
 **Approval:** pending
