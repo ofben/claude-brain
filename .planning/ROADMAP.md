@@ -12,7 +12,7 @@ The course is already built. This roadmap sequences a polish-and-ship effort acr
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Vault Integrity** - Audit all wikilinks, standardize frontmatter, preserve empty folders, align dates (gap closure in progress)
+- [x] **Phase 1: Vault Integrity** - Audit all wikilinks, standardize frontmatter, preserve empty folders, align dates (gap closure in progress) (completed 2026-03-20)
 - [ ] **Phase 2: Content Quality** - Review all 24 teaching scripts for format, accuracy, and completeness
 - [ ] **Phase 3: BASB Integration** - Layer in Building a Second Brain acknowledgments and framing
 - [ ] **Phase 4: Skills Integration** - Add Claude Code skills module and update sub-agent documentation
@@ -31,7 +31,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. All vault notes and templates use array syntax for frontmatter tags (no scalar `tags: value` remaining)
   4. vault/07-MOCs/ and vault/08-Published/ each contain a .gitkeep file so the folders survive a fresh clone
   5. Dates in creator-context files and vault notes are internally consistent (no contradictions between files)
-**Plans:** 4 plans (3 complete, 1 gap closure)
+**Plans:** 4/4 plans complete
 
 Plans:
 - [x] 01-01-PLAN.md — Wikilink audit across teaching scripts and vault notes, produce review log
@@ -108,7 +108,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Vault Integrity | 3/4 | Gap closure | - |
+| 1. Vault Integrity | 4/4 | Complete   | 2026-03-20 |
 | 2. Content Quality | 0/TBD | Not started | - |
 | 3. BASB Integration | 0/TBD | Not started | - |
 | 4. Skills Integration | 0/TBD | Not started | - |

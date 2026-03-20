@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 01-vault-integrity 01-03-PLAN.md
-last_updated: "2026-03-20T18:35:18.014Z"
+stopped_at: Completed 01-vault-integrity 01-04-PLAN.md
+last_updated: "2026-03-20T19:11:28.027Z"
 last_activity: 2026-03-20 — Roadmap created, project initialized
 progress:
   total_phases: 6
   completed_phases: 1
-  total_plans: 3
-  completed_plans: 3
+  total_plans: 4
+  completed_plans: 4
   percent: 0
 ---
 
@@ -53,6 +53,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 01-vault-integrity P02 | 2min | 2 tasks | 5 files |
 | Phase 01-vault-integrity P01 | 8 | 2 tasks | 2 files |
 | Phase 01-vault-integrity P03 | 7min | 3 tasks | 18 files |
+| Phase 01-vault-integrity P04 | 1min | 1 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -73,6 +74,7 @@ Recent decisions affecting current work:
 - [Phase 01-vault-integrity]: Frontmatter scope is tags only — no created/modified/type fields added per CONTEXT.md locked decision
 - [Phase 01-vault-integrity]: Tag taxonomy: inbox→[inbox], projects→[client-work, clientname], references→[reference]
 - [Phase 01-vault-integrity]: Task 3 no-op: all 24 teaching scripts already used array syntax for tag examples — no changes needed
+- [Phase 01-vault-integrity]: Plain text over alias or stub note for [[The Notification Audit]]: preserves Post 1 title reference without broken wikilink, avoids scope creep and misleading aliasing
 
 ### Research Flags Carried Forward
 
@@ -90,6 +92,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-20T18:35:18.012Z
-Stopped at: Completed 01-vault-integrity 01-03-PLAN.md
+Last session: 2026-03-20T19:11:28.025Z
+Stopped at: Completed 01-vault-integrity 01-04-PLAN.md
 Resume file: None
