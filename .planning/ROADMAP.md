@@ -31,7 +31,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. All vault notes and templates use array syntax for frontmatter tags (no scalar `tags: value` remaining)
   4. vault/07-MOCs/ and vault/08-Published/ each contain a .gitkeep file so the folders survive a fresh clone
   5. Dates in creator-context files and vault notes are internally consistent (no contradictions between files)
-**Plans**: TBD
+**Plans:** 3 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Wikilink audit across teaching scripts and vault notes, produce review log
+- [ ] 01-02-PLAN.md — Fix date inconsistencies and create .gitkeep files
+- [ ] 01-03-PLAN.md — Standardize frontmatter tags to array syntax across vault and templates
 
 ### Phase 2: Content Quality
 **Goal**: All 24 teaching scripts are complete, consistently formatted, and accurately reference vault files and navigation
@@ -102,7 +107,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Vault Integrity | 0/TBD | Not started | - |
+| 1. Vault Integrity | 0/3 | Planning complete | - |
 | 2. Content Quality | 0/TBD | Not started | - |
 | 3. BASB Integration | 0/TBD | Not started | - |
 | 4. Skills Integration | 0/TBD | Not started | - |
