@@ -1,0 +1,260 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-03-20",
+  "courseTitle": "Claude Brain: Build Your Second Brain with Claude Code + Obsidian",
+  "audience": "Non-technical knowledge workers",
+  "totalEstimatedMinutes": 465,
+  "levels": [
+    {
+      "id": "0",
+      "name": "Setup",
+      "description": "Install Obsidian and Claude Code",
+      "modules": [
+        {
+          "id": "0.1",
+          "title": "Install Obsidian",
+          "slug": "install-obsidian",
+          "path": "lesson-modules/0-setup/0.1-install-obsidian/CLAUDE.md",
+          "command": "start-0-1",
+          "description": "Download and install Obsidian, open the course vault",
+          "estimatedMinutes": 5
+        },
+        {
+          "id": "0.2",
+          "title": "Install Claude Code",
+          "slug": "install-claude-code",
+          "path": "lesson-modules/0-setup/0.2-install-claude-code/CLAUDE.md",
+          "command": "start-0-2",
+          "description": "Install Claude Code and verify it works with the vault",
+          "estimatedMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "1",
+      "name": "Foundations",
+      "description": "Learn the basics of Obsidian and Claude Code, and see how they work together",
+      "modules": [
+        {
+          "id": "1.1",
+          "title": "Welcome to Your Second Brain",
+          "slug": "welcome",
+          "path": "lesson-modules/1-foundations/1.1-welcome/CLAUDE.md",
+          "command": "start-1-1",
+          "description": "Introduction to the course and tour of the pre-seeded vault",
+          "estimatedMinutes": 10
+        },
+        {
+          "id": "1.2",
+          "title": "Obsidian Essentials",
+          "slug": "obsidian-essentials",
+          "path": "lesson-modules/1-foundations/1.2-obsidian-essentials/CLAUDE.md",
+          "command": "start-1-2",
+          "description": "Notes, links, tags, search, and graph view",
+          "estimatedMinutes": 20
+        },
+        {
+          "id": "1.3",
+          "title": "Claude Code Essentials",
+          "slug": "claude-code-essentials",
+          "path": "lesson-modules/1-foundations/1.3-claude-code-essentials/CLAUDE.md",
+          "command": "start-1-3",
+          "description": "First interactions with Claude Code, reading vault files",
+          "estimatedMinutes": 20
+        },
+        {
+          "id": "1.4",
+          "title": "The Connection",
+          "slug": "the-connection",
+          "path": "lesson-modules/1-foundations/1.4-the-connection/CLAUDE.md",
+          "command": "start-1-4",
+          "description": "Aha moment — Claude reads scattered notes and creates a synthesis",
+          "estimatedMinutes": 15
+        },
+        {
+          "id": "1.5",
+          "title": "CLAUDE.md: Teaching Claude About Your Vault",
+          "slug": "claude-md",
+          "path": "lesson-modules/1-foundations/1.5-claude-md/CLAUDE.md",
+          "command": "start-1-5",
+          "description": "Project memory with CLAUDE.md",
+          "estimatedMinutes": 15
+        },
+        {
+          "id": "1.6",
+          "title": "Navigation and Workflow",
+          "slug": "navigation-workflow",
+          "path": "lesson-modules/1-foundations/1.6-navigation-workflow/CLAUDE.md",
+          "command": "start-1-6",
+          "description": "Keyboard shortcuts and daily workflow patterns",
+          "estimatedMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Building the Second Brain",
+      "description": "Organize your vault with note types, maps of content, and knowledge connections",
+      "modules": [
+        {
+          "id": "2.1",
+          "title": "Note Types and Templates",
+          "slug": "note-types-templates",
+          "path": "lesson-modules/2-building-the-brain/2.1-note-types-templates/CLAUDE.md",
+          "command": "start-2-1",
+          "description": "Fleeting, literature, and permanent notes with Obsidian templates",
+          "estimatedMinutes": 25
+        },
+        {
+          "id": "2.2",
+          "title": "Maps of Content",
+          "slug": "maps-of-content",
+          "path": "lesson-modules/2-building-the-brain/2.2-maps-of-content/CLAUDE.md",
+          "command": "start-2-2",
+          "description": "Index notes and Claude-suggested structure",
+          "estimatedMinutes": 20
+        },
+        {
+          "id": "2.3",
+          "title": "Daily Notes and Weekly Reviews",
+          "slug": "daily-notes-weekly-reviews",
+          "path": "lesson-modules/2-building-the-brain/2.3-daily-notes-weekly-reviews/CLAUDE.md",
+          "command": "start-2-3",
+          "description": "Claude processes daily notes into insights",
+          "estimatedMinutes": 25
+        },
+        {
+          "id": "2.4",
+          "title": "Research and Literature Notes",
+          "slug": "research-literature-notes",
+          "path": "lesson-modules/2-building-the-brain/2.4-research-literature-notes/CLAUDE.md",
+          "command": "start-2-4",
+          "description": "Progressive summarization with Claude",
+          "estimatedMinutes": 25
+        },
+        {
+          "id": "2.5",
+          "title": "The Knowledge Graph",
+          "slug": "knowledge-graph",
+          "path": "lesson-modules/2-building-the-brain/2.5-knowledge-graph/CLAUDE.md",
+          "command": "start-2-5",
+          "description": "Connections, orphan detection, and link suggestions",
+          "estimatedMinutes": 25
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Claude as Memory Partner",
+      "description": "Use Claude as an active partner in managing and growing your knowledge",
+      "modules": [
+        {
+          "id": "3.1",
+          "title": "Vault-Aware Claude",
+          "slug": "vault-aware-claude",
+          "path": "lesson-modules/3-memory-partner/3.1-vault-aware-claude/CLAUDE.md",
+          "command": "start-3-1",
+          "description": "Advanced CLAUDE.md and nested configs",
+          "estimatedMinutes": 20
+        },
+        {
+          "id": "3.2",
+          "title": "Sub-Agents for Knowledge Work",
+          "slug": "sub-agents",
+          "path": "lesson-modules/3-memory-partner/3.2-sub-agents/CLAUDE.md",
+          "command": "start-3-2",
+          "description": "Librarian, Critic, and Connector agents",
+          "estimatedMinutes": 25
+        },
+        {
+          "id": "3.3",
+          "title": "Claude Reads Your Vault",
+          "slug": "claude-reads-vault",
+          "path": "lesson-modules/3-memory-partner/3.3-claude-reads-vault/CLAUDE.md",
+          "command": "start-3-3",
+          "description": "Search, synthesize, and answer from vault content",
+          "estimatedMinutes": 20
+        },
+        {
+          "id": "3.4",
+          "title": "Claude Writes for Your Vault",
+          "slug": "claude-writes-vault",
+          "path": "lesson-modules/3-memory-partner/3.4-claude-writes-vault/CLAUDE.md",
+          "command": "start-3-4",
+          "description": "Vault-native notes with proper frontmatter and links",
+          "estimatedMinutes": 20
+        },
+        {
+          "id": "3.5",
+          "title": "The Inbox Pattern",
+          "slug": "inbox-pattern",
+          "path": "lesson-modules/3-memory-partner/3.5-inbox-pattern/CLAUDE.md",
+          "command": "start-3-5",
+          "description": "Dump raw notes and let Claude triage them",
+          "estimatedMinutes": 25
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "name": "Automation",
+      "description": "Automate your vault workflows with hooks, agents, MCP tools, and custom commands",
+      "modules": [
+        {
+          "id": "4.1",
+          "title": "Introduction to Hooks",
+          "slug": "intro-hooks",
+          "path": "lesson-modules/4-automation/4.1-intro-hooks/CLAUDE.md",
+          "command": "start-4-1",
+          "description": "Hooks are like email rules for Claude Code",
+          "estimatedMinutes": 20
+        },
+        {
+          "id": "4.2",
+          "title": "Auto-Organize Hook",
+          "slug": "auto-organize-hook",
+          "path": "lesson-modules/4-automation/4.2-auto-organize-hook/CLAUDE.md",
+          "command": "start-4-2",
+          "description": "Automatically add frontmatter when files are created",
+          "estimatedMinutes": 25
+        },
+        {
+          "id": "4.3",
+          "title": "The Librarian Agent",
+          "slug": "librarian-agent",
+          "path": "lesson-modules/4-automation/4.3-librarian-agent/CLAUDE.md",
+          "command": "start-4-3",
+          "description": "Automated vault health and organization",
+          "estimatedMinutes": 25
+        },
+        {
+          "id": "4.4",
+          "title": "MCP Tools for Your Vault",
+          "slug": "mcp-tools",
+          "path": "lesson-modules/4-automation/4.4-mcp-tools/CLAUDE.md",
+          "command": "start-4-4",
+          "description": "Web fetch and external integrations",
+          "estimatedMinutes": 25
+        },
+        {
+          "id": "4.5",
+          "title": "Custom Slash Commands",
+          "slug": "custom-slash-commands",
+          "path": "lesson-modules/4-automation/4.5-custom-slash-commands/CLAUDE.md",
+          "command": "start-4-5",
+          "description": "Build /daily, /weekly-review, /process-inbox, and more",
+          "estimatedMinutes": 20
+        },
+        {
+          "id": "4.6",
+          "title": "The Living Vault",
+          "slug": "living-vault",
+          "path": "lesson-modules/4-automation/4.6-living-vault/CLAUDE.md",
+          "command": "start-4-6",
+          "description": "Full workflow demo and graduation",
+          "estimatedMinutes": 15
+        }
+      ]
+    }
+  ]
+}
