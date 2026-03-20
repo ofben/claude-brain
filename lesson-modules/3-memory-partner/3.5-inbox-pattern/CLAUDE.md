@@ -301,7 +301,7 @@ status: in-progress
 
 Frame the evening routine as something you *design*, not something imposed. "Design your evening the way you'd design a morning routine." This is proactive, not restrictive — consistent with Bloom's brand voice of empowering, not prescriptive.
 
-Build on the foundation from [[The Notification Audit]] (Post 1) — "Now that you've audited your notifications, here's what to do with that awareness in the evening."
+Build on the foundation from The Notification Audit (Post 1) — "Now that you've audited your notifications, here's what to do with that awareness in the evening."
 
 ## Research to Find
 
