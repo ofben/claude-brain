@@ -50,7 +50,11 @@ Plans:
   4. All 24 scripts follow the Say/Check/Action format defined in SCRIPT_INSTRUCTIONS.md with no structural deviations
   5. Every vault file path and note name referenced in any script matches the actual vault contents
   6. Each module's "next module" navigation reference points to the correct following module
-**Plans**: TBD
+**Plans:** 2 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — Fix known single-file issues: Module 2.5 placeholders, Module 3.4 name mismatch, JSON total, Draft Post 3 TODO
+- [ ] 02-02-PLAN.md — Action block specificity audit across all 24 scripts and vault path verification
 
 ### Phase 3: BASB Integration
 **Goal**: The course explicitly acknowledges Building a Second Brain, correctly attributes its core concepts, and positions itself as the AI-era extension of Forte's method
@@ -109,7 +113,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Vault Integrity | 4/4 | Complete   | 2026-03-20 |
-| 2. Content Quality | 0/TBD | Not started | - |
+| 2. Content Quality | 0/2 | Planned | - |
 | 3. BASB Integration | 0/TBD | Not started | - |
 | 4. Skills Integration | 0/TBD | Not started | - |
 | 5. Utility Features | 0/TBD | Not started | - |
