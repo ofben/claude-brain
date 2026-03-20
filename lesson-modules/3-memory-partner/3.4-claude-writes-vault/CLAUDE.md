@@ -46,7 +46,7 @@ Let me show you what the rules are."
 That's the info block at the very top of the note, between the triple dashes. It contains metadata — the date, tags, note type, related projects, status. This is what makes your notes searchable and organized in Obsidian. Without frontmatter, a note is just text. With it, it's part of a system."
 
 **Action:**
-Read an existing well-structured note as an example. Read `vault/03-Research/Remote Work Communication Research.md` (or another note with clear frontmatter). Show the student just the frontmatter block:
+Read `vault/03-Research/Remote Work Communication Research.md` and display its frontmatter block to the student:
 
 ```
 ---
