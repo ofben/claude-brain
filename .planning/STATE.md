@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 01-vault-integrity-02-PLAN.md
-last_updated: "2026-03-20T17:44:45.272Z"
+stopped_at: Completed 01-vault-integrity 01-01-PLAN.md
+last_updated: "2026-03-20T18:03:16.301Z"
 last_activity: 2026-03-20 — Roadmap created, project initialized
 progress:
   total_phases: 6
   completed_phases: 0
   total_plans: 3
-  completed_plans: 1
+  completed_plans: 2
   percent: 0
 ---
 
@@ -51,6 +51,7 @@ Progress: [░░░░░░░░░░] 0%
 
 *Updated after each plan completion*
 | Phase 01-vault-integrity P02 | 2min | 2 tasks | 5 files |
+| Phase 01-vault-integrity P01 | 8 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -65,6 +66,9 @@ Recent decisions affecting current work:
 - [Init]: Manual playtest over automated testing (course is experiential)
 - [Phase 01-vault-integrity]: creator-context/CLIENTS.md is the canonical truth for all client deadlines — vault notes corrected to match it
 - [Phase 01-vault-integrity]: Empty vault folders use .gitkeep (0 bytes) to survive git clone
+- [Phase 01-01]: Tools for Thought - The Design Philosophy is a confident rename to Tools for Thought History — vault has the matching research note
+- [Phase 01-01]: The Notification Audit cannot be confidently renamed — no vault note exists; documented as uncertain for manual review
+- [Phase 01-01]: Module 3.4 creates AI as External Memory but all other modules reference AI as Extended Memory — cross-module mismatch deferred to Phase 2
 
 ### Research Flags Carried Forward
 
@@ -82,6 +86,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-20T17:44:45.270Z
-Stopped at: Completed 01-vault-integrity-02-PLAN.md
+Last session: 2026-03-20T18:03:16.299Z
+Stopped at: Completed 01-vault-integrity 01-01-PLAN.md
 Resume file: None
