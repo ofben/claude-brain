@@ -13,7 +13,7 @@ The course is already built. This roadmap sequences a polish-and-ship effort acr
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Vault Integrity** - Audit all wikilinks, standardize frontmatter, preserve empty folders, align dates (gap closure in progress) (completed 2026-03-20)
-- [ ] **Phase 2: Content Quality** - Review all 24 teaching scripts for format, accuracy, and completeness
+- [x] **Phase 2: Content Quality** - Review all 24 teaching scripts for format, accuracy, and completeness (completed 2026-03-20)
 - [ ] **Phase 3: BASB Integration** - Layer in Building a Second Brain acknowledgments and framing
 - [ ] **Phase 4: Skills Integration** - Add Claude Code skills module and update sub-agent documentation
 - [ ] **Phase 5: Utility Features** - Build and ship pre-made slash commands and hook script
@@ -50,7 +50,7 @@ Plans:
   4. All 24 scripts follow the Say/Check/Action format defined in SCRIPT_INSTRUCTIONS.md with no structural deviations
   5. Every vault file path and note name referenced in any script matches the actual vault contents
   6. Each module's "next module" navigation reference points to the correct following module
-**Plans:** 1/2 plans executed
+**Plans:** 2/2 plans complete
 
 Plans:
 - [ ] 02-01-PLAN.md — Fix known single-file issues: Module 2.5 placeholders, Module 3.4 name mismatch, JSON total, Draft Post 3 TODO
@@ -113,7 +113,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Vault Integrity | 4/4 | Complete   | 2026-03-20 |
-| 2. Content Quality | 1/2 | In Progress|  |
+| 2. Content Quality | 2/2 | Complete   | 2026-03-20 |
 | 3. BASB Integration | 0/TBD | Not started | - |
 | 4. Skills Integration | 0/TBD | Not started | - |
 | 5. Utility Features | 0/TBD | Not started | - |

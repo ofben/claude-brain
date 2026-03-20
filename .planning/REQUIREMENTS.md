@@ -18,8 +18,8 @@
 - [x] **CONT-01**: Module 2.5 teaching script is complete with no placeholder text
 - [x] **CONT-02**: All student-visible TODO markers removed from vault notes
 - [x] **CONT-03**: course-structure.json totalEstimatedMinutes matches sum of individual module estimates
-- [ ] **CONT-04**: All 24 teaching scripts follow SCRIPT_INSTRUCTIONS.md format consistently (Say/Check/Action blocks)
-- [ ] **CONT-05**: Teaching scripts reference correct vault file paths and note names
+- [x] **CONT-04**: All 24 teaching scripts follow SCRIPT_INSTRUCTIONS.md format consistently (Say/Check/Action blocks)
+- [x] **CONT-05**: Teaching scripts reference correct vault file paths and note names
 - [x] **CONT-06**: Module navigation is correct (each module points to the right next module)
 
 ### BASB Integration
@@ -99,8 +99,8 @@
 | CONT-01 | Phase 2: Content Quality | Complete |
 | CONT-02 | Phase 2: Content Quality | Complete |
 | CONT-03 | Phase 2: Content Quality | Complete |
-| CONT-04 | Phase 2: Content Quality | Pending |
-| CONT-05 | Phase 2: Content Quality | Pending |
+| CONT-04 | Phase 2: Content Quality | Complete |
+| CONT-05 | Phase 2: Content Quality | Complete |
 | CONT-06 | Phase 2: Content Quality | Complete |
 | BASB-01 | Phase 3: BASB Integration | Pending |
 | BASB-02 | Phase 3: BASB Integration | Pending |
