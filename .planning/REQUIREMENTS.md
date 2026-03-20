@@ -10,8 +10,8 @@
 - [ ] **VAULT-01**: All [[wikilinks]] in teaching scripts resolve to existing vault notes (fix phantom references)
 - [ ] **VAULT-02**: All [[wikilinks]] in pre-seeded vault notes resolve to existing notes or are intentionally unresolved
 - [ ] **VAULT-03**: Frontmatter tag format is consistent across all vault notes and templates (standardize on array syntax)
-- [ ] **VAULT-04**: Empty folders (07-MOCs, 08-Published) contain .gitkeep files so Git preserves them on clone
-- [ ] **VAULT-05**: Dates in creator-context and vault notes are internally consistent
+- [x] **VAULT-04**: Empty folders (07-MOCs, 08-Published) contain .gitkeep files so Git preserves them on clone
+- [x] **VAULT-05**: Dates in creator-context and vault notes are internally consistent
 
 ### Content Quality
 
@@ -94,8 +94,8 @@
 | VAULT-01 | Phase 1: Vault Integrity | Pending |
 | VAULT-02 | Phase 1: Vault Integrity | Pending |
 | VAULT-03 | Phase 1: Vault Integrity | Pending |
-| VAULT-04 | Phase 1: Vault Integrity | Pending |
-| VAULT-05 | Phase 1: Vault Integrity | Pending |
+| VAULT-04 | Phase 1: Vault Integrity | Complete |
+| VAULT-05 | Phase 1: Vault Integrity | Complete |
 | CONT-01 | Phase 2: Content Quality | Pending |
 | CONT-02 | Phase 2: Content Quality | Pending |
 | CONT-03 | Phase 2: Content Quality | Pending |
