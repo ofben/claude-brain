@@ -98,7 +98,11 @@ Plans:
   3. Running /process-inbox moves or links notes from the inbox folder according to the PARA-adjacent structure
   4. Running /project-brief generates a brief document from an existing project folder's notes
   5. add-frontmatter.sh exists at .claude/scripts/, is executable, and works as documented in Level 4 lessons
-**Plans**: TBD
+**Plans:** 2 plans
+
+Plans:
+- [ ] 05-01-PLAN.md — Create four utility slash commands and rewrite Module 4.6 to explore-and-customize narrative
+- [ ] 05-02-PLAN.md — Fix hook API syntax in Modules 4.1 and 4.2 teaching scripts
 
 ### Phase 6: Distribution
 **Goal**: The repo is publicly releasable — README is accurate and welcoming, LICENSE is present, and the clone-to-working-course journey has been verified end-to-end
@@ -124,5 +128,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 2. Content Quality | 2/2 | Complete   | 2026-03-20 |
 | 3. BASB Integration | 2/2 | Complete   | 2026-03-21 |
 | 4. Skills Integration | 2/2 | Complete   | 2026-03-21 |
-| 5. Utility Features | 0/TBD | Not started | - |
+| 5. Utility Features | 0/2 | Not started | - |
 | 6. Distribution | 0/TBD | Not started | - |
