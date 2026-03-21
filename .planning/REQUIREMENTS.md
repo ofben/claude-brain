@@ -37,7 +37,7 @@
 - [ ] **SKIL-02**: Module guides student to install kepano/obsidian-skills plugin for Obsidian-native AI features
 - [ ] **SKIL-03**: Module demonstrates obsidian-skills in action (markdown skill, canvas skill, etc.)
 - [ ] **SKIL-04**: Module guides student to build a custom skill for their vault (e.g., a research-to-note skill or vault-query skill)
-- [ ] **SKIL-05**: Course slash commands migrated from .claude/commands/ to .claude/skills/ format (or documented why commands are kept)
+- [x] **SKIL-05**: Course slash commands migrated from .claude/commands/ to .claude/skills/ format (or documented why commands are kept)
 - [ ] **SKIL-06**: Existing sub-agents (Librarian, Critic, Connector) documented in context of skills ecosystem
 
 ### Utility Features
@@ -112,7 +112,7 @@
 | SKIL-02 | Phase 4: Skills Integration | Pending |
 | SKIL-03 | Phase 4: Skills Integration | Pending |
 | SKIL-04 | Phase 4: Skills Integration | Pending |
-| SKIL-05 | Phase 4: Skills Integration | Pending |
+| SKIL-05 | Phase 4: Skills Integration | Complete |
 | SKIL-06 | Phase 4: Skills Integration | Pending |
 | UTIL-01 | Phase 5: Utility Features | Pending |
 | UTIL-02 | Phase 5: Utility Features | Pending |
