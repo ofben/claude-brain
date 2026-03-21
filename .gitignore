@@ -1,0 +1,22 @@
+# Obsidian workspace state (machine-specific, regenerated on every session)
+vault/.obsidian/workspace.json
+vault/.obsidian/workspace-mobile.json
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Planning and internal tooling (not for students)
+.planning/
+
+# Claude memory (session-specific)
+.claude/memory/
+
+# Node (if any future scripts use it)
+node_modules/
+
+# Editor and OS noise
+*.swp
+*.swo
+.env
+Thumbs.db
