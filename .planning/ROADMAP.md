@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Vault Integrity** - Audit all wikilinks, standardize frontmatter, preserve empty folders, align dates (gap closure in progress) (completed 2026-03-20)
 - [x] **Phase 2: Content Quality** - Review all 24 teaching scripts for format, accuracy, and completeness (completed 2026-03-20)
 - [x] **Phase 3: BASB Integration** - Layer in Building a Second Brain acknowledgments and framing (completed 2026-03-21)
-- [ ] **Phase 4: Skills Integration** - Add Claude Code skills module and update sub-agent documentation
+- [x] **Phase 4: Skills Integration** - Add Claude Code skills module and update sub-agent documentation (completed 2026-03-21)
 - [ ] **Phase 5: Utility Features** - Build and ship pre-made slash commands and hook script
 - [ ] **Phase 6: Distribution** - Polish README, add LICENSE, verify clone-to-working end-to-end
 
@@ -82,7 +82,7 @@ Plans:
   3. The module demonstrates at least two obsidian-skills in action (e.g., markdown skill, canvas skill)
   4. The module guides a student through building one custom skill for their vault
   5. The Librarian, Critic, and Connector sub-agents have documentation explaining how they relate to the skills ecosystem
-**Plans:** 1/2 plans executed
+**Plans:** 2/2 plans complete
 
 Plans:
 - [ ] 04-01-PLAN.md — Renumber modules 4.5/4.6 to 4.6/4.7, create new start-4-5 command, update course-structure.json and navigation
@@ -123,6 +123,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 1. Vault Integrity | 4/4 | Complete   | 2026-03-20 |
 | 2. Content Quality | 2/2 | Complete   | 2026-03-20 |
 | 3. BASB Integration | 2/2 | Complete   | 2026-03-21 |
-| 4. Skills Integration | 1/2 | In Progress|  |
+| 4. Skills Integration | 2/2 | Complete   | 2026-03-21 |
 | 5. Utility Features | 0/TBD | Not started | - |
 | 6. Distribution | 0/TBD | Not started | - |

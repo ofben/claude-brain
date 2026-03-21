@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 04-skills-integration 04-01-PLAN.md
-last_updated: "2026-03-21T06:02:57.406Z"
+stopped_at: Completed 04-skills-integration-02-PLAN.md
+last_updated: "2026-03-21T06:04:18.090Z"
 last_activity: 2026-03-20 — Roadmap created, project initialized
 progress:
   total_phases: 6
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 10
-  completed_plans: 9
+  completed_plans: 10
   percent: 0
 ---
 
@@ -59,6 +59,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 03-basb-integration P02 | 6min | 2 tasks | 2 files |
 | Phase 03-basb-integration P01 | 1min | 2 tasks | 2 files |
 | Phase 04-skills-integration P01 | 3min | 2 tasks | 8 files |
+| Phase 04-skills-integration P02 | 12min | 2 tasks | 12 files |
 
 ## Accumulated Context
 
@@ -94,6 +95,9 @@ Recent decisions affecting current work:
 - [Phase 03-basb-integration]: Module 2.1 CODE insertion placed after Zettelkasten intro and before note-type definitions to preserve concept-to-examples flow
 - [Phase 04-skills-integration]: Rename leaf module (Living Vault) first to prevent path conflicts during sequential renames
 - [Phase 04-skills-integration]: start-4-5.md uses explicit SILENTLY block pattern matching all other start-4-X.md commands
+- [Phase 04-skills-integration]: weekly-digest skill uses disable-model-invocation: true to prevent auto-loading on casual mentions — safer for beginners
+- [Phase 04-skills-integration]: obsidian-skills: copy only skills/ subdirectory to avoid overwriting .claude/agents/, commands/, SCRIPT_INSTRUCTIONS.md
+- [Phase 04-skills-integration]: Canvas demo (Step 4) is Module 4.5 emotional peak — teaching script builds anticipation before the json-canvas skill creates Alex Project Map.canvas
 
 ### Research Flags Carried Forward
 
@@ -111,6 +115,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-21T06:02:57.404Z
-Stopped at: Completed 04-skills-integration 04-01-PLAN.md
+Last session: 2026-03-21T06:04:18.087Z
+Stopped at: Completed 04-skills-integration-02-PLAN.md
 Resume file: None
