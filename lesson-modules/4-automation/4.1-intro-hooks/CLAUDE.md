@@ -85,7 +85,7 @@ For what we're building in this course, **PostToolUse** is the star. That's the 
 
 **2. The Matcher** (optional) — *Which specific events* should trigger it? Without a matcher, the hook fires on every event of that type. With a matcher, you can be specific. For example, you could say 'only fire this hook when the Write tool is used' or 'only fire when a note is created in the vault folder.' The matcher is like a filter — it narrows down when the hook actually runs.
 
-**3. The Command** — *What should happen* when the hook fires? This is a command that runs automatically. It could be a small script that checks something, adds something, or transforms something.
+**3. The Command** — *What should happen* when the hook fires? This is a command that runs automatically. Each matcher can have one or more commands attached to it — they run in the order you set them up. It could be a small script that checks something, adds something, or transforms something.
 
 So putting it all together, a hook reads like a sentence:
 
@@ -134,6 +134,8 @@ Now imagine a more useful version:
 - **Event:** PostToolUse
 - **Matcher:** Only when Claude writes a `.md` note inside the `vault/` folder
 - **Command:** Run a script that checks if the note has frontmatter. If it doesn't, add basic frontmatter with the title and today's date.
+
+In the settings, that matcher-and-command setup is written as a small list — one matcher can actually trigger multiple commands if you want. But for now, think of it as: one trigger, one action.
 
 *That's* a useful hook. Every note Claude creates in your vault will automatically get proper frontmatter — no exceptions, no forgetting. The organizational system you set up in earlier levels now enforces itself.
 
