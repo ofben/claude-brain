@@ -82,7 +82,11 @@ Plans:
   3. The module demonstrates at least two obsidian-skills in action (e.g., markdown skill, canvas skill)
   4. The module guides a student through building one custom skill for their vault
   5. The Librarian, Critic, and Connector sub-agents have documentation explaining how they relate to the skills ecosystem
-**Plans**: TBD
+**Plans:** 2 plans
+
+Plans:
+- [ ] 04-01-PLAN.md — Renumber modules 4.5/4.6 to 4.6/4.7, create new start-4-5 command, update course-structure.json and navigation
+- [ ] 04-02-PLAN.md — Pre-commit obsidian-skills plugin files, create weekly-digest skill, write Module 4.5 teaching script
 
 ### Phase 5: Utility Features
 **Goal**: Students who finish the course have four ready-to-use productivity commands and a functioning hook script waiting for them
@@ -119,6 +123,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 1. Vault Integrity | 4/4 | Complete   | 2026-03-20 |
 | 2. Content Quality | 2/2 | Complete   | 2026-03-20 |
 | 3. BASB Integration | 2/2 | Complete   | 2026-03-21 |
-| 4. Skills Integration | 0/TBD | Not started | - |
+| 4. Skills Integration | 0/2 | Planning complete | - |
 | 5. Utility Features | 0/TBD | Not started | - |
 | 6. Distribution | 0/TBD | Not started | - |
