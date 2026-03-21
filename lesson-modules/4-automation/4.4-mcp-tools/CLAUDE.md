@@ -252,7 +252,7 @@ The pattern is always the same: information comes in from the outside world, get
 
 Your vault started as an organized folder of notes. Then it became a connected knowledge graph. Then it got automated maintenance. Now it can reach out and pull in new knowledge from anywhere. Each layer makes the whole system more powerful.
 
-Next up, we're building custom slash commands — turning your most common workflows into one-word actions. Type `/start-4-5` to continue."
+Next up, we're exploring Claude Code Skills — a new way to teach Claude new abilities. Type `/start-4-5` to continue."
 
 ---
 

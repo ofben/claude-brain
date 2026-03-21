@@ -220,7 +220,7 @@ This is what makes it a second brain instead of just a folder of notes. A folder
 
 **Monthly:** Do a deeper review. Look at the Vault Health Report from this month versus last month. Is your vault getting healthier over time? Are there patterns in the issues that suggest a workflow change?
 
-In the next module (4.5), we'll actually build a custom slash command that runs the Librarian scan — so instead of remembering all these steps, you'll just type one command and the whole checkup runs automatically.
+In the next module (4.6), we'll actually build a custom slash command that runs the Librarian scan — so instead of remembering all these steps, you'll just type one command and the whole checkup runs automatically.
 
 But the core insight is this: vault maintenance doesn't have to be a chore. With the Librarian, it's a two-minute routine that keeps everything running smoothly."
 
