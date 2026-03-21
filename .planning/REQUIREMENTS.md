@@ -24,10 +24,10 @@
 
 ### BASB Integration
 
-- [ ] **BASB-01**: Module 1.1 introduces Building a Second Brain as a recognized framework with proper attribution
-- [ ] **BASB-02**: Module 2.1 connects note types to BASB's CODE method (Capture, Organize, Distill, Express)
+- [x] **BASB-01**: Module 1.1 introduces Building a Second Brain as a recognized framework with proper attribution
+- [x] **BASB-02**: Module 2.1 connects note types to BASB's CODE method (Capture, Organize, Distill, Express)
 - [x] **BASB-03**: Module 2.4 accurately references progressive summarization with correct layer count per Forte's framework
-- [ ] **BASB-04**: PARA method (Projects, Areas, Resources, Archives) is acknowledged and contrasted with the course's folder structure
+- [x] **BASB-04**: PARA method (Projects, Areas, Resources, Archives) is acknowledged and contrasted with the course's folder structure
 - [x] **BASB-05**: README acknowledgments section credits BASB, Zettelkasten, and LYT frameworks
 - [x] **BASB-06**: Course positions itself as "BASB meets AI" — showing how Claude Code extends manual PKM methods
 
@@ -102,10 +102,10 @@
 | CONT-04 | Phase 2: Content Quality | Complete |
 | CONT-05 | Phase 2: Content Quality | Complete |
 | CONT-06 | Phase 2: Content Quality | Complete |
-| BASB-01 | Phase 3: BASB Integration | Pending |
-| BASB-02 | Phase 3: BASB Integration | Pending |
+| BASB-01 | Phase 3: BASB Integration | Complete |
+| BASB-02 | Phase 3: BASB Integration | Complete |
 | BASB-03 | Phase 3: BASB Integration | Complete |
-| BASB-04 | Phase 3: BASB Integration | Pending |
+| BASB-04 | Phase 3: BASB Integration | Complete |
 | BASB-05 | Phase 3: BASB Integration | Complete |
 | BASB-06 | Phase 3: BASB Integration | Complete |
 | SKIL-01 | Phase 4: Skills Integration | Pending |
