@@ -31,13 +31,18 @@ You go back to your sources. You re-read half of them. You try to remember which
 
 This happens because most people do research in one step: read and highlight. But reading and highlighting is just *collecting*. It's not *processing*. And the gap between collecting and writing is where articles stall, deadlines slip, and that panicky 'I don't know what I think yet' feeling lives.
 
-There's a better approach called progressive summarization. When you find something interesting — an article, a book, a podcast — don't just bookmark it. Process it in layers:
+There's a better approach called progressive summarization. Inspired by Tiago Forte's progressive summarization from *Building a Second Brain* — Forte describes the technique as layers of highlighting and bolding, each pass through your notes filtering out more noise until the key insight rises to the top. We extend that idea into five steps that work especially well with an AI partner.
+
+When you find something interesting — an article, a book, a podcast — don't just bookmark it. Process it in layers:
 
 - **Layer 1: Capture.** Save the raw content and your initial notes. This is what most people already do — and where most people stop.
 - **Layer 2: Highlight.** Bold the most important parts. The sentences that made you stop and think.
 - **Layer 3: Summarize.** Write a short summary in your own words. Two or three sentences that answer: 'What is this really saying?'
+  This used to take ten minutes of manual rewriting. Claude can draft it in seconds — and you spend your time reviewing whether it captured what mattered, rather than writing from scratch.
 - **Layer 4: Your take.** Add your own perspective — what does this mean for YOUR work? Do you agree? Where does it fit in what you're building?
+  This layer is uniquely yours — no AI should write it for you. But Claude can prompt you with questions like 'What does this mean for your ClearPath article?' or 'What do you disagree with?' That question-asking accelerates your thinking.
 - **Layer 5: Connect.** Link it to other notes in your vault. Where does this idea show up elsewhere? What other thoughts does it relate to?
+  Ask Claude 'What other notes in this vault relate to this idea?' and watch the links surface. This is where having a knowledge partner pays off.
 
 It's like panning for gold. Each pass filters out more gravel, more sand, more noise — until you're left with the pure insight. Layer 1 gives you a riverbed full of sediment. Layer 5 gives you a nugget you can actually use."
 
