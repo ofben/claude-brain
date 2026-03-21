@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Phase 5 context gathered
-last_updated: "2026-03-21T07:08:04.017Z"
+stopped_at: Completed 05-02-PLAN.md
+last_updated: "2026-03-21T10:04:19.467Z"
 last_activity: 2026-03-20 — Roadmap created, project initialized
 progress:
   total_phases: 6
   completed_phases: 4
-  total_plans: 10
-  completed_plans: 10
+  total_plans: 12
+  completed_plans: 11
   percent: 0
 ---
 
@@ -60,6 +60,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 03-basb-integration P01 | 1min | 2 tasks | 2 files |
 | Phase 04-skills-integration P01 | 3min | 2 tasks | 8 files |
 | Phase 04-skills-integration P02 | 12min | 2 tasks | 12 files |
+| Phase 05-utility-features P02 | 2min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -98,6 +99,9 @@ Recent decisions affecting current work:
 - [Phase 04-skills-integration]: weekly-digest skill uses disable-model-invocation: true to prevent auto-loading on casual mentions — safer for beginners
 - [Phase 04-skills-integration]: obsidian-skills: copy only skills/ subdirectory to avoid overwriting .claude/agents/, commands/, SCRIPT_INSTRUCTIONS.md
 - [Phase 04-skills-integration]: Canvas demo (Step 4) is Module 4.5 emotional peak — teaching script builds anticipation before the json-canvas skill creates Alex Project Map.canvas
+- [Phase 05-utility-features]: Module 4.1 three-part mental model preserved; bridging sentence uses plain language 'small list' not JSON terminology
+- [Phase 05-utility-features]: CLAUDE_FILE_PATH fully removed from all teaching content; replaced with stdin JSON model using python3
+- [Phase 05-utility-features]: Module 4.2 settings.json uses nested hooks array format: each matcher contains a hooks list with type+command entries
 
 ### Research Flags Carried Forward
 
@@ -115,6 +119,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-21T07:08:04.014Z
-Stopped at: Phase 5 context gathered
-Resume file: .planning/phases/05-utility-features/05-CONTEXT.md
+Last session: 2026-03-21T10:04:19.464Z
+Stopped at: Completed 05-02-PLAN.md
+Resume file: None

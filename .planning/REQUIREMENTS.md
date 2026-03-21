@@ -46,7 +46,7 @@
 - [ ] **UTIL-02**: /weekly-review slash command pre-built and ready to use
 - [ ] **UTIL-03**: /process-inbox slash command pre-built and ready to use
 - [ ] **UTIL-04**: /project-brief slash command pre-built and ready to use
-- [ ] **UTIL-05**: add-frontmatter.sh hook script exists at .claude/scripts/ and works as documented in Level 4
+- [x] **UTIL-05**: add-frontmatter.sh hook script exists at .claude/scripts/ and works as documented in Level 4
 
 ### Distribution
 
@@ -118,7 +118,7 @@
 | UTIL-02 | Phase 5: Utility Features | Pending |
 | UTIL-03 | Phase 5: Utility Features | Pending |
 | UTIL-04 | Phase 5: Utility Features | Pending |
-| UTIL-05 | Phase 5: Utility Features | Pending |
+| UTIL-05 | Phase 5: Utility Features | Complete |
 | DIST-01 | Phase 6: Distribution | Pending |
 | DIST-02 | Phase 6: Distribution | Pending |
 | DIST-03 | Phase 6: Distribution | Pending |
