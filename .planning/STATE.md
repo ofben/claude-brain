@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Phase 6 context gathered
-last_updated: "2026-03-21T10:50:49.512Z"
+stopped_at: Completed 06-distribution-06-01-PLAN.md
+last_updated: "2026-03-21T11:09:29.158Z"
 last_activity: 2026-03-20 — Roadmap created, project initialized
 progress:
   total_phases: 6
   completed_phases: 5
-  total_plans: 12
-  completed_plans: 12
+  total_plans: 15
+  completed_plans: 13
   percent: 0
 ---
 
@@ -62,6 +62,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 04-skills-integration P02 | 12min | 2 tasks | 12 files |
 | Phase 05-utility-features P02 | 2min | 2 tasks | 2 files |
 | Phase 05-utility-features P01 | 2min | 2 tasks | 6 files |
+| Phase 06-distribution P01 | 8min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -106,6 +107,8 @@ Recent decisions affecting current work:
 - [Phase 05-utility-features]: Commands hard-code content matching vault templates exactly (same section names, same frontmatter fields) rather than reading templates at runtime
 - [Phase 05-utility-features]: Commands use generic language (no Alex Rivera client names) so they work for any student's vault post-course
 - [Phase 05-utility-features]: Module 4.6 shifts from build-from-scratch to explore-and-customize — the aha moment is seeing how simple command files are
+- [Phase 06-distribution]: Dual license: MIT (code/commands/config) + CC BY 4.0 (teaching scripts/vault/content) in single LICENSE file
+- [Phase 06-distribution]: Exact-path gitignore: vault/.obsidian/workspace.json not a glob — avoids excluding other Obsidian config that ships with the course
 
 ### Research Flags Carried Forward
 
@@ -123,6 +126,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-21T10:50:49.508Z
-Stopped at: Phase 6 context gathered
-Resume file: .planning/phases/06-distribution/06-CONTEXT.md
+Last session: 2026-03-21T11:09:29.156Z
+Stopped at: Completed 06-distribution-06-01-PLAN.md
+Resume file: None

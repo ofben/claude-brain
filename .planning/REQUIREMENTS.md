@@ -50,8 +50,8 @@
 
 ### Distribution
 
-- [ ] **DIST-01**: .gitignore excludes .obsidian/workspace.json, .DS_Store, .planning/, and other non-essential files
-- [ ] **DIST-02**: MIT LICENSE file present in repo root
+- [x] **DIST-01**: .gitignore excludes .obsidian/workspace.json, .DS_Store, .planning/, and other non-essential files
+- [x] **DIST-02**: MIT LICENSE file present in repo root
 - [ ] **DIST-03**: README includes cost estimate note for Claude API usage
 - [ ] **DIST-04**: README includes acknowledgments section (BASB, Zettelkasten, LYT, kepano/obsidian-skills)
 - [ ] **DIST-05**: README includes prerequisites with version requirements
@@ -119,8 +119,8 @@
 | UTIL-03 | Phase 5: Utility Features | Complete |
 | UTIL-04 | Phase 5: Utility Features | Complete |
 | UTIL-05 | Phase 5: Utility Features | Complete |
-| DIST-01 | Phase 6: Distribution | Pending |
-| DIST-02 | Phase 6: Distribution | Pending |
+| DIST-01 | Phase 6: Distribution | Complete |
+| DIST-02 | Phase 6: Distribution | Complete |
 | DIST-03 | Phase 6: Distribution | Pending |
 | DIST-04 | Phase 6: Distribution | Pending |
 | DIST-05 | Phase 6: Distribution | Pending |
