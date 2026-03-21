@@ -3,7 +3,7 @@
   "lastUpdated": "2026-03-20",
   "courseTitle": "Claude Brain: Build Your Second Brain with Claude Code + Obsidian",
   "audience": "Non-technical knowledge workers",
-  "totalEstimatedMinutes": 465,
+  "totalEstimatedMinutes": 492,
   "levels": [
     {
       "id": "0",
@@ -238,19 +238,28 @@
         },
         {
           "id": "4.5",
+          "title": "Claude Code Skills",
+          "slug": "skills-integration",
+          "path": "lesson-modules/4-automation/4.5-skills-integration/CLAUDE.md",
+          "command": "start-4-5",
+          "description": "Learn, install, and build Claude Code skills for your vault",
+          "estimatedMinutes": 27
+        },
+        {
+          "id": "4.6",
           "title": "Custom Slash Commands",
           "slug": "custom-slash-commands",
-          "path": "lesson-modules/4-automation/4.5-custom-slash-commands/CLAUDE.md",
-          "command": "start-4-5",
+          "path": "lesson-modules/4-automation/4.6-custom-slash-commands/CLAUDE.md",
+          "command": "start-4-6",
           "description": "Build /daily, /weekly-review, /process-inbox, and more",
           "estimatedMinutes": 20
         },
         {
-          "id": "4.6",
+          "id": "4.7",
           "title": "The Living Vault",
           "slug": "living-vault",
-          "path": "lesson-modules/4-automation/4.6-living-vault/CLAUDE.md",
-          "command": "start-4-6",
+          "path": "lesson-modules/4-automation/4.7-living-vault/CLAUDE.md",
+          "command": "start-4-7",
           "description": "Full workflow demo and graduation",
           "estimatedMinutes": 15
         }
