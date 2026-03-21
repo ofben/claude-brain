@@ -1,5 +1,5 @@
 ---
-description: "Module 4.6: Custom Slash Commands - Build /daily, /weekly-review, /process-inbox"
+description: "Module 4.6: Custom Slash Commands - Explore and customize your vault's commands"
 ---
 
 **Do this SILENTLY:**
