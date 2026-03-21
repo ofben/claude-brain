@@ -52,9 +52,9 @@
 
 - [x] **DIST-01**: .gitignore excludes .obsidian/workspace.json, .DS_Store, .planning/, and other non-essential files
 - [x] **DIST-02**: MIT LICENSE file present in repo root
-- [ ] **DIST-03**: README includes cost estimate note for Claude API usage
-- [ ] **DIST-04**: README includes acknowledgments section (BASB, Zettelkasten, LYT, kepano/obsidian-skills)
-- [ ] **DIST-05**: README includes prerequisites with version requirements
+- [x] **DIST-03**: README includes cost estimate note for Claude API usage
+- [x] **DIST-04**: README includes acknowledgments section (BASB, Zettelkasten, LYT, kepano/obsidian-skills)
+- [x] **DIST-05**: README includes prerequisites with version requirements
 - [ ] **DIST-06**: Repo works end-to-end: clone → open vault in Obsidian → run /start-0-1 → complete course
 
 ## v2 Requirements
@@ -121,9 +121,9 @@
 | UTIL-05 | Phase 5: Utility Features | Complete |
 | DIST-01 | Phase 6: Distribution | Complete |
 | DIST-02 | Phase 6: Distribution | Complete |
-| DIST-03 | Phase 6: Distribution | Pending |
-| DIST-04 | Phase 6: Distribution | Pending |
-| DIST-05 | Phase 6: Distribution | Pending |
+| DIST-03 | Phase 6: Distribution | Complete |
+| DIST-04 | Phase 6: Distribution | Complete |
+| DIST-05 | Phase 6: Distribution | Complete |
 | DIST-06 | Phase 6: Distribution | Pending |
 
 **Coverage:**

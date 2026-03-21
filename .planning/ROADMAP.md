@@ -115,7 +115,7 @@ Plans:
   4. README acknowledgments section credits BASB, Zettelkasten, LYT, and kepano/obsidian-skills
   5. README prerequisites section lists required software with version requirements
   6. A fresh clone of the repo, followed by opening vault/ in Obsidian and running /start-0-1, produces a working first lesson with no errors or dead ends
-**Plans:** 1/3 plans executed
+**Plans:** 2/3 plans executed
 
 Plans:
 - [ ] 06-01-PLAN.md — Create .gitignore and dual-license LICENSE file
@@ -134,4 +134,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 3. BASB Integration | 2/2 | Complete   | 2026-03-21 |
 | 4. Skills Integration | 2/2 | Complete   | 2026-03-21 |
 | 5. Utility Features | 2/2 | Complete   | 2026-03-21 |
-| 6. Distribution | 1/3 | In Progress|  |
+| 6. Distribution | 2/3 | In Progress|  |
