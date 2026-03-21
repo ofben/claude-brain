@@ -46,7 +46,7 @@ Ready to build?"
 **Say:**
 "Before we create anything, let me explain what our script will do in plain language:
 
-1. It receives the name of a note that Claude just wrote
+1. It receives a message from Claude Code that includes the name of the note that was just written
 2. It checks: is this note inside the `vault/` folder? (We only care about vault notes, not other files)
 3. It checks: does the note already have frontmatter? (Frontmatter starts with `---` on the very first line)
 4. If the note is in the vault AND doesn't have frontmatter, it adds a basic frontmatter block with:
@@ -76,11 +76,16 @@ The script will live in a folder called `.claude/scripts/` — that's a good pla
 
 # Auto-Organize Hook: Add frontmatter to new vault notes
 # This script runs after Claude writes a file.
-# It checks if the file is a vault note missing frontmatter,
-# and adds basic frontmatter if needed.
+# It receives information about what was written via a message from Claude Code,
+# then checks if frontmatter is needed and adds it.
 
-# The file path comes from the hook's environment
-FILE_PATH="$CLAUDE_FILE_PATH"
+# Read the message from Claude Code and extract the file path
+INPUT=$(cat)
+FILE_PATH=$(echo "$INPUT" | python3 -c "
+import sys, json
+data = json.load(sys.stdin)
+print(data.get('tool_input', {}).get('file_path', ''))
+" 2>/dev/null)
 
 # Only process markdown files in the vault folder
 if [[ ! "$FILE_PATH" == */vault/*.md ]]; then
@@ -88,7 +93,7 @@ if [[ ! "$FILE_PATH" == */vault/*.md ]]; then
 fi
 
 # Check if the file already has frontmatter (starts with ---)
-FIRST_LINE=$(head -n 1 "$FILE_PATH")
+FIRST_LINE=$(head -n 1 "$FILE_PATH" 2>/dev/null)
 if [[ "$FIRST_LINE" == "---" ]]; then
   exit 0
 fi
@@ -108,7 +113,7 @@ tags: []
 
 # Add frontmatter to the top of the file
 TEMP_FILE=$(mktemp)
-echo "$FRONTMATTER" > "$TEMP_FILE"
+printf '%s' "$FRONTMATTER" > "$TEMP_FILE"
 cat "$FILE_PATH" >> "$TEMP_FILE"
 mv "$TEMP_FILE" "$FILE_PATH"
 ```
@@ -118,7 +123,7 @@ mv "$TEMP_FILE" "$FILE_PATH"
 **Say:**
 "Done! I've created the script. Let me walk you through what it does — no coding knowledge required:
 
-- First, it gets the path of the note Claude just wrote
+- First, it reads a message from Claude Code that tells it which note was just written
 - Then it asks two questions: Is this a `.md` note in the vault? Does it already have frontmatter?
 - If the note is in the vault and has no frontmatter, it adds a block at the top with a title, today's date, and an empty tags list
 - If the note already has frontmatter, or isn't in the vault, the script does nothing — it just quietly steps aside
@@ -137,7 +142,7 @@ Think of it like a helpful assistant standing at the entrance to your vault, che
 Let me show you what the hook configuration looks like, and then I'll add it."
 
 **Action:**
-Update `.claude/settings.local.json` to add the hooks configuration. The file should look like this after the update:
+Update `.claude/settings.local.json` to add the hooks configuration. Keep all existing permissions and add the hooks section. The file should look like this after the update (with whatever permissions already exist preserved):
 
 ```json
 {
@@ -152,7 +157,12 @@ Update `.claude/settings.local.json` to add the hooks configuration. The file sh
     "PostToolUse": [
       {
         "matcher": "Write",
-        "command": ".claude/scripts/add-frontmatter.sh"
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/scripts/add-frontmatter.sh"
+          }
+        ]
       }
     ]
   }
@@ -165,11 +175,9 @@ Update `.claude/settings.local.json` to add the hooks configuration. The file sh
 - **`hooks`** — This is the section where all hooks live
 - **`PostToolUse`** — This hook fires *after* Claude uses a tool (in this case, after writing)
 - **`matcher: Write`** — This narrows it down: only fire when the *Write* tool is used (not for every tool)
-- **`command`** — This is the script to run. It points to the frontmatter script we just created
+- Inside the matcher, there's a `hooks` list — that's where you put the commands to run. Each command has a type (we're using `command` to run a script) and a path to the script
 
-Reading it as a sentence: 'After Claude writes something, run the add-frontmatter script.'
-
-That's the whole hook. Three lines of configuration."
+Reading it as a sentence: 'After Claude writes something, run the add-frontmatter script.'"
 
 **Check:** Wait for the student to acknowledge. They might have questions about the format — answer them plainly.
 
@@ -292,7 +300,7 @@ Next up, we're going to supercharge your vault maintenance with the Librarian ag
 - The hook may or may not fire during this session (depending on whether Claude Code reloads settings mid-session). Be prepared for both outcomes. The fallback path in Step 5 handles the case where it doesn't fire.
 - If the hook doesn't fire, don't make the student feel like something went wrong. Frame it as normal ("hooks pick up new settings on restart") and show the end result manually.
 - When showing the script, don't expect the student to read bash code. Always translate it into plain language.
-- The environment variable `CLAUDE_FILE_PATH` is used as a placeholder. The actual hook mechanism passes the file path. Adjust if needed based on how hooks actually work in the student's Claude Code version.
+- The script reads the file path from stdin JSON using python3. This is the correct Claude Code hook API — hooks receive a JSON message via stdin, not via environment variables.
 - Keep the `.claude/scripts/` folder creation quiet — don't make a big deal about creating a folder.
 
 ---
