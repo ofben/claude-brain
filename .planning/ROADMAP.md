@@ -66,7 +66,11 @@ Plans:
   3. Module 2.4 describes progressive summarization with the correct layer count per Forte's framework, labeling any extensions as course additions
   4. README contains an acknowledgments section crediting BASB, Zettelkasten, and LYT frameworks
   5. A reader encountering the course for the first time understands that it builds on BASB and shows how Claude Code takes PKM further
-**Plans**: TBD
+**Plans:** 2 plans
+
+Plans:
+- [ ] 03-01-PLAN.md — BASB attribution in Module 1.1 + CODE/PARA/LYT framework framing in Module 2.1
+- [ ] 03-02-PLAN.md — Progressive summarization attribution and AI callouts in Module 2.4 + README acknowledgments
 
 ### Phase 4: Skills Integration
 **Goal**: The course teaches Claude Code skills as a distinct capability, the obsidian-skills plugin is introduced, students build a custom skill, and existing sub-agents are documented in the skills ecosystem context
@@ -114,7 +118,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 |-------|----------------|--------|-----------|
 | 1. Vault Integrity | 4/4 | Complete   | 2026-03-20 |
 | 2. Content Quality | 2/2 | Complete   | 2026-03-20 |
-| 3. BASB Integration | 0/TBD | Not started | - |
+| 3. BASB Integration | 0/2 | Not started | - |
 | 4. Skills Integration | 0/TBD | Not started | - |
 | 5. Utility Features | 0/TBD | Not started | - |
 | 6. Distribution | 0/TBD | Not started | - |
