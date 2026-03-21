@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Content Quality** - Review all 24 teaching scripts for format, accuracy, and completeness (completed 2026-03-20)
 - [x] **Phase 3: BASB Integration** - Layer in Building a Second Brain acknowledgments and framing (completed 2026-03-21)
 - [x] **Phase 4: Skills Integration** - Add Claude Code skills module and update sub-agent documentation (completed 2026-03-21)
-- [ ] **Phase 5: Utility Features** - Build and ship pre-made slash commands and hook script
+- [x] **Phase 5: Utility Features** - Build and ship pre-made slash commands and hook script (completed 2026-03-21)
 - [ ] **Phase 6: Distribution** - Polish README, add LICENSE, verify clone-to-working end-to-end
 
 ## Phase Details
@@ -98,7 +98,7 @@ Plans:
   3. Running /process-inbox moves or links notes from the inbox folder according to the PARA-adjacent structure
   4. Running /project-brief generates a brief document from an existing project folder's notes
   5. add-frontmatter.sh exists at .claude/scripts/, is executable, and works as documented in Level 4 lessons
-**Plans:** 1/2 plans executed
+**Plans:** 2/2 plans complete
 
 Plans:
 - [ ] 05-01-PLAN.md — Create four utility slash commands and rewrite Module 4.6 to explore-and-customize narrative
@@ -128,5 +128,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 2. Content Quality | 2/2 | Complete   | 2026-03-20 |
 | 3. BASB Integration | 2/2 | Complete   | 2026-03-21 |
 | 4. Skills Integration | 2/2 | Complete   | 2026-03-21 |
-| 5. Utility Features | 1/2 | In Progress|  |
+| 5. Utility Features | 2/2 | Complete   | 2026-03-21 |
 | 6. Distribution | 0/TBD | Not started | - |

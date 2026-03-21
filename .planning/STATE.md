@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 05-02-PLAN.md
-last_updated: "2026-03-21T10:04:19.467Z"
+stopped_at: Completed 05-utility-features 05-01-PLAN.md
+last_updated: "2026-03-21T10:05:17.146Z"
 last_activity: 2026-03-20 — Roadmap created, project initialized
 progress:
   total_phases: 6
-  completed_phases: 4
+  completed_phases: 5
   total_plans: 12
-  completed_plans: 11
+  completed_plans: 12
   percent: 0
 ---
 
@@ -61,6 +61,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 04-skills-integration P01 | 3min | 2 tasks | 8 files |
 | Phase 04-skills-integration P02 | 12min | 2 tasks | 12 files |
 | Phase 05-utility-features P02 | 2min | 2 tasks | 2 files |
+| Phase 05-utility-features P01 | 2min | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -102,6 +103,9 @@ Recent decisions affecting current work:
 - [Phase 05-utility-features]: Module 4.1 three-part mental model preserved; bridging sentence uses plain language 'small list' not JSON terminology
 - [Phase 05-utility-features]: CLAUDE_FILE_PATH fully removed from all teaching content; replaced with stdin JSON model using python3
 - [Phase 05-utility-features]: Module 4.2 settings.json uses nested hooks array format: each matcher contains a hooks list with type+command entries
+- [Phase 05-utility-features]: Commands hard-code content matching vault templates exactly (same section names, same frontmatter fields) rather than reading templates at runtime
+- [Phase 05-utility-features]: Commands use generic language (no Alex Rivera client names) so they work for any student's vault post-course
+- [Phase 05-utility-features]: Module 4.6 shifts from build-from-scratch to explore-and-customize — the aha moment is seeing how simple command files are
 
 ### Research Flags Carried Forward
 
@@ -119,6 +123,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-21T10:04:19.464Z
-Stopped at: Completed 05-02-PLAN.md
+Last session: 2026-03-21T10:05:17.144Z
+Stopped at: Completed 05-utility-features 05-01-PLAN.md
 Resume file: None
