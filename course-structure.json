@@ -251,7 +251,7 @@
           "slug": "custom-slash-commands",
           "path": "lesson-modules/4-automation/4.6-custom-slash-commands/CLAUDE.md",
           "command": "start-4-6",
-          "description": "Build /daily, /weekly-review, /process-inbox, and more",
+          "description": "Explore and customize /daily, /weekly-review, /process-inbox, and more",
           "estimatedMinutes": 20
         },
         {
