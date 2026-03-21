@@ -33,7 +33,9 @@ That's the problem a 'second brain' solves.
 
 A second brain is a personal system for capturing, organizing, and connecting your ideas and information — outside of your head. It's not about memorizing more. It's about *trusting* that when you capture an idea, you'll be able to find it later, and better yet, it'll connect to other ideas you've captured.
 
-Your biological brain is amazing at having ideas. It's terrible at storing and organizing them. That's what your second brain is for."
+Your biological brain is amazing at having ideas. It's terrible at storing and organizing them. That's what your second brain is for.
+
+This idea was popularized by Tiago Forte in his book *Building a Second Brain*. We're going to take those ideas and show how AI changes the game — because the version you're building here isn't just a notebook. It's a knowledge partner."
 
 **Check:** Wait for the student to respond. They might relate to the "lost note" experience or ask a question. Engage briefly, then move on.
 
