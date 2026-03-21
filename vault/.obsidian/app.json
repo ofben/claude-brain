@@ -1,0 +1,18 @@
+{
+  "interfaceFontSize": 14,
+  "monoFontFamily": "",
+  "readableLineLength": true,
+  "strictLineBreaks": false,
+  "showLineNumber": false,
+  "spellcheck": true,
+  "defaultViewMode": "source",
+  "livePreview": true,
+  "showFrontmatter": true,
+  "foldHeading": true,
+  "foldIndent": true,
+  "newLinkFormat": "shortest",
+  "newFileLocation": "folder",
+  "newFileFolderPath": "00-Inbox",
+  "attachmentFolderPath": "./",
+  "alwaysUpdateLinks": true
+}
