@@ -88,6 +88,8 @@ You'll learn through the eyes of **Alex Rivera**, a freelance writer and content
 
 The vault comes pre-loaded with Alex's real-world content: client briefs, draft articles, research clippings, daily journals, and raw captures. It's intentionally messy, because that's where every second brain starts.
 
+![The Obsidian vault pre-loaded with Alex Rivera's notes](docs/vault-screenshot.png)
+
 ## Prerequisites
 
 - [Obsidian](https://obsidian.md) (free)
@@ -103,3 +105,5 @@ The vault comes pre-loaded with Alex's real-world content: client briefs, draft 
 ## Acknowledgments
 
 This course builds on the shoulders of three frameworks that transformed how knowledge workers think about notes and ideas: Tiago Forte's *Building a Second Brain* (the CODE and PARA systems), the Zettelkasten method (fleeting, literature, and permanent notes), and Nick Milo's *Linking Your Thinking* (Maps of Content). These methods show what's possible with intentional effort and the right system. This course shows what happens when you add an AI partner.
+
+This course also makes use of [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) — an open-source collection of agent skills for Obsidian created by Steph Ango (kepano). The skills taught in Level 4 are drawn directly from this project.
