@@ -1,5 +1,8 @@
 # Claude Brain: Build Your Second Brain with Claude Code + Obsidian
 
+![License: MIT + CC BY 4.0](https://img.shields.io/badge/license-MIT%20%2B%20CC%20BY%204.0-blue)
+![Modules: 25](https://img.shields.io/badge/modules-25-green)
+
 An interactive course that teaches you how to combine [Claude Code](https://docs.anthropic.com/en/docs/claude-code) and [Obsidian](https://obsidian.md) into a powerful personal knowledge management system — a "second brain" where your notes, ideas, and research become an organized, searchable, interconnected web of knowledge.
 
 ## Who Is This For?
@@ -20,9 +23,9 @@ Knowledge workers — writers, researchers, consultants, creators — anyone who
 | **1: Foundations** | Navigate Obsidian, use Claude Code, see them work together | ~90 min |
 | **2: Building the Brain** | Note types, templates, daily notes, research workflows, knowledge graphs | ~120 min |
 | **3: Memory Partner** | Claude reads your vault, writes for it, triages your inbox | ~110 min |
-| **4: Automation** | Hooks, agents, MCP tools, custom commands, the living vault | ~130 min |
+| **4: Automation** | Hooks, agents, skills, MCP tools, custom commands, the living vault | ~155 min |
 
-**Total: ~7.5 hours** (work at your own pace — each module is self-contained)
+**Total: ~8 hours** (work at your own pace — each module is self-contained)
 
 ## Quick Start
 
@@ -74,8 +77,9 @@ The course uses **slash commands** to launch each module. Type the command and C
 /start-4-2    Auto-Organize Hook
 /start-4-3    The Librarian Agent
 /start-4-4    MCP Tools for Your Vault
-/start-4-5    Custom Slash Commands
-/start-4-6    The Living Vault (graduation!)
+/start-4-5    Claude Code Skills
+/start-4-6    Custom Slash Commands
+/start-4-7    The Living Vault (graduation!)
 ```
 
 ## The Story
@@ -84,11 +88,17 @@ You'll learn through the eyes of **Alex Rivera**, a freelance writer and content
 
 The vault comes pre-loaded with Alex's real-world content: client briefs, draft articles, research clippings, daily journals, and raw captures. It's intentionally messy, because that's where every second brain starts.
 
-## Requirements
+## Prerequisites
 
 - [Obsidian](https://obsidian.md) (free)
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code) (requires Anthropic API access)
 - A computer running macOS, Windows, or Linux
+
+> **API costs:** This course uses Claude's API, which you pay for based on usage.
+> Completing all 25 modules typically costs **$1-5 USD** depending on which Claude
+> model you choose. Haiku is the most affordable option; Sonnet offers stronger
+> responses at a higher cost. You set up billing at
+> [console.anthropic.com](https://console.anthropic.com).
 
 ## Acknowledgments
 
