@@ -40,6 +40,10 @@ Let's start with the most fundamental question: what kinds of notes should your 
 **Say:**
 "There's a method called Zettelkasten — don't worry about the name, it's German for 'slip box' — that's been used by researchers and writers for decades. The core insight is simple: not all notes are created equal. Different notes serve different purposes, and when you recognize that, everything gets easier.
 
+Remember Building a Second Brain from Module 1.1? Forte's workflow is called CODE — Capture, Organize, Distill, Express. The three note types we're about to learn map directly onto that workflow: fleeting notes are your Capture step, processing them into literature and permanent notes is your Organize and Distill step, and everything we build here ultimately serves the Express step — the writing, thinking, and creating you do for the world.
+
+PARA is one popular system for organizing notes. Zettelkasten is another. And LYT — Linking Your Thinking by Nick Milo — adds the idea of Maps of Content, which you'll build in the next module. Our course draws from all three: the numbered folders give you a clear pipeline from capture to publish, the note types come from Zettelkasten, and the MOCs folder is straight from LYT.
+
 Here are the three types:
 
 **1. Fleeting Notes** — These are quick captures. A thought that hits you during a walk, a half-formed idea, a link someone sent you. Think of them like sticky notes — they're meant to be temporary. You jot something down so you don't lose it, but you're not trying to make it perfect. In Alex's vault, these live in the **00-Inbox** folder.
