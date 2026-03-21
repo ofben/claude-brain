@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Phase 3 context gathered
-last_updated: "2026-03-20T23:41:08.252Z"
+stopped_at: Completed 03-basb-integration 03-01-PLAN.md
+last_updated: "2026-03-21T02:38:52.516Z"
 last_activity: 2026-03-20 — Roadmap created, project initialized
 progress:
   total_phases: 6
-  completed_phases: 2
-  total_plans: 6
-  completed_plans: 6
+  completed_phases: 3
+  total_plans: 8
+  completed_plans: 8
   percent: 0
 ---
 
@@ -56,6 +56,8 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 01-vault-integrity P04 | 1min | 1 tasks | 2 files |
 | Phase 02-content-quality P01 | 2min | 2 tasks | 4 files |
 | Phase 02-content-quality P02 | 3 | 2 tasks | 3 files |
+| Phase 03-basb-integration P02 | 6min | 2 tasks | 2 files |
+| Phase 03-basb-integration P01 | 1min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -84,6 +86,11 @@ Recent decisions affecting current work:
 - [Phase 02-content-quality]: Module 3.2 Step 5 Critic default: vault/00-Inbox/Quick thought - AI and memory.md chosen as specific default note
 - [Phase 02-content-quality]: Module 3.2 Step 7 Connector default: vault/00-Inbox/Podcast rec from Jamie.md chosen — connects to tools for thought, Obsidian, and newsletter
 - [Phase 02-content-quality]: All 10 Category A pre-seeded vault paths verified OK — no script corrections needed (CONT-05 satisfied via verification only)
+- [Phase 03-basb-integration]: AI callouts use two-space indent continuation under each layer bullet — preserves Say block structure
+- [Phase 03-basb-integration]: Acknowledgments placed after Requirements at end of README — does not disrupt Quick Start flow
+- [Phase 03-basb-integration]: Zettelkasten credited without naming Luhmann — attribute to practice, not person
+- [Phase 03-basb-integration]: Used CONTEXT.md locked wording for Module 1.1 BASB attribution; used RESEARCH.md example wording for Module 2.1 CODE/PARA/LYT paragraph
+- [Phase 03-basb-integration]: Module 2.1 CODE insertion placed after Zettelkasten intro and before note-type definitions to preserve concept-to-examples flow
 
 ### Research Flags Carried Forward
 
@@ -101,6 +108,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-20T23:41:08.250Z
-Stopped at: Phase 3 context gathered
-Resume file: .planning/phases/03-basb-integration/03-CONTEXT.md
+Last session: 2026-03-21T02:38:52.514Z
+Stopped at: Completed 03-basb-integration 03-01-PLAN.md
+Resume file: None

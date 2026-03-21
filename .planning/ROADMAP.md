@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Vault Integrity** - Audit all wikilinks, standardize frontmatter, preserve empty folders, align dates (gap closure in progress) (completed 2026-03-20)
 - [x] **Phase 2: Content Quality** - Review all 24 teaching scripts for format, accuracy, and completeness (completed 2026-03-20)
-- [ ] **Phase 3: BASB Integration** - Layer in Building a Second Brain acknowledgments and framing
+- [x] **Phase 3: BASB Integration** - Layer in Building a Second Brain acknowledgments and framing (completed 2026-03-21)
 - [ ] **Phase 4: Skills Integration** - Add Claude Code skills module and update sub-agent documentation
 - [ ] **Phase 5: Utility Features** - Build and ship pre-made slash commands and hook script
 - [ ] **Phase 6: Distribution** - Polish README, add LICENSE, verify clone-to-working end-to-end
@@ -66,7 +66,7 @@ Plans:
   3. Module 2.4 describes progressive summarization with the correct layer count per Forte's framework, labeling any extensions as course additions
   4. README contains an acknowledgments section crediting BASB, Zettelkasten, and LYT frameworks
   5. A reader encountering the course for the first time understands that it builds on BASB and shows how Claude Code takes PKM further
-**Plans:** 2 plans
+**Plans:** 2/2 plans complete
 
 Plans:
 - [ ] 03-01-PLAN.md — BASB attribution in Module 1.1 + CODE/PARA/LYT framework framing in Module 2.1
@@ -118,7 +118,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 |-------|----------------|--------|-----------|
 | 1. Vault Integrity | 4/4 | Complete   | 2026-03-20 |
 | 2. Content Quality | 2/2 | Complete   | 2026-03-20 |
-| 3. BASB Integration | 0/2 | Not started | - |
+| 3. BASB Integration | 2/2 | Complete   | 2026-03-21 |
 | 4. Skills Integration | 0/TBD | Not started | - |
 | 5. Utility Features | 0/TBD | Not started | - |
 | 6. Distribution | 0/TBD | Not started | - |
