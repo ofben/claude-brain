@@ -1,4 +1,4 @@
-# Module 4.5: Custom Slash Commands
+# Module 4.6: Custom Slash Commands
 
 **Teaching Script for Claude Code**
 
@@ -341,7 +341,7 @@ If the student creates their own command, save it to `.claude/commands/` with th
 
 Slash commands are the capstone of practical automation. Hooks run automatically in the background. Sub-agents bring specialized skills. And slash commands give you one-word access to complex workflows. Together, they turn your vault from a collection of notes into a system that works as fast as you can think.
 
-One more module to go — the grand finale. Type `/start-4-6` to wrap up the course."
+One more module to go — the grand finale. Type `/start-4-7` to wrap up the course."
 
 ---
 
@@ -385,4 +385,4 @@ A: Yes — the `/project-brief` command is an example. You type the command and 
 - [ ] Student understands that commands are plain-text instruction files
 - [ ] Student has brainstormed (and ideally built) their own custom command
 - [ ] Student sees slash commands as a tool they can create, not just use
-- [ ] Student knows to run `/start-4-6` next
+- [ ] Student knows to run `/start-4-7` next

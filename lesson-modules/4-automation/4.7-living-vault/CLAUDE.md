@@ -1,4 +1,4 @@
-# Module 4.6: The Living Vault — Graduation
+# Module 4.7: The Living Vault — Graduation
 
 **Teaching Script for Claude Code**
 
