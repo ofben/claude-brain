@@ -55,7 +55,7 @@
 - [x] **DIST-03**: README includes cost estimate note for Claude API usage
 - [x] **DIST-04**: README includes acknowledgments section (BASB, Zettelkasten, LYT, kepano/obsidian-skills)
 - [x] **DIST-05**: README includes prerequisites with version requirements
-- [ ] **DIST-06**: Repo works end-to-end: clone → open vault in Obsidian → run /start-0-1 → complete course
+- [x] **DIST-06**: Repo works end-to-end: clone → open vault in Obsidian → run /start-0-1 → complete course
 
 ## v2 Requirements
 
@@ -124,7 +124,7 @@
 | DIST-03 | Phase 6: Distribution | Complete |
 | DIST-04 | Phase 6: Distribution | Complete |
 | DIST-05 | Phase 6: Distribution | Complete |
-| DIST-06 | Phase 6: Distribution | Pending |
+| DIST-06 | Phase 6: Distribution | Complete |
 
 **Coverage:**
 - v1 requirements: 35 total

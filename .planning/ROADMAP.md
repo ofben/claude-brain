@@ -17,7 +17,9 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 3: BASB Integration** - Layer in Building a Second Brain acknowledgments and framing (completed 2026-03-21)
 - [x] **Phase 4: Skills Integration** - Add Claude Code skills module and update sub-agent documentation (completed 2026-03-21)
 - [x] **Phase 5: Utility Features** - Build and ship pre-made slash commands and hook script (completed 2026-03-21)
-- [ ] **Phase 6: Distribution** - Polish README, add LICENSE, verify clone-to-working end-to-end
+- [x] **Phase 6: Distribution** - Polish README, add LICENSE, verify clone-to-working end-to-end (completed 2026-03-21)
+- [ ] **Phase 7: Renumbering Text Fixes** - Fix stale module references left by Phase 4 renumbering (gap closure)
+- [ ] **Phase 8: Release Cleanup** - Untrack .planning/ from git and confirm screenshot for clean clone (gap closure)
 
 ## Phase Details
 
@@ -115,17 +117,43 @@ Plans:
   4. README acknowledgments section credits BASB, Zettelkasten, LYT, and kepano/obsidian-skills
   5. README prerequisites section lists required software with version requirements
   6. A fresh clone of the repo, followed by opening vault/ in Obsidian and running /start-0-1, produces a working first lesson with no errors or dead ends
-**Plans:** 2/3 plans executed
+**Plans:** 3/3 plans complete
 
 Plans:
 - [ ] 06-01-PLAN.md — Create .gitignore and dual-license LICENSE file
 - [ ] 06-02-PLAN.md — Polish README: badges, cost estimate, prerequisites, module list update, kepano acknowledgment
 - [ ] 06-03-PLAN.md — Clone verification script and manual Module 0.1 walkthrough
 
+### Phase 7: Renumbering Text Fixes
+**Goal**: All stale module number references left by Phase 4's renumbering are corrected — students see accurate descriptions at every transition point
+**Depends on**: Phase 6
+**Requirements**: CONT-04, SKIL-01 (reinforces existing satisfaction)
+**Gap Closure:** Closes INT-01 (integration gap) and 3 tech debt items from v1.0 audit
+**Success Criteria** (what must be TRUE):
+  1. Module 4.4 closing Say block accurately describes the next module as Claude Code Skills (not custom slash commands)
+  2. Module 4.3 forward reference uses the correct module number "(4.6)" for custom slash commands
+  3. Module 4.5 instructor note does not claim the student has completed Module 4.6
+  4. start-4-6.md command description says "Explore and customize" (not "Build")
+**Plans:** 1 plans
+
+Plans:
+- [ ] 07-01-PLAN.md — Fix four stale module number/description references across Level 4 teaching scripts and start-4-6 command
+
+### Phase 8: Release Cleanup
+**Goal**: The repo is clean for public release — internal planning files are untracked and all README-referenced assets are committed
+**Depends on**: Phase 7
+**Requirements**: DIST-01, DIST-06 (reinforces existing satisfaction)
+**Gap Closure:** Closes 2 tech debt items from v1.0 audit
+**Success Criteria** (what must be TRUE):
+  1. `.planning/` directory is not tracked by git (files removed from index with `git rm --cached`)
+  2. `docs/vault-screenshot.png` is committed and tracked by git
+  3. A fresh clone does not include `.planning/` files
+  4. README screenshot renders correctly from a fresh clone
+
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
+Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
@@ -134,4 +162,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 3. BASB Integration | 2/2 | Complete   | 2026-03-21 |
 | 4. Skills Integration | 2/2 | Complete   | 2026-03-21 |
 | 5. Utility Features | 2/2 | Complete   | 2026-03-21 |
-| 6. Distribution | 2/3 | In Progress|  |
+| 6. Distribution | 3/3 | Complete   | 2026-03-21 |
+| 7. Renumbering Text Fixes | 0/1 | Pending | — |
+| 8. Release Cleanup | 0/0 | Pending | — |
