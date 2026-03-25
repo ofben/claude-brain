@@ -1,0 +1,2431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inside Claude Brain — How an AI-Powered Course Actually Works</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400;1,9..40,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ===== DESIGN TOKENS ===== */
+:root {
+  --color-bg: #FAF7F2;
+  --color-bg-warm: #F5F0E8;
+  --color-bg-code: #1E1E2E;
+  --color-text: #2C2A28;
+  --color-text-secondary: #6B6560;
+  --color-text-muted: #9E9790;
+  --color-border: #E5DFD6;
+  --color-border-light: #EEEBE5;
+  --color-surface: #FFFFFF;
+  --color-surface-warm: #FDF9F3;
+  --color-accent: #2A7B9B;
+  --color-accent-hover: #1F6680;
+  --color-accent-light: #E4F2F7;
+  --color-accent-muted: #5A9DB5;
+  --color-success: #2D8B55;
+  --color-success-light: #E8F5EE;
+  --color-error: #C93B3B;
+  --color-error-light: #FDE8E8;
+  --color-info: #D4A843;
+  --color-info-light: #FDF5E4;
+  --color-actor-1: #2A7B9B;
+  --color-actor-2: #D94F30;
+  --color-actor-3: #7B6DAA;
+  --color-actor-4: #D4A843;
+  --color-actor-5: #2D8B55;
+  --font-display: 'Bricolage Grotesque', Georgia, serif;
+  --font-body: 'DM Sans', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+  --leading-tight: 1.15;
+  --leading-snug: 1.3;
+  --leading-normal: 1.6;
+  --leading-loose: 1.8;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --content-width: 800px;
+  --content-width-wide: 1000px;
+  --nav-height: 50px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 2px rgba(44,42,40,0.05);
+  --shadow-md: 0 4px 12px rgba(44,42,40,0.08);
+  --shadow-lg: 0 8px 24px rgba(44,42,40,0.1);
+  --shadow-xl: 0 16px 48px rgba(44,42,40,0.12);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+  --stagger-delay: 120ms;
+}
+
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html {
+  scroll-snap-type: y proximity;
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+body {
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background: var(--color-bg);
+  background-image: radial-gradient(ellipse at 20% 50%, rgba(42, 123, 155, 0.03) 0%, transparent 50%);
+  line-height: var(--leading-normal);
+  -webkit-font-smoothing: antialiased;
+}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: var(--radius-full); }
+pre, code {
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-x: hidden;
+}
+.translation-code::-webkit-scrollbar, pre::-webkit-scrollbar { display: none; }
+img { max-width: 100%; }
+
+/* ===== NAVIGATION ===== */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: rgba(250, 247, 242, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border-light);
+}
+.progress-bar {
+  position: absolute; top: 0; left: 0; height: 3px;
+  background: var(--color-accent);
+  width: 0%; transition: width 100ms linear;
+}
+.nav-inner {
+  max-width: var(--content-width-wide);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-sm);
+  color: var(--color-text);
+}
+.nav-dots { display: flex; gap: var(--space-2); }
+.nav-dot {
+  width: 12px; height: 12px; border-radius: 50%;
+  border: 2px solid var(--color-text-muted);
+  background: transparent;
+  cursor: pointer;
+  transition: all var(--duration-fast);
+  padding: 0;
+}
+.nav-dot:hover { border-color: var(--color-accent); }
+.nav-dot.current { border-color: var(--color-accent); background: var(--color-accent-light); box-shadow: 0 0 8px rgba(42,123,155,0.3); }
+.nav-dot.visited { background: var(--color-accent); border-color: var(--color-accent); }
+.nav-dot-tooltip {
+  position: fixed;
+  background: var(--color-bg-code);
+  color: #CDD6F4;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  font-family: var(--font-body);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--duration-fast);
+  z-index: 10001;
+}
+.nav-dot-tooltip.visible { opacity: 1; }
+
+/* ===== MODULE LAYOUT ===== */
+.module {
+  min-height: 100dvh;
+  min-height: 100vh;
+  scroll-snap-align: start;
+  padding: var(--space-16) var(--space-6);
+  padding-top: calc(var(--nav-height) + var(--space-12));
+}
+.module-content {
+  max-width: var(--content-width);
+  margin: 0 auto;
+}
+.module-header { margin-bottom: var(--space-12); }
+.module-number {
+  font-family: var(--font-display);
+  font-size: var(--text-6xl);
+  font-weight: 800;
+  color: var(--color-accent);
+  opacity: 0.15;
+  line-height: var(--leading-tight);
+}
+.module-title {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  font-weight: 700;
+  line-height: var(--leading-tight);
+  margin-top: var(--space-2);
+}
+.module-subtitle {
+  font-size: var(--text-lg);
+  color: var(--color-text-secondary);
+  margin-top: var(--space-3);
+  line-height: var(--leading-snug);
+}
+.module-body { display: flex; flex-direction: column; gap: var(--space-16); }
+.screen { display: flex; flex-direction: column; gap: var(--space-6); }
+.screen-heading {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  line-height: var(--leading-snug);
+}
+.screen p {
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  max-width: 65ch;
+}
+
+/* ===== ANIMATIONS ===== */
+.animate-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity var(--duration-slow) var(--ease-out), transform var(--duration-slow) var(--ease-out);
+}
+.animate-in.visible { opacity: 1; transform: translateY(0); }
+.stagger-children > .animate-in {
+  transition-delay: calc(var(--stagger-index, 0) * var(--stagger-delay));
+}
+@keyframes fadeSlideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ===== TRANSLATION BLOCKS ===== */
+.translation-block {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  margin: var(--space-4) 0;
+}
+.translation-code {
+  background: var(--color-bg-code);
+  color: #CDD6F4;
+  padding: var(--space-6);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: 1.7;
+  position: relative;
+  overflow-x: hidden;
+}
+.translation-code pre, .translation-code code {
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-x: hidden;
+}
+.translation-english {
+  background: var(--color-surface-warm);
+  padding: var(--space-6);
+  font-size: var(--text-sm);
+  line-height: 1.7;
+  border-left: 3px solid var(--color-accent);
+}
+.translation-label {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-3);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.5;
+}
+.translation-english .translation-label {
+  color: var(--color-text-muted);
+  position: relative;
+  top: auto;
+  right: auto;
+  display: block;
+  margin-bottom: var(--space-3);
+}
+.translation-lines { display: flex; flex-direction: column; gap: var(--space-2); }
+.tl { color: var(--color-text-secondary); margin: 0; }
+
+/* ===== CODE SYNTAX ===== */
+.code-keyword { color: #CBA6F7; }
+.code-string { color: #A6E3A1; }
+.code-function { color: #89B4FA; }
+.code-comment { color: #6C7086; }
+.code-number { color: #FAB387; }
+.code-property { color: #F9E2AF; }
+.code-operator { color: #94E2D5; }
+.code-tag { color: #F38BA8; }
+.code-attr { color: #F9E2AF; }
+.code-value { color: #A6E3A1; }
+
+/* ===== CALLOUT BOXES ===== */
+.callout {
+  display: flex;
+  gap: var(--space-4);
+  padding: var(--space-5) var(--space-6);
+  border-radius: var(--radius-md);
+  margin: var(--space-4) 0;
+}
+.callout-accent {
+  background: var(--color-accent-light);
+  border-left: 4px solid var(--color-accent);
+}
+.callout-info {
+  background: var(--color-info-light);
+  border-left: 4px solid var(--color-info);
+}
+.callout-warning {
+  background: var(--color-error-light);
+  border-left: 4px solid var(--color-error);
+}
+.callout-icon { font-size: 1.5rem; flex-shrink: 0; }
+.callout-content { flex: 1; }
+.callout-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-base);
+  display: block;
+  margin-bottom: var(--space-2);
+}
+.callout-content p { font-size: var(--text-sm); color: var(--color-text-secondary); margin: 0; }
+
+/* ===== PATTERN CARDS ===== */
+.pattern-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-4);
+}
+.pattern-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--duration-normal) var(--ease-out), box-shadow var(--duration-normal);
+}
+.pattern-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+.pattern-icon {
+  width: 48px; height: 48px; border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; margin-bottom: var(--space-3);
+}
+.pattern-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-base);
+  margin-bottom: var(--space-2);
+}
+.pattern-desc { font-size: var(--text-sm); color: var(--color-text-secondary); line-height: var(--leading-normal); margin: 0; }
+
+/* ===== FILE TREE ===== */
+.file-tree {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+}
+.ft-folder, .ft-file {
+  padding: var(--space-2) var(--space-3);
+  border-left: 2px solid var(--color-border-light);
+  margin-left: var(--space-4);
+}
+.ft-folder.root { border-left: none; margin-left: 0; }
+.ft-folder > .ft-name { color: var(--color-accent); font-weight: 600; }
+.ft-folder > .ft-name::before { content: '📁 '; }
+.ft-file > .ft-name::before { content: '📄 '; }
+.ft-desc {
+  color: var(--color-text-secondary);
+  font-family: var(--font-body);
+  margin-left: var(--space-2);
+  font-size: var(--text-xs);
+}
+.ft-children { margin-left: var(--space-4); }
+
+/* ===== STEP CARDS ===== */
+.step-cards { display: flex; flex-direction: column; gap: var(--space-3); }
+.step-card {
+  display: flex; align-items: flex-start; gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--color-accent);
+  box-shadow: var(--shadow-sm);
+}
+.step-num {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--color-accent);
+  color: white; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display);
+  flex-shrink: 0;
+  font-size: var(--text-sm);
+}
+.step-body p { margin: var(--space-1) 0 0; color: var(--color-text-secondary); font-size: var(--text-sm); }
+.step-body strong { font-family: var(--font-display); font-weight: 600; }
+
+/* ===== ICON ROWS ===== */
+.icon-rows { display: flex; flex-direction: column; gap: var(--space-4); }
+.icon-row {
+  display: flex; align-items: center; gap: var(--space-4);
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+.icon-row p { margin: 0; color: var(--color-text-secondary); font-size: var(--text-sm); }
+.icon-circle {
+  width: 48px; height: 48px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.25rem; flex-shrink: 0; color: white;
+}
+
+/* ===== FLOW DIAGRAM ===== */
+.flow-steps {
+  display: flex; align-items: center; gap: var(--space-3);
+  flex-wrap: wrap; justify-content: center;
+}
+.flow-step {
+  display: flex; flex-direction: column; align-items: center; gap: var(--space-2);
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  min-width: 120px; text-align: center;
+}
+.flow-step-num {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--color-accent); color: white;
+  font-weight: 700; font-size: var(--text-xs);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display);
+}
+.flow-step p { font-size: var(--text-xs); margin: 0; color: var(--color-text-secondary); }
+.flow-arrow {
+  font-size: var(--text-2xl);
+  color: var(--color-accent);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ===== CHAT ANIMATION ===== */
+.chat-window {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  max-width: 600px;
+  margin: var(--space-4) auto;
+}
+.chat-header {
+  background: var(--color-bg-code);
+  color: #CDD6F4;
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-sm);
+}
+.chat-messages {
+  padding: var(--space-4);
+  min-height: 250px;
+  max-height: 400px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.chat-message {
+  display: flex; gap: var(--space-3); align-items: flex-start;
+}
+.chat-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: var(--text-xs); font-weight: 700; color: white; flex-shrink: 0;
+}
+.chat-bubble {
+  background: var(--color-bg-warm);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  max-width: 80%;
+}
+.chat-sender {
+  font-size: var(--text-xs); font-weight: 600;
+  display: block; margin-bottom: var(--space-1);
+}
+.chat-bubble p { font-size: var(--text-sm); margin: 0; }
+.chat-typing {
+  display: flex; gap: var(--space-3); align-items: center;
+  padding: 0 var(--space-4) var(--space-3);
+}
+.chat-typing-dots { display: flex; gap: 4px; }
+.typing-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--color-text-muted);
+  animation: typingBounce 1.4s infinite;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingBounce {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-6px); }
+}
+.chat-controls {
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--color-border-light);
+  display: flex; gap: var(--space-2); align-items: center;
+}
+.chat-controls button {
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-accent);
+  color: white; border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  cursor: pointer;
+  transition: background var(--duration-fast);
+}
+.chat-controls button:hover { background: var(--color-accent-hover); }
+.chat-progress { font-size: var(--text-xs); color: var(--color-text-muted); margin-left: auto; }
+
+/* ===== QUIZ ===== */
+.quiz-container { margin: var(--space-8) 0; }
+.quiz-question-block { margin-bottom: var(--space-6); }
+.quiz-question {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  margin-bottom: var(--space-4);
+}
+.quiz-options { display: flex; flex-direction: column; gap: var(--space-2); }
+.quiz-option {
+  display: flex; align-items: center; gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  cursor: pointer; width: 100%;
+  transition: border-color var(--duration-fast), background var(--duration-fast);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  text-align: left;
+}
+.quiz-option:hover { border-color: var(--color-accent-muted); }
+.quiz-option.selected { border-color: var(--color-accent); background: var(--color-accent-light); }
+.quiz-option.correct { border-color: var(--color-success); background: var(--color-success-light); }
+.quiz-option.incorrect { border-color: var(--color-error); background: var(--color-error-light); }
+.quiz-option-radio {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 2px solid var(--color-border);
+  transition: all var(--duration-fast);
+  flex-shrink: 0;
+}
+.quiz-option.selected .quiz-option-radio {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+  box-shadow: inset 0 0 0 3px white;
+}
+.quiz-feedback {
+  max-height: 0; overflow: hidden; opacity: 0;
+  transition: max-height var(--duration-normal), opacity var(--duration-normal);
+}
+.quiz-feedback.show { max-height: 300px; opacity: 1; padding: var(--space-3); margin-top: var(--space-2); border-radius: var(--radius-sm); }
+.quiz-feedback.success { background: var(--color-success-light); color: var(--color-success); }
+.quiz-feedback.error { background: var(--color-error-light); color: var(--color-error); }
+.quiz-feedback.warning { background: var(--color-info-light); color: var(--color-info); }
+.quiz-check-btn, .quiz-reset-btn {
+  padding: var(--space-3) var(--space-6);
+  border: none; border-radius: var(--radius-sm);
+  font-family: var(--font-body); font-weight: 600;
+  cursor: pointer; font-size: var(--text-sm);
+  margin-top: var(--space-4);
+  margin-right: var(--space-2);
+  transition: background var(--duration-fast), transform var(--duration-fast);
+}
+.quiz-check-btn {
+  background: var(--color-accent); color: white;
+}
+.quiz-check-btn:hover { background: var(--color-accent-hover); transform: translateY(-1px); }
+.quiz-reset-btn {
+  background: var(--color-border); color: var(--color-text);
+}
+.quiz-reset-btn:hover { background: var(--color-border-light); }
+
+/* ===== GLOSSARY TOOLTIPS ===== */
+.term {
+  border-bottom: 1.5px dashed var(--color-accent-muted);
+  cursor: pointer;
+  position: relative;
+}
+.term:hover, .term.active {
+  border-bottom-color: var(--color-accent);
+  color: var(--color-accent);
+}
+.term-tooltip {
+  position: fixed;
+  background: var(--color-bg-code);
+  color: #CDD6F4;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-family: var(--font-body);
+  line-height: var(--leading-normal);
+  width: max(200px, min(320px, 80vw));
+  box-shadow: var(--shadow-lg);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--duration-fast);
+  z-index: 10000;
+}
+.term-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--color-bg-code);
+}
+.term-tooltip.visible { opacity: 1; }
+.term-tooltip.flip::after {
+  top: auto;
+  bottom: 100%;
+  border-top-color: transparent;
+  border-bottom-color: var(--color-bg-code);
+}
+
+/* ===== DATA FLOW ANIMATION ===== */
+.flow-animation {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-md);
+  margin: var(--space-4) 0;
+}
+.flow-actors {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: var(--space-8);
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+.flow-actor {
+  display: flex; flex-direction: column;
+  align-items: center; gap: var(--space-2);
+  transition: all var(--duration-normal) var(--ease-out);
+}
+.flow-actor.active {
+  transform: scale(1.05);
+}
+.flow-actor-icon {
+  width: 64px; height: 64px;
+  border-radius: var(--radius-md);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; color: white; font-weight: 700;
+  transition: box-shadow var(--duration-normal);
+}
+.flow-actor.active .flow-actor-icon {
+  box-shadow: 0 0 0 3px var(--color-accent), 0 0 20px rgba(42, 123, 155, 0.3);
+}
+.flow-actor span {
+  font-size: var(--text-xs); font-weight: 600;
+  text-align: center;
+}
+.flow-step-label {
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  min-height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: var(--space-4);
+  padding: 0 var(--space-4);
+}
+.flow-controls {
+  display: flex; gap: var(--space-2); align-items: center; justify-content: center;
+}
+.flow-controls button {
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-accent); color: white; border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body); font-size: var(--text-xs);
+  cursor: pointer;
+  transition: background var(--duration-fast);
+}
+.flow-controls button:hover { background: var(--color-accent-hover); }
+.flow-controls .flow-progress { font-size: var(--text-xs); color: var(--color-text-muted); }
+
+/* ===== BADGE LIST ===== */
+.badge-list { display: flex; flex-direction: column; gap: var(--space-2); }
+.badge-item {
+  display: flex; align-items: center; gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-sm);
+  transition: border-color var(--duration-fast);
+}
+.badge-item:hover { border-color: var(--color-accent-muted); }
+.badge-code {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  background: var(--color-bg-code);
+  color: #CBA6F7;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+.badge-desc { font-size: var(--text-sm); color: var(--color-text-secondary); }
+
+/* ===== SCENARIO BLOCK ===== */
+.scenario-block { margin-bottom: var(--space-6); }
+.scenario-context {
+  background: var(--color-bg-warm);
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-4);
+  border-left: 3px solid var(--color-info);
+}
+.scenario-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-info);
+  font-weight: 600;
+  display: block;
+  margin-bottom: var(--space-2);
+}
+
+/* ===== HERO SECTION ===== */
+.hero {
+  min-height: 100dvh;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-8);
+  background: var(--color-bg);
+  scroll-snap-align: start;
+}
+.hero-badge {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--color-accent);
+  background: var(--color-accent-light);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  margin-bottom: var(--space-6);
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-5xl);
+  font-weight: 800;
+  line-height: var(--leading-tight);
+  max-width: 800px;
+  margin-bottom: var(--space-6);
+}
+.hero h1 em {
+  color: var(--color-accent);
+  font-style: normal;
+}
+.hero-desc {
+  font-size: var(--text-lg);
+  color: var(--color-text-secondary);
+  max-width: 550px;
+  line-height: var(--leading-normal);
+  margin-bottom: var(--space-8);
+}
+.hero-cta {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  display: flex; align-items: center; gap: var(--space-2);
+}
+.hero-scroll-icon {
+  animation: gentleBounce 2s infinite;
+}
+@keyframes gentleBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  :root {
+    --text-4xl: 1.875rem;
+    --text-5xl: 2.25rem;
+    --text-6xl: 3rem;
+  }
+  .translation-block { grid-template-columns: 1fr; }
+  .translation-english { border-left: none; border-top: 3px solid var(--color-accent); }
+  .pattern-cards { grid-template-columns: 1fr 1fr; }
+  .flow-steps { flex-direction: column; }
+  .flow-arrow { transform: rotate(90deg); }
+}
+@media (max-width: 480px) {
+  :root {
+    --text-4xl: 1.5rem;
+    --text-5xl: 1.875rem;
+    --text-6xl: 2.25rem;
+  }
+  .module { padding: var(--space-8) var(--space-4); }
+  .pattern-cards { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== NAVIGATION ===== -->
+<nav class="nav" role="navigation" aria-label="Course navigation">
+  <div class="progress-bar" id="progress-bar" role="progressbar" aria-valuenow="0"></div>
+  <div class="nav-inner">
+    <span class="nav-title">Inside Claude Brain</span>
+    <div class="nav-dots" id="nav-dots">
+      <button class="nav-dot" data-target="hero" data-tooltip="Start" role="tab" aria-label="Start"></button>
+      <button class="nav-dot" data-target="module-1" data-tooltip="What It Does" role="tab" aria-label="Module 1"></button>
+      <button class="nav-dot" data-target="module-2" data-tooltip="Meet the Cast" role="tab" aria-label="Module 2"></button>
+      <button class="nav-dot" data-target="module-3" data-tooltip="How a Lesson Runs" role="tab" aria-label="Module 3"></button>
+      <button class="nav-dot" data-target="module-4" data-tooltip="The Three Agents" role="tab" aria-label="Module 4"></button>
+      <button class="nav-dot" data-target="module-5" data-tooltip="The Living Vault" role="tab" aria-label="Module 5"></button>
+      <button class="nav-dot" data-target="module-6" data-tooltip="Automation" role="tab" aria-label="Module 6"></button>
+      <button class="nav-dot" data-target="module-7" data-tooltip="The Full Picture" role="tab" aria-label="Module 7"></button>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="hero">
+  <div class="hero-badge animate-in">Interactive Course</div>
+  <h1 class="animate-in">Inside <em>Claude Brain</em></h1>
+  <p class="hero-desc animate-in">An AI-powered course that teaches you to build a personal knowledge system — and this is how it works under the hood. 25 modules, 3 AI agents, 1 fictional character, zero coding required.</p>
+  <div class="hero-cta animate-in">
+    <span class="hero-scroll-icon">↓</span>
+    <span>Scroll to start learning</span>
+  </div>
+</section>
+
+<!-- ===== MODULE 1: WHAT IT DOES ===== -->
+<section class="module" id="module-1" style="background: var(--color-bg-warm)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">01</span>
+      <h1 class="module-title">What Does This Thing Actually Do?</h1>
+      <p class="module-subtitle">Meet Claude Brain — an interactive course delivered entirely by an AI tutor</p>
+    </header>
+
+    <div class="module-body">
+      <section class="screen animate-in">
+        <h2 class="screen-heading">The Problem It Solves</h2>
+        <p>Imagine you're a writer juggling three clients, a personal newsletter, and a growing pile of research notes. Your ideas are scattered across different apps, different folders, different days. You <em>know</em> you wrote something brilliant about digital minimalism last week — but where?</p>
+        <p>That's the world of <strong>Alex Rivera</strong>, the fictional freelance writer at the heart of Claude Brain. Alex's notes are a mess. And the course teaches real people how to fix that — by combining two tools into one powerful system.</p>
+      </section>
+
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Two Tools, One System</h2>
+        <div class="icon-rows stagger-children">
+          <div class="icon-row animate-in">
+            <div class="icon-circle" style="background: var(--color-actor-1)">📝</div>
+            <div>
+              <strong>Obsidian</strong>
+              <p>A note-taking app where every note can link to every other note — like a personal Wikipedia. It stores your notes as plain text files on your own computer.</p>
+            </div>
+          </div>
+          <div class="icon-row animate-in">
+            <div class="icon-circle" style="background: var(--color-actor-2)">🤖</div>
+            <div>
+              <strong>Claude Code</strong>
+              <p>An AI assistant that runs in your <span class="term" data-definition="A terminal is a text-based interface where you type commands instead of clicking buttons. Think of it as texting your computer instead of pointing and clicking.">terminal</span> and can read, search, and write files on your computer — including your Obsidian notes.</p>
+            </div>
+          </div>
+          <div class="icon-row animate-in">
+            <div class="icon-circle" style="background: var(--color-actor-5)">🧠</div>
+            <div>
+              <strong>Claude Brain = Both Together</strong>
+              <p>Claude reads your scattered notes, finds hidden connections between them, and helps you build a structured "second brain" — an organized, searchable web of knowledge.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <h2 class="screen-heading">What It Looks Like in Practice</h2>
+        <p>The student opens their terminal and types a <span class="term" data-definition="A slash command is a shortcut that starts with / — like texting a specific instruction. In Claude Code, typing /daily or /start-1-4 triggers a specific action or lesson.">slash command</span>. Claude becomes their personal tutor.</p>
+        <div class="step-cards stagger-children">
+          <div class="step-card animate-in">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Student types <code>/start-1-4</code></strong>
+              <p>This launches Module 1.4: "The Connection" — the course's first big aha moment</p>
+            </div>
+          </div>
+          <div class="step-card animate-in">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>Claude reads four scattered notes from the vault</strong>
+              <p>Research about AI tools, digital minimalism notes, a newsletter draft, a client brief — all written on different days, in different folders</p>
+            </div>
+          </div>
+          <div class="step-card animate-in">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <strong>Claude finds the hidden theme connecting all four</strong>
+              <p>"Intentionality is what transforms technology from a distraction into a creative partner" — a thread Alex never saw</p>
+            </div>
+          </div>
+          <div class="step-card animate-in">
+            <div class="step-num">4</div>
+            <div class="step-body">
+              <strong>Claude creates a brand new synthesis note</strong>
+              <p>A note that weaves the four threads together and shows how this single insight could fuel every project Alex is working on</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <div class="callout callout-accent">
+          <div class="callout-icon">💡</div>
+          <div class="callout-content">
+            <strong class="callout-title">Why This Matters for You</strong>
+            <p>Understanding how this course is built teaches you a powerful pattern: how to make AI tools that <em>teach</em> and <em>guide</em> people, not just answer questions. The same architecture — config files, slash commands, teaching scripts — could power any interactive AI experience you want to build.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <h2 class="screen-heading">The Numbers</h2>
+        <div class="pattern-cards stagger-children">
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-1)">
+            <div class="pattern-icon" style="background: var(--color-actor-1)">📚</div>
+            <h4 class="pattern-title">25 Modules</h4>
+            <p class="pattern-desc">Across 5 learning levels, from basic setup to advanced automation. ~8 hours total.</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-2)">
+            <div class="pattern-icon" style="background: var(--color-actor-2)">🎭</div>
+            <h4 class="pattern-title">3 AI Agents</h4>
+            <p class="pattern-desc">The Librarian, The Critic, and The Connector — each with a unique personality and job.</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-3)">
+            <div class="pattern-icon" style="background: var(--color-actor-3)">📁</div>
+            <h4 class="pattern-title">~40 Pre-loaded Notes</h4>
+            <p class="pattern-desc">A realistic Obsidian vault with client briefs, research, drafts, and messy inbox captures.</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-4)">
+            <div class="pattern-icon" style="background: var(--color-actor-4)">💰</div>
+            <h4 class="pattern-title">$1-5 Total Cost</h4>
+            <p class="pattern-desc">The entire course runs on Claude's API. A few dollars for 8 hours of personalized AI tutoring.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quiz for Module 1 -->
+      <section class="screen animate-in" id="quiz-1">
+        <h2 class="screen-heading">Check Your Understanding</h2>
+        <div class="quiz-container">
+          <div class="quiz-question-block" data-question="m1q1" data-correct="m1q1-c">
+            <h3 class="quiz-question">A user wants to find connections between notes they wrote on different days about different topics. What makes Claude Brain better at this than just using Obsidian's built-in search?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="m1q1-a" data-explanation="Search can find keyword matches, but the whole point of Module 1.4 is that Claude finds <em>thematic</em> connections — ideas that share a deeper thread even when they don't share the same words.">
+                <div class="quiz-option-radio"></div>
+                <span>Obsidian search is slower than Claude</span>
+              </button>
+              <button class="quiz-option" data-value="m1q1-b" data-explanation="Claude can read any file format Obsidian supports. The advantage isn't about file types — it's about understanding.">
+                <div class="quiz-option-radio"></div>
+                <span>Claude can read more file types</span>
+              </button>
+              <button class="quiz-option" data-value="m1q1-c" data-explanation="Exactly! Search finds keywords. Claude finds meaning. When Alex's notes about AI tools, digital minimalism, and newsletters all share a theme about 'intentionality,' no keyword search would surface that — but Claude reads all four and sees the thread.">
+                <div class="quiz-option-radio"></div>
+                <span>Claude can find thematic connections that keyword search would miss</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block" data-question="m1q2" data-correct="m1q2-b">
+            <h3 class="quiz-question">You're building a similar AI-tutored course for learning photography. What's the most important thing to get right first?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="m1q2-a" data-explanation="Interactive quizzes are nice, but they're a feature, not the foundation. The teaching content needs to exist first.">
+                <div class="quiz-option-radio"></div>
+                <span>Interactive quizzes with immediate feedback</span>
+              </button>
+              <button class="quiz-option" data-value="m1q2-b" data-explanation="Exactly! Claude Brain works because the teaching scripts are detailed enough that Claude can teach naturally. Without good scripts, Claude would just improvise — and consistency would disappear. The scripts are the curriculum.">
+                <div class="quiz-option-radio"></div>
+                <span>Detailed teaching scripts that Claude follows step by step</span>
+              </button>
+              <button class="quiz-option" data-value="m1q2-c" data-explanation="A good UI helps, but Claude Brain doesn't even have a visual UI — it's all in the terminal. The power comes from the teaching methodology, not the interface.">
+                <div class="quiz-option-radio"></div>
+                <span>A beautiful visual interface</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-1')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-1')">Try Again</button>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MODULE 2: MEET THE CAST ===== -->
+<section class="module" id="module-2" style="background: var(--color-bg)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">02</span>
+      <h1 class="module-title">Meet the Cast of Characters</h1>
+      <p class="module-subtitle">Every piece of this system has a job — here's who does what</p>
+    </header>
+
+    <div class="module-body">
+      <section class="screen animate-in">
+        <h2 class="screen-heading">The Ensemble</h2>
+        <p>Think of Claude Brain like a theater production. There's a script, there are actors, there's a stage, and there's a director who keeps everything running smoothly. Let's meet each one.</p>
+      </section>
+
+      <section class="screen animate-in">
+        <h2 class="screen-heading">The Project Map</h2>
+        <div class="file-tree">
+          <div class="ft-folder root open">
+            <span class="ft-name">claude-brain/</span>
+            <span class="ft-desc">The entire project</span>
+            <div class="ft-children">
+              <div class="ft-file">
+                <span class="ft-name">course-structure.json</span>
+                <span class="ft-desc">The master script — defines every module, its order, and timing</span>
+              </div>
+              <div class="ft-file">
+                <span class="ft-name">CLAUDE.md</span>
+                <span class="ft-desc">The director's notes — teaches Claude about the whole system</span>
+              </div>
+              <div class="ft-folder">
+                <span class="ft-name">.claude/</span>
+                <span class="ft-desc">Behind-the-scenes machinery</span>
+                <div class="ft-children">
+                  <div class="ft-file">
+                    <span class="ft-name">SCRIPT_INSTRUCTIONS.md</span>
+                    <span class="ft-desc">How to teach — tone, pacing, language rules</span>
+                  </div>
+                  <div class="ft-folder">
+                    <span class="ft-name">commands/</span>
+                    <span class="ft-desc">30+ slash commands — the buttons students press</span>
+                  </div>
+                  <div class="ft-folder">
+                    <span class="ft-name">agents/</span>
+                    <span class="ft-desc">3 AI specialists with unique personalities</span>
+                  </div>
+                </div>
+              </div>
+              <div class="ft-folder">
+                <span class="ft-name">lesson-modules/</span>
+                <span class="ft-desc">25 detailed teaching scripts, one per module</span>
+              </div>
+              <div class="ft-folder">
+                <span class="ft-name">creator-context/</span>
+                <span class="ft-desc">Alex Rivera's backstory — clients, style guide, projects</span>
+              </div>
+              <div class="ft-folder">
+                <span class="ft-name">vault/</span>
+                <span class="ft-desc">The student's Obsidian vault — pre-loaded with ~40 realistic notes</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <h2 class="screen-heading">The Director: course-structure.json</h2>
+        <p>Every theater production needs a master plan. In Claude Brain, that's a single <span class="term" data-definition="JSON (JavaScript Object Notation) is a way to store structured data as text. Think of it like a really organized outline — with labels and nested sections — that computers can read easily.">JSON</span> file that defines the entire curriculum.</p>
+
+        <div class="translation-block">
+          <div class="translation-code">
+            <span class="translation-label">CODE</span>
+            <pre><code><span class="code-line">{</span>
+<span class="code-line">  <span class="code-property">"courseTitle"</span>: <span class="code-string">"Claude Brain: Build Your Second Brain"</span>,</span>
+<span class="code-line">  <span class="code-property">"audience"</span>: <span class="code-string">"Non-technical knowledge workers"</span>,</span>
+<span class="code-line">  <span class="code-property">"totalEstimatedMinutes"</span>: <span class="code-number">492</span>,</span>
+<span class="code-line">  <span class="code-property">"levels"</span>: [</span>
+<span class="code-line">    {</span>
+<span class="code-line">      <span class="code-property">"id"</span>: <span class="code-string">"1"</span>,</span>
+<span class="code-line">      <span class="code-property">"name"</span>: <span class="code-string">"Foundations"</span>,</span>
+<span class="code-line">      <span class="code-property">"modules"</span>: [</span>
+<span class="code-line">        {</span>
+<span class="code-line">          <span class="code-property">"id"</span>: <span class="code-string">"1.4"</span>,</span>
+<span class="code-line">          <span class="code-property">"title"</span>: <span class="code-string">"The Connection"</span>,</span>
+<span class="code-line">          <span class="code-property">"command"</span>: <span class="code-string">"start-1-4"</span>,</span>
+<span class="code-line">          <span class="code-property">"path"</span>: <span class="code-string">"lesson-modules/1-foundations/1.4-the-connection/CLAUDE.md"</span></span>
+<span class="code-line">        }</span>
+<span class="code-line">      ]</span>
+<span class="code-line">    }</span>
+<span class="code-line">  ]</span>
+<span class="code-line">}</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl">Open the course definition...</p>
+              <p class="tl">This course is called "Claude Brain: Build Your Second Brain"</p>
+              <p class="tl">It's designed for non-technical people</p>
+              <p class="tl">Total estimated time: 492 minutes (~8 hours)</p>
+              <p class="tl">The course is divided into levels...</p>
+              <p class="tl">Here's Level 1...</p>
+              <p class="tl">It's called "Foundations"</p>
+              <p class="tl">Level 1 contains these modules...</p>
+              <p class="tl">Here's Module 1.4...</p>
+              <p class="tl">It's called "The Connection"</p>
+              <p class="tl">Students launch it by typing <code>/start-1-4</code></p>
+              <p class="tl">The teaching script lives at this file path</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <div class="callout callout-accent">
+          <div class="callout-icon">💡</div>
+          <div class="callout-content">
+            <strong class="callout-title">Config-Driven Design</strong>
+            <p>This is a pattern called "config-driven architecture" — instead of scattering your app's settings across dozens of files, you put the important decisions in one place. Want to add a module? Edit this one file. Want to reorder the curriculum? Move items around in the list. The JSON file is the single source of truth, and everything else reads from it.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <h2 class="screen-heading">The Stage: Alex Rivera's World</h2>
+        <p>Every module teaches through a fictional character — Alex Rivera, a freelance writer in Portland. Alex isn't just a name. There are four detailed context files that make Alex feel real.</p>
+        <div class="pattern-cards stagger-children">
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-4)">
+            <div class="pattern-icon" style="background: var(--color-actor-4)">👤</div>
+            <h4 class="pattern-title">PROFILE.md</h4>
+            <p class="pattern-desc">Alex's background: freelance writer, 4 years independent, interests in AI, creativity, wellness.</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-1)">
+            <div class="pattern-icon" style="background: var(--color-actor-1)">🤝</div>
+            <h4 class="pattern-title">CLIENTS.md</h4>
+            <p class="pattern-desc">Three clients: Horizon Magazine ($3K/month features), Bloom Studio ($1.2K wellness blogs), ClearPath ($800 SEO posts).</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-2)">
+            <div class="pattern-icon" style="background: var(--color-actor-2)">📋</div>
+            <h4 class="pattern-title">PROJECTS.md</h4>
+            <p class="pattern-desc">Active projects with status: articles, newsletter issues, a book idea called "The Connected Creator."</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-5)">
+            <div class="pattern-icon" style="background: var(--color-actor-5)">✍️</div>
+            <h4 class="pattern-title">STYLE-GUIDE.md</h4>
+            <p class="pattern-desc">How Alex writes: conversational, max 25-word sentences, specific over abstract, warmth over distance.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quiz for Module 2 -->
+      <section class="screen animate-in" id="quiz-2">
+        <h2 class="screen-heading">Check Your Understanding</h2>
+        <div class="quiz-container">
+          <div class="quiz-question-block" data-question="m2q1" data-correct="m2q1-a">
+            <h3 class="quiz-question">You want to add a brand new Module 2.6 called "Tagging Strategies" to the course. What's the minimum you need to do?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="m2q1-a" data-explanation="Exactly! The config-driven design means course-structure.json is the single source of truth. You'd add the module there, create the teaching script file, and create the slash command. That's it — the rest of the system reads from the config.">
+                <div class="quiz-option-radio"></div>
+                <span>Add it to course-structure.json, create a teaching script file, and add a slash command</span>
+              </button>
+              <button class="quiz-option" data-value="m2q1-b" data-explanation="Rewriting the entire curriculum would be massive overkill. The config-driven design means you just add a new entry — the existing modules don't need to change.">
+                <div class="quiz-option-radio"></div>
+                <span>Rewrite the entire course-structure.json and update all module references</span>
+              </button>
+              <button class="quiz-option" data-value="m2q1-c" data-explanation="You definitely need a teaching script — without it, Claude wouldn't know what to teach. The whole point of Claude Brain is that Claude follows structured teaching scripts, not improvisation.">
+                <div class="quiz-option-radio"></div>
+                <span>Just add a slash command — Claude will figure out the teaching content</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block" data-question="m2q2" data-correct="m2q2-c">
+            <h3 class="quiz-question">Why does the project include four detailed files about a fictional character (Alex Rivera) instead of just teaching the tools generically?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="m2q2-a" data-explanation="While it is creative, the character files serve a practical purpose — they provide consistent context that Claude can reference across all 25 modules, making every exercise grounded and realistic.">
+                <div class="quiz-option-radio"></div>
+                <span>It makes the course more creative and fun</span>
+              </button>
+              <button class="quiz-option" data-value="m2q2-b" data-explanation="The character files don't increase Claude's intelligence — they provide context. Claude reads real notes written in Alex's voice and can reference specific clients and projects, which makes the teaching feel personalized and concrete.">
+                <div class="quiz-option-radio"></div>
+                <span>It makes Claude smarter about writing</span>
+              </button>
+              <button class="quiz-option" data-value="m2q2-c" data-explanation="Exactly! Every exercise uses Alex's real clients, real projects, and real problems. 'Organize your notes' becomes 'Help Alex find the connection between the Horizon article and the newsletter draft.' The specificity makes abstract concepts tangible.">
+                <div class="quiz-option-radio"></div>
+                <span>It gives Claude consistent, specific context so every exercise feels grounded in a real scenario</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-2')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-2')">Try Again</button>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MODULE 3: HOW A LESSON RUNS ===== -->
+<section class="module" id="module-3" style="background: var(--color-bg-warm)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">03</span>
+      <h1 class="module-title">How a Lesson Actually Runs</h1>
+      <p class="module-subtitle">Trace the journey from typing a command to experiencing an aha moment</p>
+    </header>
+
+    <div class="module-body">
+      <section class="screen animate-in">
+        <h2 class="screen-heading">The Chain Reaction</h2>
+        <p>When a student types <code>/start-1-4</code>, a chain reaction begins. Think of it like pulling a single thread that unravels a whole sweater — except in a good way. Each piece triggers the next, and by the end, Claude is teaching a full interactive lesson.</p>
+      </section>
+
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Follow the Signal</h2>
+        <div class="flow-animation" id="lesson-flow">
+          <div class="flow-actors">
+            <div class="flow-actor" id="flow-student">
+              <div class="flow-actor-icon" style="background: var(--color-actor-4)">👤</div>
+              <span>Student</span>
+            </div>
+            <div class="flow-actor" id="flow-command">
+              <div class="flow-actor-icon" style="background: var(--color-actor-1)">⚡</div>
+              <span>Slash Command</span>
+            </div>
+            <div class="flow-actor" id="flow-script">
+              <div class="flow-actor-icon" style="background: var(--color-actor-2)">📜</div>
+              <span>Teaching Script</span>
+            </div>
+            <div class="flow-actor" id="flow-rules">
+              <div class="flow-actor-icon" style="background: var(--color-actor-3)">📏</div>
+              <span>Script Rules</span>
+            </div>
+            <div class="flow-actor" id="flow-claude">
+              <div class="flow-actor-icon" style="background: var(--color-actor-5)">🤖</div>
+              <span>Claude (Teaching)</span>
+            </div>
+          </div>
+          <div class="flow-step-label" id="lesson-flow-label">Click "Next Step" to trace the lesson flow</div>
+          <div class="flow-controls">
+            <button onclick="lessonFlowNext()">Next Step</button>
+            <button onclick="lessonFlowReset()">Restart</button>
+            <span class="flow-progress" id="lesson-flow-progress">Step 0 / 5</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Step 1: The Slash Command</h2>
+        <p>Every lesson starts here. The student types a command, and Claude reads a tiny instruction file.</p>
+        <div class="translation-block">
+          <div class="translation-code">
+            <span class="translation-label">start-1-4.md</span>
+            <pre><code><span class="code-line"><span class="code-comment">---</span></span>
+<span class="code-line"><span class="code-property">description</span>: <span class="code-string">"Module 1.4: The Connection"</span></span>
+<span class="code-line"><span class="code-comment">---</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="code-keyword">Do this SILENTLY:</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="code-number">1.</span> Read <span class="code-string">`lesson-modules/1-foundations/</span></span>
+<span class="code-line"><span class="code-string">   1.4-the-connection/CLAUDE.md`</span></span>
+<span class="code-line"><span class="code-number">2.</span> Read <span class="code-string">`.claude/SCRIPT_INSTRUCTIONS.md`</span></span>
+<span class="code-line"><span class="code-number">3.</span> Follow the teaching script precisely</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl">This is the metadata — the command's name and description</p>
+              <p class="tl">&nbsp;</p>
+              <p class="tl">&nbsp;</p>
+              <p class="tl">Do all of this without telling the student what you're doing...</p>
+              <p class="tl">&nbsp;</p>
+              <p class="tl">First, read the actual lesson content (what to teach)</p>
+              <p class="tl">&nbsp;</p>
+              <p class="tl">Then, read the teaching rules (how to teach)</p>
+              <p class="tl">Now start teaching — follow the script exactly</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Step 2: The Teaching Script</h2>
+        <p>This is the heart of each lesson. Every teaching script uses four types of blocks — like stage directions for Claude.</p>
+        <div class="badge-list stagger-children">
+          <div class="badge-item animate-in">
+            <code class="badge-code">Say:</code>
+            <span class="badge-desc">Content to deliver word-for-word — the actual teaching material</span>
+          </div>
+          <div class="badge-item animate-in">
+            <code class="badge-code">Check:</code>
+            <span class="badge-desc">STOP and wait for the student to respond — never skip ahead</span>
+          </div>
+          <div class="badge-item animate-in">
+            <code class="badge-code">Action:</code>
+            <span class="badge-desc">Commands for Claude to run — read files, create notes, search the vault</span>
+          </div>
+          <div class="badge-item animate-in">
+            <code class="badge-code">Present it like this:</code>
+            <span class="badge-desc">Formatting guidance — how to display tables, lists, or complex information</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Inside a Real Teaching Script</h2>
+        <p>Here's a snippet from Module 1.4's teaching script — the "aha moment" where Claude reads four scattered notes and finds their hidden connection.</p>
+        <div class="translation-block">
+          <div class="translation-code">
+            <span class="translation-label">TEACHING SCRIPT</span>
+            <pre><code><span class="code-line"><span class="code-keyword">Say:</span></span>
+<span class="code-line"><span class="code-string">"Here's what I see when I hold all</span></span>
+<span class="code-line"><span class="code-string">four notes in mind at once..."</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="code-keyword">Action:</span></span>
+<span class="code-line">Write the synthesis note to</span>
+<span class="code-line"><span class="code-string">`vault/03-Research/Synthesis -</span></span>
+<span class="code-line"><span class="code-string">AI Creativity and Intentionality.md`</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="code-keyword">Check:</span></span>
+<span class="code-line"><span class="code-comment">Wait for the student to respond.</span></span>
+<span class="code-line"><span class="code-comment">Give them a real moment here.</span></span>
+<span class="code-line"><span class="code-comment">Do not rush past this moment.</span></span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl">Tell the student these exact words — this is the dramatic reveal</p>
+              <p class="tl">&nbsp;</p>
+              <p class="tl">&nbsp;</p>
+              <p class="tl">&nbsp;</p>
+              <p class="tl">Now do something real: create a brand new note in the student's actual Obsidian vault</p>
+              <p class="tl">&nbsp;</p>
+              <p class="tl">&nbsp;</p>
+              <p class="tl">&nbsp;</p>
+              <p class="tl">Now STOP. Don't keep talking.</p>
+              <p class="tl">Let the student absorb what just happened.</p>
+              <p class="tl">This moment is designed to feel powerful —</p>
+              <p class="tl">the script explicitly says not to rush it.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Step 3: The Rules of Teaching</h2>
+        <p>The <code>SCRIPT_INSTRUCTIONS.md</code> file tells Claude <em>how</em> to teach — tone, language, and pacing.</p>
+        <div class="translation-block">
+          <div class="translation-code">
+            <span class="translation-label">SCRIPT_INSTRUCTIONS.md</span>
+            <pre><code><span class="code-line"><span class="code-comment">## Language Conventions</span></span>
+<span class="code-line"></span>
+<span class="code-line">| Instead of...  | Say...          |</span>
+<span class="code-line">|----------------|-----------------|</span>
+<span class="code-line">| directory      | folder          |</span>
+<span class="code-line">| file           | note            |</span>
+<span class="code-line">| repository     | project folder  |</span>
+<span class="code-line">| terminal / CLI | Claude Code     |</span>
+<span class="code-line">| frontmatter    | info block      |</span>
+<span class="code-line">| YAML           | <span class="code-comment">(don't mention)</span> |</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl">Rules about what words Claude should use...</p>
+              <p class="tl">&nbsp;</p>
+              <p class="tl">These are translation rules for non-technical students</p>
+              <p class="tl">&nbsp;</p>
+              <p class="tl">"Directory" sounds technical — say "folder" instead</p>
+              <p class="tl">"File" is generic — say "note" when talking about vault content</p>
+              <p class="tl">"Repository" is developer jargon — say "project folder"</p>
+              <p class="tl">"Terminal" is intimidating — just say "Claude Code"</p>
+              <p class="tl">"Frontmatter" is obscure — say "info block at the top"</p>
+              <p class="tl">YAML? Don't even say the word. Just show the format.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <div class="callout callout-accent">
+          <div class="callout-icon">💡</div>
+          <div class="callout-content">
+            <strong class="callout-title">The Invisible Handoff</strong>
+            <p>Notice something clever: the student never sees any of this machinery. They type <code>/start-1-4</code> and Claude just starts teaching — warmly, patiently, step by step. The slash command, the teaching script, the language rules — they all work behind the scenes. The student's experience is just: "I typed a command and got an amazing personal tutor." That seamlessness is the whole point.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quiz for Module 3 -->
+      <section class="screen animate-in" id="quiz-3">
+        <h2 class="screen-heading">Check Your Understanding</h2>
+        <div class="quiz-container">
+          <div class="quiz-question-block" data-question="m3q1" data-correct="m3q1-b">
+            <h3 class="quiz-question">A student reaches a "Check:" point in the lesson but doesn't respond for a while. What should Claude do?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="m3q1-a" data-explanation="The Script Instructions are explicit: 'STOP completely and WAIT for the student to respond. Do NOT continue past a Check point until the student has replied.' Rushing ahead would break the interactive teaching rhythm.">
+                <div class="quiz-option-radio"></div>
+                <span>Skip ahead to the next section to keep things moving</span>
+              </button>
+              <button class="quiz-option" data-value="m3q1-b" data-explanation="Exactly! Check points are sacred. The script explicitly says to stop and wait. The student might be trying something in Obsidian, thinking about what they just learned, or just taking a break. Rushing past would ruin the pacing.">
+                <div class="quiz-option-radio"></div>
+                <span>Wait patiently — Check points are explicit stopping points</span>
+              </button>
+              <button class="quiz-option" data-value="m3q1-c" data-explanation="Summarizing everything at once defeats the purpose of the step-by-step teaching design. The whole point of Check points is to let the student absorb one concept before moving to the next.">
+                <div class="quiz-option-radio"></div>
+                <span>Summarize the remaining steps so the student can catch up</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-3')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-3')">Try Again</button>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MODULE 4: THE THREE AGENTS ===== -->
+<section class="module" id="module-4" style="background: var(--color-bg)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">04</span>
+      <h1 class="module-title">The Three Agents</h1>
+      <p class="module-subtitle">Specialist AI characters with distinct personalities and jobs</p>
+    </header>
+
+    <div class="module-body">
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Why Three Agents?</h2>
+        <p>Imagine you're managing a library. You wouldn't hire one person to do everything — you'd want a cataloger who keeps things organized, a critic who reviews new acquisitions, and a researcher who finds connections between books. That's exactly what Claude Brain does. It creates three specialized versions of Claude, each with a distinct personality and skill set.</p>
+      </section>
+
+      <section class="screen animate-in">
+        <h2 class="screen-heading">A Conversation Between Agents</h2>
+        <p>Watch how these three agents would discuss a messy vault.</p>
+        <div class="chat-window">
+          <div class="chat-header">Agent Group Chat</div>
+          <div class="chat-messages" id="agent-chat">
+            <div class="chat-message" data-msg="0" data-sender="librarian" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-5)">L</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-5)">The Librarian</span>
+                <p>I've scanned the vault. There are 3 notes in the Inbox that have been sitting there for over a week, and 2 research notes with missing frontmatter. Also, I'm seeing both #AI and #ai as tags — we need to pick one.</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="1" data-sender="critic" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-2)">C</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-2)">The Critic</span>
+                <p>I read the Horizon article draft. The opening is strong, but the third paragraph loses the thread. Alex makes a claim about "most writers" without any evidence. Sarah will push back on that.</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="2" data-sender="connector" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-3)">K</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-3)">The Connector</span>
+                <p>Wait — that Horizon article about AI writing partners? Have you noticed it shares a theme with Alex's digital minimalism research? Both are about intentional tool use. This could be a bridge for the next newsletter issue!</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="3" data-sender="librarian" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-5)">L</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-5)">The Librarian</span>
+                <p>If we're creating a synthesis note from that connection, I'll make sure it gets proper frontmatter and goes in 03-Research, not floating in the Inbox.</p>
+              </div>
+            </div>
+            <div class="chat-message" data-msg="4" data-sender="critic" style="display:none">
+              <div class="chat-avatar" style="background: var(--color-actor-2)">C</div>
+              <div class="chat-bubble">
+                <span class="chat-sender" style="color: var(--color-actor-2)">The Critic</span>
+                <p>Good idea. But the synthesis should be specific — not just "these things are related." What's the actionable insight? How does this change what Alex writes for Horizon?</p>
+              </div>
+            </div>
+          </div>
+          <div class="chat-typing" id="agent-typing" style="display:none">
+            <div class="chat-avatar" id="agent-typing-avatar" style="background: var(--color-text-muted)">?</div>
+            <div class="chat-typing-dots">
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+            </div>
+          </div>
+          <div class="chat-controls">
+            <button onclick="agentChatNext()">Next Message</button>
+            <button onclick="agentChatAll()">Play All</button>
+            <button onclick="agentChatReset()">Replay</button>
+            <span class="chat-progress" id="agent-chat-progress">0 / 5 messages</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <h2 class="screen-heading">How an Agent Is Defined</h2>
+        <p>Each agent is just a <span class="term" data-definition="Markdown is a simple way to format text using symbols. Stars make text **bold**, hashes make headings, and dashes make lists. It's like texting with light formatting — much simpler than HTML or Word.">Markdown</span> file with a personality description and a set of rules. Here's The Librarian's definition.</p>
+        <div class="translation-block">
+          <div class="translation-code">
+            <span class="translation-label">librarian.md</span>
+            <pre><code><span class="code-line"><span class="code-comment">---</span></span>
+<span class="code-line"><span class="code-property">name</span>: <span class="code-string">"The Librarian"</span></span>
+<span class="code-line"><span class="code-property">tools</span>: <span class="code-string">Read, Grep, Glob, Bash</span></span>
+<span class="code-line"><span class="code-comment">---</span></span>
+<span class="code-line"></span>
+<span class="code-line">You are The Librarian — a methodical,</span>
+<span class="code-line">slightly fussy (in the best way) vault</span>
+<span class="code-line">organizer who genuinely cares that</span>
+<span class="code-line">every note is in its right place.</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="code-comment">## What You Help With</span></span>
+<span class="code-line">- Orphan detection</span>
+<span class="code-line">- Misplaced notes</span>
+<span class="code-line">- Frontmatter audit</span>
+<span class="code-line">- Tag consistency</span>
+<span class="code-line">- Broken links</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl">Agent settings start here...</p>
+              <p class="tl">This agent's name is "The Librarian"</p>
+              <p class="tl">It can use these tools: read files, search content, find files, and run commands</p>
+              <p class="tl">End of settings</p>
+              <p class="tl">&nbsp;</p>
+              <p class="tl">This is the personality prompt — it tells Claude to <em>be</em> a librarian character</p>
+              <p class="tl">The personality is specific: "slightly fussy" but kind</p>
+              <p class="tl">This isn't just instructions — it's a persona that changes how Claude communicates</p>
+              <p class="tl">&nbsp;</p>
+              <p class="tl">&nbsp;</p>
+              <p class="tl">Here's the Librarian's job list:</p>
+              <p class="tl">Find notes that have no connections to anything (lonely notes)</p>
+              <p class="tl">Find notes sitting in the wrong folder</p>
+              <p class="tl">Check that every note has proper metadata at the top</p>
+              <p class="tl">Catch inconsistencies like #AI vs #ai</p>
+              <p class="tl">Find links that point to notes that don't exist</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <h2 class="screen-heading">The Three Personalities</h2>
+        <div class="pattern-cards stagger-children">
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-5)">
+            <div class="pattern-icon" style="background: var(--color-actor-5)">📚</div>
+            <h4 class="pattern-title">The Librarian</h4>
+            <p class="pattern-desc">"Methodical, slightly fussy, always kind." Scans the vault for organizational issues and produces structured health reports. Think of a librarian who notices a mishelved book and can't rest until it's fixed.</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-2)">
+            <div class="pattern-icon" style="background: var(--color-actor-2)">🔍</div>
+            <h4 class="pattern-title">The Critic</h4>
+            <p class="pattern-desc">"Rigorous but constructive." Reviews drafts and arguments — finds gaps, unsupported claims, and weak reasoning. Like a brilliant editor who makes you groan, then three days later you realize every note was right.</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-3)">
+            <div class="pattern-icon" style="background: var(--color-actor-3)">🕸️</div>
+            <h4 class="pattern-title">The Connector</h4>
+            <p class="pattern-desc">"Enthusiastic, associative, thinks in webs." Finds hidden relationships between ideas across the vault. Like that friend who reads about architecture and immediately links it to something you wrote last week.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <div class="callout callout-accent">
+          <div class="callout-icon">💡</div>
+          <div class="callout-content">
+            <strong class="callout-title">The Power of Persona Prompting</strong>
+            <p>Each agent is the same AI (Claude) given a different personality and job description. This is called "persona prompting" — and it's surprisingly effective. By telling Claude "you are a slightly fussy librarian," you get fundamentally different behavior than "you are an enthusiastic connector." Same brain, different lens. This is one of the most practical AI patterns you can use in your own projects.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quiz for Module 4 -->
+      <section class="screen animate-in" id="quiz-4">
+        <h2 class="screen-heading">Check Your Understanding</h2>
+        <div class="quiz-container">
+          <div class="quiz-question-block" data-question="m4q1" data-correct="m4q1-c">
+            <h3 class="quiz-question">You're building an AI writing assistant and want to add a "fact checker" agent. What's the most important thing to include in its definition file?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="m4q1-a" data-explanation="Access to the internet helps, but without a clear personality and structured output format, the agent would just be a generic Claude session. The persona and review structure are what make the Librarian/Critic/Connector actually useful.">
+                <div class="quiz-option-radio"></div>
+                <span>Access to internet search tools</span>
+              </button>
+              <button class="quiz-option" data-value="m4q1-b" data-explanation="A database of facts would be useful, but look at how the existing agents work — they don't have special databases. Their power comes from personality + structured output. The Critic doesn't have a 'criticism database' — it has a communication style and a review format.">
+                <div class="quiz-option-radio"></div>
+                <span>A database of verified facts</span>
+              </button>
+              <button class="quiz-option" data-value="m4q1-c" data-explanation="Exactly! Look at the existing agents — each one has a clear personality ('slightly fussy,' 'rigorous but constructive'), a defined output format (Vault Health Report, Critique, Connections Map), and specific communication rules. That structure is what transforms generic Claude into a specialist.">
+                <div class="quiz-option-radio"></div>
+                <span>A distinct personality, specific responsibilities, and a structured output format</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-4')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-4')">Try Again</button>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MODULE 5: THE LIVING VAULT ===== -->
+<section class="module" id="module-5" style="background: var(--color-bg-warm)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">05</span>
+      <h1 class="module-title">The Living Vault</h1>
+      <p class="module-subtitle">How a folder of plain text files becomes a knowledge system</p>
+    </header>
+
+    <div class="module-body">
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Not a Filing Cabinet</h2>
+        <p>Most people think of notes like a filing cabinet — put something in a folder, hope you remember which folder later. The Claude Brain vault works differently. Think of it like a garden: every note is a plant, and the links between notes are the roots connecting them underground. Over time, ideas cross-pollinate.</p>
+      </section>
+
+      <section class="screen animate-in">
+        <h2 class="screen-heading">The Vault Structure</h2>
+        <div class="file-tree">
+          <div class="ft-folder root open">
+            <span class="ft-name">vault/</span>
+            <span class="ft-desc">The student's Obsidian vault — open this folder in Obsidian</span>
+            <div class="ft-children">
+              <div class="ft-folder">
+                <span class="ft-name">00-Inbox/</span>
+                <span class="ft-desc">Raw captures, quick thoughts — the "dump it here" folder</span>
+              </div>
+              <div class="ft-folder">
+                <span class="ft-name">01-Daily-Notes/</span>
+                <span class="ft-desc">Daily journals in YYYY-MM-DD format</span>
+              </div>
+              <div class="ft-folder">
+                <span class="ft-name">02-Projects/</span>
+                <span class="ft-desc">Client work: Horizon, Bloom, ClearPath, The Synthesis</span>
+              </div>
+              <div class="ft-folder">
+                <span class="ft-name">03-Research/</span>
+                <span class="ft-desc">Deep research notes — processed and organized</span>
+              </div>
+              <div class="ft-folder">
+                <span class="ft-name">04-Drafts/</span>
+                <span class="ft-desc">Works in progress</span>
+              </div>
+              <div class="ft-folder">
+                <span class="ft-name">05-References/</span>
+                <span class="ft-desc">Style guides, checklists, rate cards</span>
+              </div>
+              <div class="ft-folder">
+                <span class="ft-name">06-Templates/</span>
+                <span class="ft-desc">Reusable note formats (daily, research, draft, etc.)</span>
+              </div>
+              <div class="ft-folder">
+                <span class="ft-name">07-MOCs/</span>
+                <span class="ft-desc">Maps of Content — index notes that connect themes</span>
+              </div>
+              <div class="ft-file">
+                <span class="ft-name">CLAUDE.md</span>
+                <span class="ft-desc">Claude's permanent memory — created during Module 1.5</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <h2 class="screen-heading">CLAUDE.md: Giving the AI a Memory</h2>
+        <p>Here's a problem: every time you start a new conversation with Claude, it starts fresh. No memory of your vault, your preferences, or your clients. That's like hiring a new assistant every morning who's never met you.</p>
+        <p>The solution is a file called <code>CLAUDE.md</code>. Claude Code automatically reads this file at the start of every session. It's like a briefing packet that brings Claude up to speed instantly.</p>
+        <div class="translation-block">
+          <div class="translation-code">
+            <span class="translation-label">vault/CLAUDE.md</span>
+            <pre><code><span class="code-line"><span class="code-comment"># My Vault</span></span>
+<span class="code-line">Personal knowledge management for</span>
+<span class="code-line">Alex Rivera, freelance writer.</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="code-comment">## Clients</span></span>
+<span class="code-line">- Horizon Magazine: long-form features</span>
+<span class="code-line">  on AI/tech. Editor: Sarah Chen.</span>
+<span class="code-line">- Bloom Studio: wellness blogs.</span>
+<span class="code-line">  Contact: Maya Torres.</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="code-comment">## When I ask you to...</span></span>
+<span class="code-line"><span class="code-string">"Process the inbox"</span> → Read each</span>
+<span class="code-line">note in 00-Inbox, categorize it,</span>
+<span class="code-line">suggest where it should go.</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl">This is the vault description — who owns it and what it's for</p>
+              <p class="tl">&nbsp;</p>
+              <p class="tl">&nbsp;</p>
+              <p class="tl">&nbsp;</p>
+              <p class="tl">Here are Alex's clients — so Claude knows the context when mentioned</p>
+              <p class="tl">Now Claude knows "Horizon" means long-form tech features edited by Sarah</p>
+              <p class="tl">&nbsp;</p>
+              <p class="tl">And "Bloom" means wellness content with Maya</p>
+              <p class="tl">&nbsp;</p>
+              <p class="tl">&nbsp;</p>
+              <p class="tl">This section is brilliant — it pre-programs standing instructions</p>
+              <p class="tl">When Alex says "process the inbox," Claude already knows the protocol:</p>
+              <p class="tl">read every inbox note, categorize each one,</p>
+              <p class="tl">and suggest which folder it belongs in</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <div class="callout callout-info">
+          <div class="callout-icon">🌱</div>
+          <div class="callout-content">
+            <strong class="callout-title">The Garden Metaphor in Action</strong>
+            <p>The vault starts messy — notes scattered in the Inbox, research clippings with no connections, drafts living alone. As the student progresses through the course, they add links between notes (<code>[[double brackets]]</code>), create Maps of Content that group related ideas, and build standing instructions in CLAUDE.md. The vault transforms from a filing cabinet into a living knowledge garden.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <h2 class="screen-heading">The Inbox Pattern</h2>
+        <p>One of the cleverest workflows in the course: dump raw thoughts into the Inbox, then let Claude sort them.</p>
+        <div class="translation-block">
+          <div class="translation-code">
+            <span class="translation-label">process-inbox.md</span>
+            <pre><code><span class="code-line"><span class="code-number">1.</span> List all notes in <span class="code-string">`vault/00-Inbox/`</span></span>
+<span class="code-line"><span class="code-number">2.</span> If empty, congratulate the user.</span>
+<span class="code-line"><span class="code-number">3.</span> For each note:</span>
+<span class="code-line">   a. Read its contents</span>
+<span class="code-line">   b. Categorize: Quick Thought,</span>
+<span class="code-line">      Meeting Notes, Research Lead,</span>
+<span class="code-line">      Project Task, or Reference</span>
+<span class="code-line">   c. Suggest destination folder</span>
+<span class="code-line">   d. Note connections to other notes</span>
+<span class="code-line"><span class="code-number">4.</span> Present a triage summary</span>
+<span class="code-line"><span class="code-number">5.</span> Ask which to process now</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl">First, look at everything in the Inbox folder</p>
+              <p class="tl">If it's already clean — celebrate! (nice touch)</p>
+              <p class="tl">For every note sitting in the Inbox...</p>
+              <p class="tl">Actually read what's inside (not just the title)</p>
+              <p class="tl">Figure out what kind of note it is —</p>
+              <p class="tl">is it a quick thought? meeting notes?</p>
+              <p class="tl">a research lead? a task? a reference?</p>
+              <p class="tl">Recommend which folder it should live in</p>
+              <p class="tl">And find connections to existing notes</p>
+              <p class="tl">Show the student a summary of everything found</p>
+              <p class="tl">Let the student decide what to do — never act alone</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quiz for Module 5 -->
+      <section class="screen animate-in" id="quiz-5">
+        <h2 class="screen-heading">Check Your Understanding</h2>
+        <div class="quiz-container">
+          <div class="quiz-question-block" data-question="m5q1" data-correct="m5q1-a">
+            <h3 class="quiz-question">You start a brand new Claude Code session and say "Help me with the Bloom Studio article." Claude doesn't know what Bloom Studio is. What went wrong?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="m5q1-a" data-explanation="Exactly! CLAUDE.md is what gives Claude memory between sessions. Without it (or if it doesn't mention Bloom Studio), Claude starts fresh every time. The fix: make sure CLAUDE.md includes client context so Claude knows who Bloom Studio is and what kind of content they want.">
+                <div class="quiz-option-radio"></div>
+                <span>The CLAUDE.md file either doesn't exist or doesn't include Bloom Studio context</span>
+              </button>
+              <button class="quiz-option" data-value="m5q1-b" data-explanation="Claude can definitely read any file in the vault — that's one of its core capabilities. The issue is that Claude doesn't know to look for Bloom Studio notes because it has no context about what Bloom Studio is. CLAUDE.md provides that context.">
+                <div class="quiz-option-radio"></div>
+                <span>Claude can't read Obsidian files</span>
+              </button>
+              <button class="quiz-option" data-value="m5q1-c" data-explanation="Claude Code doesn't need a special plugin — it reads files directly. The issue is about context, not capability. Without CLAUDE.md, Claude has the ability to help but doesn't know who Bloom Studio is or what they want.">
+                <div class="quiz-option-radio"></div>
+                <span>You need to install the Bloom Studio plugin first</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-5')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-5')">Try Again</button>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MODULE 6: AUTOMATION ===== -->
+<section class="module" id="module-6" style="background: var(--color-bg)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">06</span>
+      <h1 class="module-title">Automation: When AI Runs on Autopilot</h1>
+      <p class="module-subtitle">Hooks, scheduled workflows, and utility commands that work while you think</p>
+    </header>
+
+    <div class="module-body">
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Beyond Teaching: Utility Commands</h2>
+        <p>The course doesn't just teach — it also builds real tools that the student keeps using after graduation. Think of it like a cooking class that sends you home with a fully stocked kitchen and a set of recipes.</p>
+        <div class="pattern-cards stagger-children">
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-1)">
+            <div class="pattern-icon" style="background: var(--color-actor-1)">📅</div>
+            <h4 class="pattern-title">/daily</h4>
+            <p class="pattern-desc">Creates today's daily note with a ready-made template — sections for what you did, ideas, and tomorrow's priorities.</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-2)">
+            <div class="pattern-icon" style="background: var(--color-actor-2)">📥</div>
+            <h4 class="pattern-title">/process-inbox</h4>
+            <p class="pattern-desc">Reads everything in the Inbox, categorizes each note, suggests where it should go, and finds connections to existing notes.</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-3)">
+            <div class="pattern-icon" style="background: var(--color-actor-3)">📊</div>
+            <h4 class="pattern-title">/weekly-review</h4>
+            <p class="pattern-desc">Reads all daily notes from the week, synthesizes what got done, what didn't, and identifies themes worth developing.</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-4)">
+            <div class="pattern-icon" style="background: var(--color-actor-4)">📝</div>
+            <h4 class="pattern-title">/project-brief</h4>
+            <p class="pattern-desc">Creates a structured project brief with objectives, timeline, audience, and deliverables — ready for client work.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Inside the /daily Command</h2>
+        <div class="translation-block">
+          <div class="translation-code">
+            <span class="translation-label">daily.md</span>
+            <pre><code><span class="code-line"><span class="code-number">1.</span> Get today's date (YYYY-MM-DD)</span>
+<span class="code-line"><span class="code-number">2.</span> Check if daily note already exists</span>
+<span class="code-line">   at <span class="code-string">`vault/01-Daily-Notes/[date].md`</span></span>
+<span class="code-line">   - If it exists, show it instead</span>
+<span class="code-line"><span class="code-number">3.</span> Create the note with this format:</span>
+<span class="code-line">   <span class="code-comment">---</span></span>
+<span class="code-line">   <span class="code-property">date</span>: [today]</span>
+<span class="code-line">   <span class="code-property">tags</span>: [daily-note]</span>
+<span class="code-line">   <span class="code-comment">---</span></span>
+<span class="code-line">   <span class="code-comment"># [today's date]</span></span>
+<span class="code-line">   <span class="code-comment">## What I Did Today</span></span>
+<span class="code-line">   <span class="code-comment">## Ideas and Observations</span></span>
+<span class="code-line">   <span class="code-comment">## Tomorrow's Priorities</span></span>
+<span class="code-line"><span class="code-number">4.</span> Mention any piled-up Inbox notes</span></code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl">Figure out what today's date is</p>
+              <p class="tl">Check if you've already made a note for today</p>
+              <p class="tl">(Look in the Daily Notes folder for a file named after today)</p>
+              <p class="tl">If it's already there, just show it — don't create a duplicate</p>
+              <p class="tl">Otherwise, create a new note with this structure:</p>
+              <p class="tl">Start with metadata (the "info block")</p>
+              <p class="tl">Record today's date</p>
+              <p class="tl">Tag it as a daily note (so you can find all daily notes later)</p>
+              <p class="tl">&nbsp;</p>
+              <p class="tl">Title: today's date</p>
+              <p class="tl">Section 1: What you accomplished today</p>
+              <p class="tl">Section 2: Interesting thoughts</p>
+              <p class="tl">Section 3: What to focus on tomorrow</p>
+              <p class="tl">Bonus: if the Inbox is getting full, give a gentle nudge</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <h2 class="screen-heading">Hooks: Automatic Reactions</h2>
+        <p>The course's most advanced feature: <span class="term" data-definition="A hook is an automatic reaction — 'when this happens, do that.' Like setting up an email rule that automatically files messages from your boss into a 'Priority' folder. Hooks watch for specific events and respond instantly.">hooks</span>. Think of them like email rules: "When a new note is created, automatically add the metadata block at the top."</p>
+        <div class="step-cards stagger-children">
+          <div class="step-card animate-in">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Event: "A file was just created"</strong>
+              <p>The hook watches for Claude writing a new file (the <span class="term" data-definition="PostToolUse is a hook event that fires AFTER Claude uses a specific tool. 'Post' means 'after.' So PostToolUse on the Write tool means: 'right after Claude creates or writes a file, run this action.'">PostToolUse</span> event on the Write tool)</p>
+            </div>
+          </div>
+          <div class="step-card animate-in">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>Matcher: "...and it's a .md file in the vault"</strong>
+              <p>Only trigger for Markdown files inside the vault folder — ignore everything else</p>
+            </div>
+          </div>
+          <div class="step-card animate-in">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <strong>Command: "Check for frontmatter, add if missing"</strong>
+              <p>Automatically add the date, tags, and type metadata that every good note needs</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <div class="callout callout-accent">
+          <div class="callout-icon">💡</div>
+          <div class="callout-content">
+            <strong class="callout-title">The Course That Keeps Giving</strong>
+            <p>Most courses end when you finish the last module. Claude Brain is different — the slash commands, agents, hooks, and CLAUDE.md that you build during the course become permanent tools in your Obsidian vault. The course teaches you the system AND builds the system at the same time. By graduation, you have a fully automated knowledge management setup, not just notes from a class.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quiz for Module 6 -->
+      <section class="screen animate-in" id="quiz-6">
+        <h2 class="screen-heading">Check Your Understanding</h2>
+        <div class="quiz-container">
+          <div class="quiz-question-block" data-question="m6q1" data-correct="m6q1-b">
+            <h3 class="quiz-question">You want to create a hook that automatically suggests connections whenever a research note is added to the vault. What three parts do you need?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="m6q1-a" data-explanation="A timer is a different pattern (scheduled tasks). Hooks are event-driven — they react to something happening, not to a clock. The /daily command doesn't need a hook because the student triggers it manually.">
+                <div class="quiz-option-radio"></div>
+                <span>A timer (run every hour), a search function, and a notification</span>
+              </button>
+              <button class="quiz-option" data-value="m6q1-b" data-explanation="Exactly! Just like the auto-organize hook: the Event (PostToolUse on Write) catches when a file is created, the Matcher (only .md files in vault/03-Research/) filters for research notes specifically, and the Command (scan vault for thematic connections) does the actual work.">
+                <div class="quiz-option-radio"></div>
+                <span>An Event (file was created), a Matcher (it's in the Research folder), and a Command (find connections)</span>
+              </button>
+              <button class="quiz-option" data-value="m6q1-c" data-explanation="An agent could help, but hooks are simpler — they run automatically without the student doing anything. The auto-organize hook doesn't use an agent; it's a direct command. You'd use an agent if the task required complex reasoning (like The Connector), but a simple connection suggestion could be a hook command.">
+                <div class="quiz-option-radio"></div>
+                <span>A new agent definition, a slash command, and an API key</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-6')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-6')">Try Again</button>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MODULE 7: THE FULL PICTURE ===== -->
+<section class="module" id="module-7" style="background: var(--color-bg-warm)">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">07</span>
+      <h1 class="module-title">The Full Picture</h1>
+      <p class="module-subtitle">How every piece connects into one seamless experience</p>
+    </header>
+
+    <div class="module-body">
+      <section class="screen animate-in">
+        <h2 class="screen-heading">The Complete Data Flow</h2>
+        <p>Let's trace the entire journey one more time — from the student typing a command to the vault being permanently changed.</p>
+        <div class="flow-animation" id="full-flow">
+          <div class="flow-actors">
+            <div class="flow-actor" id="ff-student">
+              <div class="flow-actor-icon" style="background: var(--color-actor-4)">👤</div>
+              <span>Student types<br><code>/start-1-4</code></span>
+            </div>
+            <div class="flow-actor" id="ff-command">
+              <div class="flow-actor-icon" style="background: var(--color-actor-1)">⚡</div>
+              <span>Command<br>file</span>
+            </div>
+            <div class="flow-actor" id="ff-script">
+              <div class="flow-actor-icon" style="background: var(--color-actor-2)">📜</div>
+              <span>Teaching<br>script</span>
+            </div>
+            <div class="flow-actor" id="ff-claude">
+              <div class="flow-actor-icon" style="background: var(--color-actor-5)">🤖</div>
+              <span>Claude<br>teaches</span>
+            </div>
+            <div class="flow-actor" id="ff-vault">
+              <div class="flow-actor-icon" style="background: var(--color-actor-3)">📁</div>
+              <span>Vault<br>changes</span>
+            </div>
+          </div>
+          <div class="flow-step-label" id="full-flow-label">Click "Next Step" to see the complete journey</div>
+          <div class="flow-controls">
+            <button onclick="fullFlowNext()">Next Step</button>
+            <button onclick="fullFlowReset()">Restart</button>
+            <span class="flow-progress" id="full-flow-progress">Step 0 / 6</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <h2 class="screen-heading">The Design Philosophy</h2>
+        <p>Six principles make this system work. These aren't just good ideas for this project — they're patterns you can use in anything you build with AI.</p>
+        <div class="pattern-cards stagger-children">
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-1)">
+            <div class="pattern-icon" style="background: var(--color-actor-1)">📋</div>
+            <h4 class="pattern-title">Config-Driven</h4>
+            <p class="pattern-desc">One JSON file defines the entire curriculum. Change the config, change the course. No hunting through dozens of files.</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-2)">
+            <div class="pattern-icon" style="background: var(--color-actor-2)">🎭</div>
+            <h4 class="pattern-title">Real, Not Fake</h4>
+            <p class="pattern-desc">Every demo uses the student's actual vault files. No fabricated examples. Claude reads and creates real notes.</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-3)">
+            <div class="pattern-icon" style="background: var(--color-actor-3)">📖</div>
+            <h4 class="pattern-title">Story-First</h4>
+            <p class="pattern-desc">Alex Rivera isn't a generic placeholder — a fully realized character with goals, problems, and clients that make every exercise grounded.</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-4)">
+            <div class="pattern-icon" style="background: var(--color-actor-4)">🎯</div>
+            <h4 class="pattern-title">Structured Teaching</h4>
+            <p class="pattern-desc">Say/Check/Action blocks ensure consistency across 25 modules. Check points force interactivity — no passive watching.</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-actor-5)">
+            <div class="pattern-icon" style="background: var(--color-actor-5)">📈</div>
+            <h4 class="pattern-title">Escalating Complexity</h4>
+            <p class="pattern-desc">Level 0: install stuff. Level 2: build structure. Level 4: full automation. Each level assumes knowledge from the last.</p>
+          </div>
+          <div class="pattern-card animate-in" style="border-top: 3px solid var(--color-accent)">
+            <div class="pattern-icon" style="background: var(--color-accent)">❤️</div>
+            <h4 class="pattern-title">Emotional Arc</h4>
+            <p class="pattern-desc">Module 1.4's synthesis is designed to make students go "oh wow." Module 4.7 is a graduation celebration. Learning should <em>feel</em> like something.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <h2 class="screen-heading">What You Can Build With This</h2>
+        <p>The patterns in Claude Brain aren't specific to note-taking. They're a blueprint for building any AI-guided experience.</p>
+        <div class="icon-rows stagger-children">
+          <div class="icon-row animate-in">
+            <div class="icon-circle" style="background: var(--color-actor-1)">🎓</div>
+            <div>
+              <strong>Interactive Courses</strong>
+              <p>Replace "watch a video" with "have a conversation." Slash commands + teaching scripts = personalized tutoring at scale.</p>
+            </div>
+          </div>
+          <div class="icon-row animate-in">
+            <div class="icon-circle" style="background: var(--color-actor-2)">🛠️</div>
+            <div>
+              <strong>AI-Powered Workflows</strong>
+              <p>The /daily and /process-inbox commands are templates for any recurring task you want to automate with AI.</p>
+            </div>
+          </div>
+          <div class="icon-row animate-in">
+            <div class="icon-circle" style="background: var(--color-actor-3)">👥</div>
+            <div>
+              <strong>Specialist AI Teams</strong>
+              <p>The Librarian/Critic/Connector pattern — same AI, different personas — works for any domain where you need multiple perspectives.</p>
+            </div>
+          </div>
+          <div class="icon-row animate-in">
+            <div class="icon-circle" style="background: var(--color-actor-4)">💾</div>
+            <div>
+              <strong>Persistent AI Contexts</strong>
+              <p>CLAUDE.md gives AI memory between sessions. Any project that needs Claude to "remember" context can use this pattern.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <div class="callout callout-accent">
+          <div class="callout-icon">💡</div>
+          <div class="callout-content">
+            <strong class="callout-title">The Meta-Lesson</strong>
+            <p>Claude Brain teaches people to build a second brain. But the real lesson is bigger: AI is most powerful when it's given clear roles, structured instructions, and real data to work with. A well-designed prompt (like the teaching scripts) consistently outperforms a vague one. A persona-driven agent (like The Critic) gives better feedback than a generic "review this." Structure isn't a constraint — it's what makes the magic possible.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Final Quiz -->
+      <section class="screen animate-in" id="quiz-7">
+        <h2 class="screen-heading">Final Check</h2>
+        <div class="quiz-container">
+          <div class="quiz-question-block" data-question="m7q1" data-correct="m7q1-b">
+            <h3 class="quiz-question">You're building an AI onboarding system for new employees at a company. Based on what you've learned from Claude Brain, which approach would work best?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="m7q1-a" data-explanation="A chatbot that answers questions is useful but passive — the employee has to know what to ask. Claude Brain's power comes from structured, guided teaching that walks people through concepts step by step with Check points for interaction.">
+                <div class="quiz-option-radio"></div>
+                <span>A chatbot that answers HR questions</span>
+              </button>
+              <button class="quiz-option" data-value="m7q1-b" data-explanation="Exactly! You'd use the same architecture: a config file listing onboarding modules, teaching scripts with Say/Check/Action blocks, company context files (like creator-context/ but for the company), and utility commands for recurring tasks. The pattern generalizes beautifully.">
+                <div class="quiz-option-radio"></div>
+                <span>Structured teaching scripts with slash commands, company context files, and interactive Check points</span>
+              </button>
+              <button class="quiz-option" data-value="m7q1-c" data-explanation="Video tutorials are the old model — passive watching with no personalization. The whole insight of Claude Brain is that interactive, step-by-step AI tutoring is more effective than one-size-fits-all content.">
+                <div class="quiz-option-radio"></div>
+                <span>A set of video tutorials with quizzes at the end</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block" data-question="m7q2" data-correct="m7q2-a">
+            <h3 class="quiz-question">What's the single most reusable pattern from Claude Brain that applies to almost any AI project?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="m7q2-a" data-explanation="Exactly! CLAUDE.md solves the universal problem of AI amnesia. Whether you're building a coding assistant, a writing tool, or a customer service bot — giving AI persistent context through a file it reads automatically is the simplest and most impactful pattern in this entire system.">
+                <div class="quiz-option-radio"></div>
+                <span>A context file (like CLAUDE.md) that gives AI persistent memory between sessions</span>
+              </button>
+              <button class="quiz-option" data-value="m7q2-b" data-explanation="Note-taking is the domain of this specific project, but it's not the pattern that generalizes. CLAUDE.md (persistent context) and persona-driven agents work in any domain — note-taking isn't required.">
+                <div class="quiz-option-radio"></div>
+                <span>The Obsidian note-taking system with folders and links</span>
+              </button>
+              <button class="quiz-option" data-value="m7q2-c" data-explanation="Alex Rivera makes Claude Brain more engaging, but a fictional character isn't needed for every AI project. The persistent context pattern (CLAUDE.md) is far more broadly applicable — it solves a fundamental problem that every AI project faces.">
+                <div class="quiz-option-radio"></div>
+                <span>Using a fictional character to make learning more engaging</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-7')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-7')">Try Again</button>
+        </div>
+      </section>
+
+      <!-- Graduation -->
+      <section class="screen animate-in">
+        <div style="text-align: center; padding: var(--space-12) 0;">
+          <h2 class="screen-heading" style="font-size: var(--text-3xl); margin-bottom: var(--space-6);">You Made It!</h2>
+          <p style="font-size: var(--text-lg); color: var(--color-text-secondary); max-width: 500px; margin: 0 auto var(--space-8);">You now understand how Claude Brain works under the hood — config-driven teaching, persona agents, persistent memory, and automated workflows. These patterns are yours to use in anything you build next.</p>
+          <p style="font-size: var(--text-sm); color: var(--color-text-muted);">Want to try the actual course?<br><a href="https://github.com/ofben/claude-brain" style="color: var(--color-accent);">github.com/ofben/claude-brain</a></p>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+(function() {
+  'use strict';
+
+  // ===== SCROLL ANIMATIONS =====
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+
+  document.querySelectorAll('.animate-in').forEach(el => observer.observe(el));
+
+  // Stagger children
+  document.querySelectorAll('.stagger-children').forEach(parent => {
+    Array.from(parent.children).forEach((child, i) => {
+      child.style.setProperty('--stagger-index', i);
+    });
+  });
+
+  // ===== PROGRESS BAR =====
+  const progressBar = document.getElementById('progress-bar');
+  function updateProgressBar() {
+    const scrollTop = window.scrollY;
+    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+    progressBar.style.width = progress + '%';
+  }
+  window.addEventListener('scroll', () => requestAnimationFrame(updateProgressBar), { passive: true });
+
+  // ===== NAV DOTS =====
+  const navDots = document.querySelectorAll('.nav-dot');
+  const sections = [];
+  navDots.forEach(dot => {
+    const targetId = dot.dataset.target;
+    const target = document.getElementById(targetId);
+    if (target) sections.push({ dot, target, id: targetId });
+
+    dot.addEventListener('click', () => {
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Tooltip
+    dot.addEventListener('mouseenter', () => {
+      const tip = document.createElement('div');
+      tip.className = 'nav-dot-tooltip';
+      tip.textContent = dot.dataset.tooltip;
+      document.body.appendChild(tip);
+      const rect = dot.getBoundingClientRect();
+      tip.style.left = (rect.left + rect.width / 2 - tip.offsetWidth / 2) + 'px';
+      tip.style.top = (rect.bottom + 8) + 'px';
+      requestAnimationFrame(() => tip.classList.add('visible'));
+      dot._tip = tip;
+    });
+    dot.addEventListener('mouseleave', () => {
+      if (dot._tip) { dot._tip.remove(); dot._tip = null; }
+    });
+  });
+
+  const visited = new Set();
+  function updateNavDots() {
+    const scrollPos = window.scrollY + window.innerHeight / 3;
+    let currentIdx = 0;
+    sections.forEach((s, i) => {
+      if (s.target.offsetTop <= scrollPos) currentIdx = i;
+    });
+    sections.forEach((s, i) => {
+      s.dot.classList.remove('current');
+      if (i < currentIdx) { visited.add(i); s.dot.classList.add('visited'); }
+      if (i === currentIdx) { visited.add(i); s.dot.classList.add('current'); }
+    });
+  }
+  window.addEventListener('scroll', () => requestAnimationFrame(updateNavDots), { passive: true });
+
+  // ===== KEYBOARD NAV =====
+  document.addEventListener('keydown', (e) => {
+    if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) return;
+    const moduleEls = [document.getElementById('hero'), ...document.querySelectorAll('.module')];
+    let currentIdx = 0;
+    const scrollPos = window.scrollY + 100;
+    moduleEls.forEach((el, i) => { if (el.offsetTop <= scrollPos) currentIdx = i; });
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+      e.preventDefault();
+      if (currentIdx < moduleEls.length - 1) moduleEls[currentIdx + 1].scrollIntoView({ behavior: 'smooth' });
+    }
+    if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      if (currentIdx > 0) moduleEls[currentIdx - 1].scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+
+  // ===== GLOSSARY TOOLTIPS =====
+  let activeTooltip = null;
+
+  function positionTooltip(term, tip) {
+    const rect = term.getBoundingClientRect();
+    document.body.appendChild(tip);
+    const tipWidth = tip.offsetWidth || 300;
+    let left = rect.left + rect.width / 2 - tipWidth / 2;
+    left = Math.max(8, Math.min(left, window.innerWidth - tipWidth - 8));
+    tip.style.left = left + 'px';
+    const tipHeight = tip.offsetHeight;
+    if (rect.top - tipHeight - 8 < 0) {
+      tip.style.top = (rect.bottom + 8) + 'px';
+      tip.classList.add('flip');
+    } else {
+      tip.style.top = (rect.top - tipHeight - 8) + 'px';
+      tip.classList.remove('flip');
+    }
+  }
+
+  document.querySelectorAll('.term').forEach(term => {
+    const tip = document.createElement('span');
+    tip.className = 'term-tooltip';
+    tip.textContent = term.dataset.definition;
+
+    term.addEventListener('mouseenter', () => {
+      if (activeTooltip && activeTooltip !== tip) {
+        activeTooltip.classList.remove('visible');
+        activeTooltip.remove();
+      }
+      positionTooltip(term, tip);
+      requestAnimationFrame(() => tip.classList.add('visible'));
+      activeTooltip = tip;
+    });
+
+    term.addEventListener('mouseleave', () => {
+      tip.classList.remove('visible');
+      setTimeout(() => { if (!tip.classList.contains('visible')) tip.remove(); }, 150);
+      activeTooltip = null;
+    });
+
+    term.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (activeTooltip && activeTooltip !== tip) {
+        activeTooltip.classList.remove('visible');
+        activeTooltip.remove();
+      }
+      if (tip.classList.contains('visible')) {
+        tip.classList.remove('visible'); tip.remove(); activeTooltip = null;
+      } else {
+        positionTooltip(term, tip);
+        requestAnimationFrame(() => tip.classList.add('visible'));
+        activeTooltip = tip;
+      }
+    });
+  });
+
+  document.addEventListener('click', () => {
+    if (activeTooltip) { activeTooltip.classList.remove('visible'); activeTooltip.remove(); activeTooltip = null; }
+  });
+
+  // ===== QUIZZES =====
+  window.selectOption = function(btn) {
+    const block = btn.closest('.quiz-question-block');
+    block.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
+    btn.classList.add('selected');
+  };
+
+  document.querySelectorAll('.quiz-option').forEach(btn => {
+    btn.addEventListener('click', function() { selectOption(this); });
+  });
+
+  window.checkQuiz = function(sectionId) {
+    const container = document.querySelector('#' + sectionId + ' .quiz-container');
+    const questions = container.querySelectorAll('.quiz-question-block');
+    questions.forEach(q => {
+      const selected = q.querySelector('.quiz-option.selected');
+      const feedback = q.querySelector('.quiz-feedback');
+      const correctValue = q.dataset.correct;
+      if (!selected) {
+        feedback.textContent = 'Pick an answer first!';
+        feedback.className = 'quiz-feedback show warning';
+        return;
+      }
+      const explanation = selected.dataset.explanation || '';
+      if (selected.dataset.value === correctValue) {
+        selected.classList.add('correct');
+        feedback.innerHTML = '<strong>Exactly!</strong> ' + explanation;
+        feedback.className = 'quiz-feedback show success';
+      } else {
+        selected.classList.add('incorrect');
+        q.querySelector('[data-value="' + correctValue + '"]').classList.add('correct');
+        feedback.innerHTML = '<strong>Not quite.</strong> ' + explanation;
+        feedback.className = 'quiz-feedback show error';
+      }
+      q.querySelectorAll('.quiz-option').forEach(o => o.style.pointerEvents = 'none');
+    });
+  };
+
+  window.resetQuiz = function(sectionId) {
+    const container = document.querySelector('#' + sectionId + ' .quiz-container');
+    container.querySelectorAll('.quiz-option').forEach(o => {
+      o.classList.remove('selected', 'correct', 'incorrect');
+      o.style.pointerEvents = '';
+    });
+    container.querySelectorAll('.quiz-feedback').forEach(f => { f.className = 'quiz-feedback'; f.innerHTML = ''; });
+  };
+
+  // ===== AGENT CHAT ANIMATION =====
+  let agentChatIndex = 0;
+  const agentMessages = document.querySelectorAll('#agent-chat .chat-message');
+  const agentActors = {
+    'librarian': { initials: 'L', color: 'var(--color-actor-5)' },
+    'critic': { initials: 'C', color: 'var(--color-actor-2)' },
+    'connector': { initials: 'K', color: 'var(--color-actor-3)' }
+  };
+
+  window.agentChatNext = function() {
+    if (agentChatIndex >= agentMessages.length) return;
+    const msg = agentMessages[agentChatIndex];
+    const sender = msg.dataset.sender;
+    const typing = document.getElementById('agent-typing');
+    const avatar = document.getElementById('agent-typing-avatar');
+    avatar.textContent = agentActors[sender].initials;
+    avatar.style.background = agentActors[sender].color;
+    typing.style.display = 'flex';
+    setTimeout(() => {
+      typing.style.display = 'none';
+      msg.style.display = 'flex';
+      msg.style.animation = 'fadeSlideUp 0.3s var(--ease-out)';
+      agentChatIndex++;
+      document.getElementById('agent-chat-progress').textContent = agentChatIndex + ' / ' + agentMessages.length + ' messages';
+    }, 800);
+  };
+
+  window.agentChatAll = function() {
+    const interval = setInterval(() => {
+      if (agentChatIndex >= agentMessages.length) { clearInterval(interval); return; }
+      agentChatNext();
+    }, 1200);
+  };
+
+  window.agentChatReset = function() {
+    agentChatIndex = 0;
+    agentMessages.forEach(m => { m.style.display = 'none'; m.style.animation = ''; });
+    document.getElementById('agent-typing').style.display = 'none';
+    document.getElementById('agent-chat-progress').textContent = '0 / ' + agentMessages.length + ' messages';
+  };
+
+  // ===== LESSON FLOW ANIMATION =====
+  const lessonFlowSteps = [
+    { highlight: 'flow-student', label: 'Student types /start-1-4 in Claude Code' },
+    { highlight: 'flow-command', label: 'Claude reads .claude/commands/start-1-4.md — a tiny instruction file' },
+    { highlight: 'flow-script', label: 'The command says: "Read the teaching script at lesson-modules/1.4/CLAUDE.md"' },
+    { highlight: 'flow-rules', label: 'Claude also reads SCRIPT_INSTRUCTIONS.md — the rules for HOW to teach' },
+    { highlight: 'flow-claude', label: 'Claude combines script + rules and starts teaching — warmly, step by step, with Check points' }
+  ];
+  let lessonFlowStep = 0;
+
+  window.lessonFlowNext = function() {
+    if (lessonFlowStep >= lessonFlowSteps.length) return;
+    const step = lessonFlowSteps[lessonFlowStep];
+    document.querySelectorAll('#lesson-flow .flow-actor').forEach(a => a.classList.remove('active'));
+    document.getElementById(step.highlight).classList.add('active');
+    document.getElementById('lesson-flow-label').textContent = step.label;
+    lessonFlowStep++;
+    document.getElementById('lesson-flow-progress').textContent = 'Step ' + lessonFlowStep + ' / ' + lessonFlowSteps.length;
+  };
+
+  window.lessonFlowReset = function() {
+    lessonFlowStep = 0;
+    document.querySelectorAll('#lesson-flow .flow-actor').forEach(a => a.classList.remove('active'));
+    document.getElementById('lesson-flow-label').textContent = 'Click "Next Step" to trace the lesson flow';
+    document.getElementById('lesson-flow-progress').textContent = 'Step 0 / ' + lessonFlowSteps.length;
+  };
+
+  // ===== FULL FLOW ANIMATION =====
+  const fullFlowSteps = [
+    { highlight: 'ff-student', label: 'Student types /start-1-4 — the "Connection" module' },
+    { highlight: 'ff-command', label: 'Command file tells Claude: read the teaching script and the rules' },
+    { highlight: 'ff-script', label: 'Teaching script has the full lesson: Say blocks, Check points, Action commands' },
+    { highlight: 'ff-claude', label: 'Claude teaches step by step — reads 4 vault notes, finds the hidden theme' },
+    { highlight: 'ff-vault', label: 'Claude creates a synthesis note in the vault — a permanent new connection' },
+    { highlight: 'ff-student', label: 'Student sees the aha moment — scattered ideas now connected. Types /start-1-5 to continue.' }
+  ];
+  let fullFlowStep = 0;
+
+  window.fullFlowNext = function() {
+    if (fullFlowStep >= fullFlowSteps.length) return;
+    const step = fullFlowSteps[fullFlowStep];
+    document.querySelectorAll('#full-flow .flow-actor').forEach(a => a.classList.remove('active'));
+    document.getElementById(step.highlight).classList.add('active');
+    document.getElementById('full-flow-label').textContent = step.label;
+    fullFlowStep++;
+    document.getElementById('full-flow-progress').textContent = 'Step ' + fullFlowStep + ' / ' + fullFlowSteps.length;
+  };
+
+  window.fullFlowReset = function() {
+    fullFlowStep = 0;
+    document.querySelectorAll('#full-flow .flow-actor').forEach(a => a.classList.remove('active'));
+    document.getElementById('full-flow-label').textContent = 'Click "Next Step" to see the complete journey';
+    document.getElementById('full-flow-progress').textContent = 'Step 0 / ' + fullFlowSteps.length;
+  };
+
+})();
+</script>
+
+</body>
+</html>

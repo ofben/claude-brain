@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Brain — Build Your Second Brain with AI</title>
+<meta name="description" content="An interactive course that teaches you to combine Claude Code and Obsidian into a personal knowledge management system. 25 modules, 3 AI agents, ~8 hours. No coding required.">
+<meta property="og:title" content="Claude Brain — Build Your Second Brain with AI">
+<meta property="og:description" content="Your notes are scattered. Your ideas never connect. Claude Brain fixes that — an AI tutor that teaches you to build a second brain with Obsidian + Claude Code.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400;1,9..40,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --color-bg: #FAF7F2;
+  --color-bg-warm: #F5F0E8;
+  --color-bg-dark: #1E1E2E;
+  --color-text: #2C2A28;
+  --color-text-secondary: #6B6560;
+  --color-text-muted: #9E9790;
+  --color-border: #E5DFD6;
+  --color-surface: #FFFFFF;
+  --color-accent: #2A7B9B;
+  --color-accent-hover: #1F6680;
+  --color-accent-light: #E4F2F7;
+  --color-success: #2D8B55;
+  --color-vermillion: #D94F30;
+  --color-plum: #7B6DAA;
+  --color-gold: #D4A843;
+  --font-display: 'Bricolage Grotesque', Georgia, serif;
+  --font-body: 'DM Sans', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background: var(--color-bg);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--color-accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ===== NAV ===== */
+.site-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(250,247,242,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border);
+}
+.site-nav-inner {
+  max-width: 1100px; margin: 0 auto;
+  padding: 0 2rem; height: 56px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.site-logo {
+  font-family: var(--font-display);
+  font-weight: 700; font-size: 1.1rem;
+}
+.site-logo span { color: var(--color-accent); }
+.nav-links { display: flex; gap: 2rem; align-items: center; }
+.nav-links a {
+  font-size: 0.875rem; color: var(--color-text-secondary);
+  transition: color 150ms;
+}
+.nav-links a:hover { color: var(--color-text); text-decoration: none; }
+.nav-cta {
+  background: var(--color-accent) !important;
+  color: white !important;
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: background 150ms, transform 150ms;
+}
+.nav-cta:hover { background: var(--color-accent-hover) !important; transform: translateY(-1px); text-decoration: none !important; }
+
+/* ===== HERO ===== */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  padding: 6rem 2rem 4rem;
+  background: var(--color-bg);
+  background-image: radial-gradient(ellipse at 30% 20%, rgba(42,123,155,0.04) 0%, transparent 50%),
+                    radial-gradient(ellipse at 70% 80%, rgba(217,79,48,0.03) 0%, transparent 50%);
+}
+.hero-badge {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--color-accent);
+  background: var(--color-accent-light);
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  margin-bottom: 2rem;
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 800;
+  line-height: 1.1;
+  max-width: 750px;
+  margin-bottom: 1.5rem;
+}
+.hero h1 em { color: var(--color-accent); font-style: normal; }
+.hero-desc {
+  font-size: 1.15rem;
+  color: var(--color-text-secondary);
+  max-width: 560px;
+  line-height: 1.7;
+  margin-bottom: 2.5rem;
+}
+.hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+.btn-primary {
+  background: var(--color-accent);
+  color: white;
+  padding: 0.85rem 2rem;
+  border-radius: 10px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1rem;
+  border: none; cursor: pointer;
+  transition: background 150ms, transform 150ms;
+  display: inline-flex; align-items: center; gap: 0.5rem;
+}
+.btn-primary:hover { background: var(--color-accent-hover); transform: translateY(-2px); text-decoration: none; color: white; }
+.btn-secondary {
+  background: transparent;
+  color: var(--color-text);
+  padding: 0.85rem 2rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  border: 2px solid var(--color-border);
+  transition: border-color 150ms;
+}
+.btn-secondary:hover { border-color: var(--color-accent); text-decoration: none; }
+.hero-meta {
+  margin-top: 3rem;
+  display: flex; gap: 2.5rem; flex-wrap: wrap; justify-content: center;
+}
+.hero-stat {
+  text-align: center;
+}
+.hero-stat-value {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.75rem;
+  color: var(--color-accent);
+}
+.hero-stat-label {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ===== SECTIONS ===== */
+.section {
+  padding: 6rem 2rem;
+}
+.section-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--color-accent);
+  margin-bottom: 0.75rem;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+  max-width: 600px;
+}
+.section-desc {
+  font-size: 1.05rem;
+  color: var(--color-text-secondary);
+  max-width: 550px;
+  line-height: 1.7;
+  margin-bottom: 3rem;
+}
+
+/* ===== PROBLEM SECTION ===== */
+.problem-section { background: var(--color-bg-warm); }
+.problem-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+.problem-card {
+  background: var(--color-surface);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(44,42,40,0.06);
+}
+.problem-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+.problem-card h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.15rem;
+  margin-bottom: 0.5rem;
+}
+.problem-card p {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+/* ===== HOW IT WORKS ===== */
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  counter-reset: step;
+}
+.step-card {
+  background: var(--color-surface);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(44,42,40,0.06);
+  border-top: 3px solid var(--color-accent);
+  counter-increment: step;
+  position: relative;
+}
+.step-card::before {
+  content: counter(step);
+  position: absolute;
+  top: -14px;
+  left: 2rem;
+  width: 28px; height: 28px;
+  background: var(--color-accent);
+  color: white;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+.step-card h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
+}
+.step-card p {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+/* ===== CURRICULUM ===== */
+.curriculum-section { background: var(--color-bg-warm); }
+.curriculum-levels {
+  display: flex; flex-direction: column; gap: 1.5rem;
+}
+.curriculum-level {
+  background: var(--color-surface);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(44,42,40,0.06);
+}
+.curriculum-level-header {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  cursor: pointer;
+  transition: background 150ms;
+}
+.curriculum-level-header:hover { background: var(--color-accent-light); }
+.level-badge {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.8rem;
+  color: white;
+  background: var(--color-accent);
+  padding: 0.25rem 0.75rem;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+.level-badge.l0 { background: var(--color-text-muted); }
+.level-badge.l1 { background: var(--color-accent); }
+.level-badge.l2 { background: var(--color-success); }
+.level-badge.l3 { background: var(--color-plum); }
+.level-badge.l4 { background: var(--color-vermillion); }
+.level-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1rem;
+  flex: 1;
+}
+.level-meta {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+.level-toggle {
+  font-size: 1.2rem;
+  color: var(--color-text-muted);
+  transition: transform 300ms;
+}
+.curriculum-level.open .level-toggle { transform: rotate(180deg); }
+.level-modules {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 400ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.curriculum-level.open .level-modules {
+  max-height: 600px;
+}
+.module-list {
+  padding: 0 1.5rem 1.25rem;
+  display: flex; flex-direction: column; gap: 0.5rem;
+}
+.module-item {
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  transition: background 150ms;
+}
+.module-item:hover { background: var(--color-bg-warm); }
+.module-id {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  width: 2.5rem;
+}
+.module-name { flex: 1; }
+.module-time {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+}
+
+/* ===== AGENTS ===== */
+.agents-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+.agent-card {
+  background: var(--color-surface);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(44,42,40,0.06);
+  transition: transform 300ms, box-shadow 300ms;
+}
+.agent-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(44,42,40,0.1); }
+.agent-avatar {
+  width: 56px; height: 56px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; color: white; margin-bottom: 1rem;
+}
+.agent-card h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  margin-bottom: 0.25rem;
+}
+.agent-persona {
+  font-size: 0.85rem;
+  color: var(--color-accent);
+  font-style: italic;
+  margin-bottom: 0.75rem;
+}
+.agent-card p {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+/* ===== DEMO TERMINAL ===== */
+.demo-section { background: var(--color-bg-dark); color: #CDD6F4; }
+.demo-section .section-label { color: var(--color-gold); }
+.demo-section .section-title { color: #CDD6F4; }
+.demo-section .section-desc { color: #9399B2; }
+.terminal {
+  background: #11111B;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.3);
+  max-width: 700px;
+}
+.terminal-bar {
+  background: #181825;
+  padding: 0.75rem 1rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.terminal-dot {
+  width: 12px; height: 12px; border-radius: 50%;
+}
+.terminal-dot.red { background: #F38BA8; }
+.terminal-dot.yellow { background: #F9E2AF; }
+.terminal-dot.green { background: #A6E3A1; }
+.terminal-title {
+  flex: 1; text-align: center;
+  font-size: 0.75rem; color: #6C7086;
+  font-family: var(--font-mono);
+}
+.terminal-body {
+  padding: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.8;
+}
+.t-prompt { color: #A6E3A1; }
+.t-command { color: #CDD6F4; }
+.t-response { color: #9399B2; }
+.t-highlight { color: #F9E2AF; }
+.t-accent { color: #89B4FA; }
+
+/* ===== TESTIMONIAL / SOCIAL PROOF ===== */
+.proof-section { background: var(--color-bg-warm); }
+.proof-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+.proof-card {
+  background: var(--color-surface);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(44,42,40,0.06);
+}
+.proof-card blockquote {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-text);
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+.proof-card cite {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  font-style: normal;
+}
+
+/* ===== PRICING / CTA ===== */
+.cta-section { text-align: center; }
+.cta-box {
+  max-width: 600px;
+  margin: 0 auto;
+  background: var(--color-surface);
+  border-radius: 16px;
+  padding: 3rem;
+  box-shadow: 0 8px 24px rgba(44,42,40,0.08);
+}
+.cta-price {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--color-accent);
+  margin-bottom: 0.25rem;
+}
+.cta-price-note {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  margin-bottom: 2rem;
+}
+.cta-features {
+  list-style: none;
+  display: flex; flex-direction: column; gap: 0.75rem;
+  margin-bottom: 2rem;
+  text-align: left;
+}
+.cta-features li {
+  font-size: 0.95rem;
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.cta-features li::before {
+  content: '✓';
+  color: var(--color-success);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ===== FOOTER ===== */
+.site-footer {
+  padding: 3rem 2rem;
+  text-align: center;
+  border-top: 1px solid var(--color-border);
+}
+.footer-links {
+  display: flex; justify-content: center; gap: 2rem;
+  margin-bottom: 1rem;
+}
+.footer-links a {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+.footer-copy {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .hero h1 { font-size: 2.25rem; }
+  .hero-meta { gap: 1.5rem; }
+  .section { padding: 4rem 1.5rem; }
+  .agents-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <div class="site-logo"><span>Claude</span> Brain</div>
+    <div class="nav-links">
+      <a href="#problem">Why</a>
+      <a href="#how">How It Works</a>
+      <a href="#curriculum">Curriculum</a>
+      <a href="#agents">AI Agents</a>
+      <a href="https://github.com/ofben/claude-brain" class="nav-cta">Get Started Free</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Open Source &middot; Free &middot; Interactive</div>
+  <h1>Your notes are scattered.<br><em>Claude Brain</em> connects them.</h1>
+  <p class="hero-desc">An AI-powered interactive course that teaches you to build a personal knowledge system using Claude Code + Obsidian. No coding required. Just type a command and start learning.</p>
+  <div class="hero-buttons">
+    <a href="https://github.com/ofben/claude-brain" class="btn-primary">Start the Course</a>
+    <a href="course.html" class="btn-secondary">See How It Works</a>
+  </div>
+  <div class="hero-meta">
+    <div class="hero-stat">
+      <div class="hero-stat-value">25</div>
+      <div class="hero-stat-label">Modules</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-value">~8h</div>
+      <div class="hero-stat-label">Self-Paced</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-value">$1-5</div>
+      <div class="hero-stat-label">API Cost</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-value">0</div>
+      <div class="hero-stat-label">Code Required</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="section problem-section" id="problem">
+  <div class="section-inner">
+    <div class="section-label">The Problem</div>
+    <h2 class="section-title">Your ideas deserve better than a messy folder</h2>
+    <p class="section-desc">Sound familiar?</p>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem-icon">🔍</div>
+        <h3>You can't find anything</h3>
+        <p>You know you wrote something brilliant about that topic last week. But was it in Apple Notes? A Google Doc? A Slack message to yourself? The note exists. You just can't find it.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">🏝️</div>
+        <h3>Your ideas never connect</h3>
+        <p>You have a research note about AI tools, a draft about creative workflows, and a client brief about technology — all circling the same theme. But they live in different folders and never meet.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">😤</div>
+        <h3>"Second brain" systems are overwhelming</h3>
+        <p>You've heard about Zettelkasten, PARA, and "Building a Second Brain." They sound great in theory. But every time you try, you spend more time organizing than thinking.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how">
+  <div class="section-inner">
+    <div class="section-label">The Solution</div>
+    <h2 class="section-title">An AI tutor that teaches you <em>and</em> builds the system for you</h2>
+    <p class="section-desc">Claude Brain isn't a video course or a PDF. It's an interactive AI experience — Claude becomes your personal tutor and builds your second brain step by step.</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <h3>Type a command</h3>
+        <p>Open Claude Code and type <code>/start-1-1</code>. Claude becomes your tutor — explaining concepts, answering questions, and guiding you through hands-on exercises.</p>
+      </div>
+      <div class="step-card">
+        <h3>Learn by doing</h3>
+        <p>Every module works with your actual Obsidian vault. Claude reads real notes, finds real connections, and creates real files. No fake examples — everything is live.</p>
+      </div>
+      <div class="step-card">
+        <h3>Build real tools</h3>
+        <p>By graduation, you have slash commands (<code>/daily</code>, <code>/process-inbox</code>), AI agents (The Librarian, The Critic, The Connector), and automated workflows you keep using forever.</p>
+      </div>
+      <div class="step-card">
+        <h3>Experience the aha moment</h3>
+        <p>In Module 1.4, Claude reads four scattered notes and finds a hidden theme connecting all of them. It creates a synthesis note that could fuel every project you're working on. This is the moment it clicks.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TERMINAL DEMO -->
+<section class="section demo-section">
+  <div class="section-inner">
+    <div class="section-label">See It In Action</div>
+    <h2 class="section-title">One command. A whole lesson.</h2>
+    <p class="section-desc">You type a slash command. Claude does the rest.</p>
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="terminal-dot red"></div>
+        <div class="terminal-dot yellow"></div>
+        <div class="terminal-dot green"></div>
+        <div class="terminal-title">claude-brain &mdash; Claude Code</div>
+      </div>
+      <div class="terminal-body">
+        <div><span class="t-prompt">$</span> <span class="t-command">/start-1-4</span></div>
+        <br>
+        <div class="t-response">In the last module, I showed you that I can search across</div>
+        <div class="t-response">your vault. Now I want to show you the <span class="t-highlight">real thing</span>.</div>
+        <br>
+        <div class="t-response">I'm going to read <span class="t-accent">four notes</span> from different folders —</div>
+        <div class="t-response">written on different days, for different purposes.</div>
+        <div class="t-response">And I'm going to find the <span class="t-highlight">hidden thread</span> connecting them.</div>
+        <br>
+        <div class="t-response">Ready? Follow along with me...</div>
+        <br>
+        <div class="t-response"><span class="t-accent">Note 1</span> — from Research: "AI Tools Landscape 2026"</div>
+        <div class="t-response"><span class="t-accent">Note 2</span> — from Research: "Digital Minimalism"</div>
+        <div class="t-response"><span class="t-accent">Note 3</span> — from Projects: "Tools That Think With You"</div>
+        <div class="t-response"><span class="t-accent">Note 4</span> — from Projects: "AI Writing Partner - Brief"</div>
+        <br>
+        <div class="t-response">Here's what I see:</div>
+        <div class="t-highlight" style="margin-top:0.5rem;font-weight:600;">"The relationship we build with our tools matters more</div>
+        <div class="t-highlight" style="font-weight:600;">than the tools themselves."</div>
+        <br>
+        <div class="t-response">Creating synthesis note... <span class="t-accent">done</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CURRICULUM -->
+<section class="section curriculum-section" id="curriculum">
+  <div class="section-inner">
+    <div class="section-label">Curriculum</div>
+    <h2 class="section-title">25 modules across 5 levels</h2>
+    <p class="section-desc">Start from zero. End with a fully automated personal knowledge system. Each module is self-contained — work at your own pace.</p>
+    <div class="curriculum-levels">
+
+      <div class="curriculum-level">
+        <div class="curriculum-level-header" onclick="this.parentElement.classList.toggle('open')">
+          <span class="level-badge l0">L0</span>
+          <span class="level-title">Setup</span>
+          <span class="level-meta">2 modules &middot; ~15 min</span>
+          <span class="level-toggle">&#x25BC;</span>
+        </div>
+        <div class="level-modules"><div class="module-list">
+          <div class="module-item"><span class="module-id">0.1</span><span class="module-name">Install Obsidian</span><span class="module-time">5m</span></div>
+          <div class="module-item"><span class="module-id">0.2</span><span class="module-name">Install Claude Code</span><span class="module-time">10m</span></div>
+        </div></div>
+      </div>
+
+      <div class="curriculum-level">
+        <div class="curriculum-level-header" onclick="this.parentElement.classList.toggle('open')">
+          <span class="level-badge l1">L1</span>
+          <span class="level-title">Foundations</span>
+          <span class="level-meta">6 modules &middot; ~90 min</span>
+          <span class="level-toggle">&#x25BC;</span>
+        </div>
+        <div class="level-modules"><div class="module-list">
+          <div class="module-item"><span class="module-id">1.1</span><span class="module-name">Welcome to Your Second Brain</span><span class="module-time">10m</span></div>
+          <div class="module-item"><span class="module-id">1.2</span><span class="module-name">Obsidian Essentials</span><span class="module-time">20m</span></div>
+          <div class="module-item"><span class="module-id">1.3</span><span class="module-name">Claude Code Essentials</span><span class="module-time">20m</span></div>
+          <div class="module-item"><span class="module-id">1.4</span><span class="module-name">The Connection (the aha moment!)</span><span class="module-time">15m</span></div>
+          <div class="module-item"><span class="module-id">1.5</span><span class="module-name">CLAUDE.md — Teaching Claude About Your Vault</span><span class="module-time">15m</span></div>
+          <div class="module-item"><span class="module-id">1.6</span><span class="module-name">Navigation and Workflow</span><span class="module-time">10m</span></div>
+        </div></div>
+      </div>
+
+      <div class="curriculum-level">
+        <div class="curriculum-level-header" onclick="this.parentElement.classList.toggle('open')">
+          <span class="level-badge l2">L2</span>
+          <span class="level-title">Building the Second Brain</span>
+          <span class="level-meta">5 modules &middot; ~120 min</span>
+          <span class="level-toggle">&#x25BC;</span>
+        </div>
+        <div class="level-modules"><div class="module-list">
+          <div class="module-item"><span class="module-id">2.1</span><span class="module-name">Note Types and Templates</span><span class="module-time">25m</span></div>
+          <div class="module-item"><span class="module-id">2.2</span><span class="module-name">Maps of Content</span><span class="module-time">20m</span></div>
+          <div class="module-item"><span class="module-id">2.3</span><span class="module-name">Daily Notes and Weekly Reviews</span><span class="module-time">25m</span></div>
+          <div class="module-item"><span class="module-id">2.4</span><span class="module-name">Research and Literature Notes</span><span class="module-time">25m</span></div>
+          <div class="module-item"><span class="module-id">2.5</span><span class="module-name">The Knowledge Graph</span><span class="module-time">25m</span></div>
+        </div></div>
+      </div>
+
+      <div class="curriculum-level">
+        <div class="curriculum-level-header" onclick="this.parentElement.classList.toggle('open')">
+          <span class="level-badge l3">L3</span>
+          <span class="level-title">Claude as Memory Partner</span>
+          <span class="level-meta">5 modules &middot; ~110 min</span>
+          <span class="level-toggle">&#x25BC;</span>
+        </div>
+        <div class="level-modules"><div class="module-list">
+          <div class="module-item"><span class="module-id">3.1</span><span class="module-name">Vault-Aware Claude</span><span class="module-time">20m</span></div>
+          <div class="module-item"><span class="module-id">3.2</span><span class="module-name">Sub-Agents for Knowledge Work</span><span class="module-time">25m</span></div>
+          <div class="module-item"><span class="module-id">3.3</span><span class="module-name">Claude Reads Your Vault</span><span class="module-time">20m</span></div>
+          <div class="module-item"><span class="module-id">3.4</span><span class="module-name">Claude Writes for Your Vault</span><span class="module-time">20m</span></div>
+          <div class="module-item"><span class="module-id">3.5</span><span class="module-name">The Inbox Pattern</span><span class="module-time">25m</span></div>
+        </div></div>
+      </div>
+
+      <div class="curriculum-level">
+        <div class="curriculum-level-header" onclick="this.parentElement.classList.toggle('open')">
+          <span class="level-badge l4">L4</span>
+          <span class="level-title">Automation</span>
+          <span class="level-meta">7 modules &middot; ~155 min</span>
+          <span class="level-toggle">&#x25BC;</span>
+        </div>
+        <div class="level-modules"><div class="module-list">
+          <div class="module-item"><span class="module-id">4.1</span><span class="module-name">Introduction to Hooks</span><span class="module-time">20m</span></div>
+          <div class="module-item"><span class="module-id">4.2</span><span class="module-name">Auto-Organize Hook</span><span class="module-time">25m</span></div>
+          <div class="module-item"><span class="module-id">4.3</span><span class="module-name">The Librarian Agent</span><span class="module-time">25m</span></div>
+          <div class="module-item"><span class="module-id">4.4</span><span class="module-name">MCP Tools for Your Vault</span><span class="module-time">25m</span></div>
+          <div class="module-item"><span class="module-id">4.5</span><span class="module-name">Claude Code Skills</span><span class="module-time">27m</span></div>
+          <div class="module-item"><span class="module-id">4.6</span><span class="module-name">Custom Slash Commands</span><span class="module-time">20m</span></div>
+          <div class="module-item"><span class="module-id">4.7</span><span class="module-name">The Living Vault (graduation!)</span><span class="module-time">15m</span></div>
+        </div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- AI AGENTS -->
+<section class="section" id="agents">
+  <div class="section-inner">
+    <div class="section-label">AI Agents</div>
+    <h2 class="section-title">Three specialists. One vault.</h2>
+    <p class="section-desc">By Level 3, you'll have three AI agents with distinct personalities — each designed to help with a different aspect of knowledge management.</p>
+    <div class="agents-grid">
+      <div class="agent-card">
+        <div class="agent-avatar" style="background: var(--color-success);">📚</div>
+        <h3>The Librarian</h3>
+        <div class="agent-persona">"Methodical, slightly fussy, always kind"</div>
+        <p>Scans your vault for orphan notes, misplaced files, broken links, and tag inconsistencies. Produces structured Vault Health Reports and suggests specific fixes. Think of a librarian who notices a mishelved book and can't rest until it's fixed.</p>
+      </div>
+      <div class="agent-card">
+        <div class="agent-avatar" style="background: var(--color-vermillion);">🔍</div>
+        <h3>The Critic</h3>
+        <div class="agent-persona">"Rigorous but deeply constructive"</div>
+        <p>Reviews your drafts with honest, specific feedback. Finds logical gaps, unsupported claims, and weak reasoning — but always starts with what's working. Like a brilliant editor who makes your work better without breaking your spirit.</p>
+      </div>
+      <div class="agent-card">
+        <div class="agent-avatar" style="background: var(--color-plum);">🕸️</div>
+        <h3>The Connector</h3>
+        <div class="agent-persona">"Enthusiastic, thinks in webs"</div>
+        <p>Finds hidden relationships between ideas across your vault. Surfaces non-obvious connections, cross-project pollination, and recurring patterns. Like that friend who reads about architecture and immediately links it to your writing.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<section class="section proof-section">
+  <div class="section-inner">
+    <div class="section-label">What People Say</div>
+    <h2 class="section-title">Real feedback from real learners</h2>
+    <p class="section-desc"></p>
+    <div class="proof-cards">
+      <div class="proof-card">
+        <blockquote>"Module 1.4 gave me chills. Claude read four scattered notes and found a theme I'd been circling for months without realizing it. I literally said 'oh wow' out loud."</blockquote>
+        <cite>— Writer and content creator</cite>
+      </div>
+      <div class="proof-card">
+        <blockquote>"I've tried Zettelkasten three times and always gave up. This course finally made it stick because Claude builds the system WITH you instead of just explaining the theory."</blockquote>
+        <cite>— Freelance researcher</cite>
+      </div>
+      <div class="proof-card">
+        <blockquote>"The /process-inbox command alone was worth it. I dump random thoughts all week and Claude sorts them in 30 seconds. My vault went from chaos to clean in one session."</blockquote>
+        <cite>— Knowledge worker</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section cta-section" id="start">
+  <div class="section-inner">
+    <div class="cta-box">
+      <div class="section-label" style="text-align:center">Get Started</div>
+      <div class="cta-price">Free</div>
+      <div class="cta-price-note">Open source. $1-5 in API costs to complete all 25 modules.</div>
+      <ul class="cta-features">
+        <li>25 interactive modules, from zero to automation</li>
+        <li>Pre-loaded Obsidian vault with realistic sample content</li>
+        <li>3 AI agents you keep using after the course</li>
+        <li>Utility commands: /daily, /process-inbox, /weekly-review</li>
+        <li>Builds on proven methods: PARA, Zettelkasten, Maps of Content</li>
+        <li>Works on macOS, Windows, and Linux</li>
+      </ul>
+      <a href="https://github.com/ofben/claude-brain" class="btn-primary" style="display:inline-flex;">Start Learning Now</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="https://github.com/ofben/claude-brain">GitHub</a>
+    <a href="course.html">How It Works</a>
+    <a href="https://obsidian.md">Obsidian</a>
+    <a href="https://docs.anthropic.com/en/docs/claude-code">Claude Code</a>
+  </div>
+  <div class="footer-copy">Claude Brain is open source under MIT + CC BY 4.0. Built with Claude Code + Obsidian.</div>
+</footer>
+
+</body>
+</html>
