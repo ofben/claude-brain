@@ -1,0 +1,11 @@
+{
+  "name": "Claude Brain",
+  "short_name": "Claude Brain",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#FAF7F2",
+  "theme_color": "#2A7B9B",
+  "icons": [
+    { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

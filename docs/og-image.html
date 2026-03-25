@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  width: 1200px; height: 630px;
+  background: #FAF7F2;
+  background-image: radial-gradient(ellipse at 20% 40%, rgba(42,123,155,0.06) 0%, transparent 60%),
+                    radial-gradient(ellipse at 80% 70%, rgba(217,79,48,0.04) 0%, transparent 50%);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; position: relative;
+}
+.card {
+  text-align: center;
+  z-index: 1;
+}
+.badge {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #2A7B9B;
+  background: #E4F2F7;
+  padding: 8px 20px;
+  border-radius: 999px;
+  display: inline-block;
+  margin-bottom: 32px;
+}
+h1 {
+  font-family: 'Bricolage Grotesque', serif;
+  font-size: 72px;
+  font-weight: 800;
+  color: #2C2A28;
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+h1 em { color: #2A7B9B; font-style: normal; }
+p {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 24px;
+  color: #6B6560;
+  line-height: 1.5;
+}
+.stats {
+  display: flex; gap: 48px; justify-content: center;
+  margin-top: 40px;
+}
+.stat-value {
+  font-family: 'Bricolage Grotesque', serif;
+  font-weight: 800;
+  font-size: 32px;
+  color: #2A7B9B;
+}
+.stat-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: #9E9790;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+/* Decorative nodes */
+.node {
+  position: absolute;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: #2A7B9B;
+  opacity: 0.12;
+}
+.node.n1 { top: 80px; left: 100px; width: 20px; height: 20px; }
+.node.n2 { top: 200px; left: 60px; width: 10px; height: 10px; }
+.node.n3 { top: 150px; right: 120px; width: 16px; height: 16px; }
+.node.n4 { bottom: 100px; right: 80px; width: 14px; height: 14px; }
+.node.n5 { bottom: 180px; left: 140px; width: 8px; height: 8px; }
+.node.n6 { top: 100px; right: 200px; width: 10px; height: 10px; }
+.line {
+  position: absolute;
+  background: #2A7B9B;
+  opacity: 0.06;
+  height: 2px;
+  transform-origin: left center;
+}
+.line.l1 { top: 90px; left: 120px; width: 160px; transform: rotate(25deg); }
+.line.l2 { top: 160px; right: 100px; width: 120px; transform: rotate(-15deg); }
+.line.l3 { bottom: 120px; left: 100px; width: 200px; transform: rotate(-10deg); }
+</style>
+</head>
+<body>
+  <div class="node n1"></div>
+  <div class="node n2"></div>
+  <div class="node n3"></div>
+  <div class="node n4"></div>
+  <div class="node n5"></div>
+  <div class="node n6"></div>
+  <div class="line l1"></div>
+  <div class="line l2"></div>
+  <div class="line l3"></div>
+  <div class="card">
+    <div class="badge">Free &middot; Open Source &middot; Interactive</div>
+    <h1>Build Your Second Brain<br>with <em>Claude Code</em></h1>
+    <p>25 interactive modules &middot; 3 AI agents &middot; No coding required</p>
+    <div class="stats">
+      <div><div class="stat-value">25</div><div class="stat-label">Modules</div></div>
+      <div><div class="stat-value">~8h</div><div class="stat-label">Self-Paced</div></div>
+      <div><div class="stat-value">$1-5</div><div class="stat-label">Total Cost</div></div>
+    </div>
+  </div>
+</body>
+</html>
